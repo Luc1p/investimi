@@ -108,10 +108,146 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
     data = r2.json()
     rows = data.get("data") or []
     out: list[dict[str, Any]] = []
+
     for row in rows:
-        # row is typically a list of columns; keep raw for now
+        # row is typically a list of columns, some may contain HTML <a href="...">
+        if isinstance(row, dict):
+            out.append(row)
+            continue
+        if not isinstance(row, list):
+            out.append({"raw": row})
+            continue
         out.append({"raw": row})
     return out
+
+
+def _extract_first_href(html: str) -> str | None:
+    m = re.search(r'href\\s*=\\s*["\\\']([^"\\\']+)["\\\']', html, flags=re.IGNORECASE)
+    if not m:
+        return None
+    return m.group(1)
+
+
+def _parse_senate_ptr_transactions_page(html: str) -> tuple[str | None, list[dict[str, Any]]]:
+    """
+    Best-effort parsing of a Senate PTR page to extract:
+    - politician name
+    - transactions table rows
+    """
+    soup = BeautifulSoup(html, "html.parser")
+
+    # Try to find a name on page
+    title = soup.find(["h1", "h2", "h3"])
+    who = _s(title.get_text(" ", strip=True) if title else None)
+
+    # Find transactions table by headers
+    table = None
+    for t in soup.find_all("table"):
+        header = " ".join(th.get_text(" ", strip=True).lower() for th in t.find_all("th"))
+        if "transaction date" in header and ("ticker" in header or "asset" in header or "amount" in header):
+            table = t
+            break
+    if not table:
+        return (who, [])
+
+    headers = [th.get_text(" ", strip=True).lower() for th in table.find_all("th")]
+    # map columns
+    def col_idx(keys: list[str]) -> int | None:
+        for i, h in enumerate(headers):
+            for k in keys:
+                if k in h:
+                    return i
+        return None
+
+    idx_date = col_idx(["transaction date"])
+    idx_owner = col_idx(["owner"])
+    idx_ticker = col_idx(["ticker"])
+    idx_asset = col_idx(["asset", "description"])
+    idx_type = col_idx(["type"])
+    idx_amount = col_idx(["amount"])
+    idx_comment = col_idx(["comment"])
+
+    out: list[dict[str, Any]] = []
+    for tr in table.find_all("tr"):
+        tds = tr.find_all("td")
+        if not tds:
+            continue
+        def get(i: int | None, *, html_ok: bool = False) -> str | None:
+            if i is None or i >= len(tds):
+                return None
+            return (tds[i].decode_contents().strip() if html_ok else tds[i].get_text(" ", strip=True)) or None
+
+        out.append(
+            {
+                "transaction_date": get(idx_date),
+                "owner": get(idx_owner),
+                "ticker": get(idx_ticker),
+                "asset_description": get(idx_asset, html_ok=True),
+                "asset_type": None,
+                "type": get(idx_type),
+                "amount": get(idx_amount),
+                "comment": get(idx_comment),
+            }
+        )
+    return (who, out)
+
+
+def build_senate_transactions_from_efd(s: requests.Session, *, days: int = 60, max_reports: int = 60) -> list[dict[str, Any]]:
+    """
+    Uses Senate EFD search to get recent PTR report links, then scrapes each report page
+    to extract transaction rows into a stock-watcher-compatible schema.
+    """
+    filings = fetch_senate_efd(s, days=days)
+    links: list[str] = []
+
+    for f in filings:
+        raw = f.get("raw")
+        # Find any href in any raw cell
+        if isinstance(raw, list):
+            for cell in raw:
+                if isinstance(cell, str) and "href" in cell.lower():
+                    href = _extract_first_href(cell)
+                    if href:
+                        links.append(href)
+                        break
+        elif isinstance(raw, str) and "href" in raw.lower():
+            href = _extract_first_href(raw)
+            if href:
+                links.append(href)
+
+    # Normalize absolute URLs
+    abs_links: list[str] = []
+    for href in links:
+        if href.startswith("http"):
+            abs_links.append(href)
+        else:
+            abs_links.append("https://efdsearch.senate.gov" + href)
+
+    # de-dup, keep order
+    seen: set[str] = set()
+    uniq: list[str] = []
+    for u in abs_links:
+        if u in seen:
+            continue
+        seen.add(u)
+        uniq.append(u)
+
+    tx_out: list[dict[str, Any]] = []
+    for url in uniq[:max_reports]:
+        try:
+            r = s.get(url, timeout=45, headers={"Referer": "https://efdsearch.senate.gov/search/"})
+            if r.status_code != 200:
+                continue
+            who, rows = _parse_senate_ptr_transactions_page(r.text)
+            for row in rows:
+                row["senator"] = who
+                row["ptr_link"] = url
+                # EFD pages usually include "date received" elsewhere; we leave disclosure_date None.
+                row["disclosure_date"] = None
+                tx_out.append(row)
+        except Exception:
+            continue
+    return tx_out
 
 
 def _status_line(key: str, val: str) -> str:
@@ -138,12 +274,10 @@ def main() -> int:
     if senate is None:
         status += _status_line("senate_status", "missing_s3_try_efd")
         try:
-            senate_efd = fetch_senate_efd(s, days=60)
+            txs = build_senate_transactions_from_efd(s, days=60, max_reports=80)
             status += _status_line("senate_efd_status", "ok")
-            # Store as separate file; bot can be upgraded to use this richer source later.
-            _write_json("data/senate/efd_ptr_filings.json", senate_efd)
-            # Keep all_transactions as empty for now (schema mismatch)
-            _write_json("data/senate/all_transactions.json", [])
+            status += _status_line("senate_efd_transactions", str(len(txs)))
+            _write_json("data/senate/all_transactions.json", txs)
         except Exception as e:
             status += _status_line("senate_efd_status", f"error:{type(e).__name__}")
             _write_json("data/senate/all_transactions.json", [])
