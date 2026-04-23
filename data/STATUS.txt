@@ -1,0 +1,5 @@
+updated_utc=2026-04-23T15:55:46Z
+house_path=data/house/all_transactions.json
+senate_path=data/senate/all_transactions.json
+house_status=missing
+senate_status=ok
