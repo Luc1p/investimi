@@ -366,7 +366,7 @@ def _build_insider_report(
                     f"  🔁 {t.side} ({t.transaction_type or '—'}) | 📈 max {_fmt_money(amt)}"
                 )
         else:
-            # help diagnose: show data freshness
+            # help diagnose: show data freshness + possible source blocking
             latest_dt = None
             for t in trades:
                 dt = _parse_date_mm_dd_yyyy(t.transaction_date)
@@ -375,7 +375,10 @@ def _build_insider_report(
             suffix = ""
             if latest_dt:
                 suffix = f" (dataset sembra fermo a ~{latest_dt.date().isoformat()})"
-            pol_lines.append(f"\n🏛️ Politici (STOCK Act)\n- (nessun evento nel periodo){suffix}")
+            # If the mirror produced empty House, warn explicitly.
+            if len([x for x in trades if x.chamber == \"house\"]) == 0:
+                suffix += \" (House vuoto: sorgente bloccata, vedi data/STATUS.txt nel repo mirror)\"
+            pol_lines.append(f\"\n🏛️ Politici (STOCK Act)\\n- (nessun evento nel periodo){suffix}\")
     else:
         pol_lines.append("\n🏛️ Politici (STOCK Act)\n- (CONGRESS_TRADES_USER_AGENT non configurato)")
 
