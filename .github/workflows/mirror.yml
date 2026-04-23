@@ -23,15 +23,40 @@ jobs:
           set -euo pipefail
           mkdir -p data/house data/senate
 
-          # House
-          curl -fsSL -A "CongressTradesMirror/0.1 (public-interest)" \
-            "https://house-stock-watcher-data.s3-us-west-2.amazonaws.com/data/all_transactions.json" \
-            -o data/house/all_transactions.json
+          UA="CongressTradesMirror/0.1 (public-interest)"
 
-          # Senate
-          curl -fsSL -A "CongressTradesMirror/0.1 (public-interest)" \
-            "https://senate-stock-watcher-data.s3-us-west-2.amazonaws.com/aggregate/all_transactions.json" \
-            -o data/senate/all_transactions.json
+          fetch() {
+            name="$1"
+            url="$2"
+            out="$3"
+            echo "== $name =="
+            code="$(curl -sS -L --retry 3 --retry-delay 2 -A "$UA" -w '%{http_code}' -o "$out.tmp" "$url" || true)"
+            echo "$name http_code=$code url=$url"
+            if [ "$code" != "200" ]; then
+              rm -f "$out.tmp"
+              return 1
+            fi
+            mv "$out.tmp" "$out"
+            return 0
+          }
+
+          # Prefer official S3. If blocked, fallback to older GitHub mirrors (better than empty).
+          if ! fetch "house_s3" "https://house-stock-watcher-data.s3-us-west-2.amazonaws.com/data/all_transactions.json" "data/house/all_transactions.json"; then
+            echo "House S3 failed; falling back to GitHub mirror (may be stale)."
+            fetch "house_fallback" "https://raw.githubusercontent.com/timothycarambat/house-stock-watcher-data/master/data/all_transactions.json" "data/house/all_transactions.json" || true
+          fi
+
+          if ! fetch "senate_s3" "https://senate-stock-watcher-data.s3-us-west-2.amazonaws.com/aggregate/all_transactions.json" "data/senate/all_transactions.json"; then
+            echo "Senate S3 failed; falling back to GitHub mirror (may be stale)."
+            fetch "senate_fallback" "https://raw.githubusercontent.com/timothycarambat/senate-stock-watcher-data/master/aggregate/all_transactions.json" "data/senate/all_transactions.json" || true
+          fi
+
+          # Write status file for debugging freshness/blocking.
+          {
+            echo "updated_utc=$(date -u +%FT%TZ)"
+            echo "house_path=data/house/all_transactions.json"
+            echo "senate_path=data/senate/all_transactions.json"
+          } > data/STATUS.txt
 
       - name: Validate JSON
         run: |
@@ -41,6 +66,9 @@ jobs:
               pathlib.Path("data/house/all_transactions.json"),
               pathlib.Path("data/senate/all_transactions.json"),
           ]:
+              if not p.exists():
+                  print(f"Missing: {p}", file=sys.stderr)
+                  raise SystemExit(2)
               try:
                   json.loads(p.read_text(encoding="utf-8"))
               except Exception as e:
