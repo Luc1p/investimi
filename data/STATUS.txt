@@ -1,5 +1,4 @@
-updated_utc=2026-04-23T15:55:46Z
-house_path=data/house/all_transactions.json
-senate_path=data/senate/all_transactions.json
+updated_utc=2026-04-23T16:07:47.392077Z
 house_status=missing
-senate_status=ok
+senate_status=missing_s3_try_efd
+senate_efd_status=error:HTTPError
