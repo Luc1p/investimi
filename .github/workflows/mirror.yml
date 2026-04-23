@@ -43,6 +43,7 @@ jobs:
           # Prefer official S3. If blocked, fallback to older GitHub mirrors (better than empty).
           if ! fetch "house_s3" "https://house-stock-watcher-data.s3-us-west-2.amazonaws.com/data/all_transactions.json" "data/house/all_transactions.json"; then
             echo "House S3 failed; falling back to GitHub mirror (may be stale)."
+            # NOTE: a reliable GitHub mirror for House is not guaranteed; keep best-effort.
             fetch "house_fallback" "https://raw.githubusercontent.com/timothycarambat/house-stock-watcher-data/master/data/all_transactions.json" "data/house/all_transactions.json" || true
           fi
 
@@ -58,6 +59,25 @@ jobs:
             echo "senate_path=data/senate/all_transactions.json"
           } > data/STATUS.txt
 
+      - name: Ensure files exist (empty fallback)
+        run: |
+          set -euo pipefail
+          if [ ! -f data/house/all_transactions.json ]; then
+            echo "House missing -> writing empty []"
+            echo '[]' > data/house/all_transactions.json
+            echo "house_status=missing" >> data/STATUS.txt
+          else
+            echo "house_status=ok" >> data/STATUS.txt
+          fi
+
+          if [ ! -f data/senate/all_transactions.json ]; then
+            echo "Senate missing -> writing empty []"
+            echo '[]' > data/senate/all_transactions.json
+            echo "senate_status=missing" >> data/STATUS.txt
+          else
+            echo "senate_status=ok" >> data/STATUS.txt
+          fi
+
       - name: Validate JSON
         run: |
           python - <<'PY'
@@ -66,9 +86,6 @@ jobs:
               pathlib.Path("data/house/all_transactions.json"),
               pathlib.Path("data/senate/all_transactions.json"),
           ]:
-              if not p.exists():
-                  print(f"Missing: {p}", file=sys.stderr)
-                  raise SystemExit(2)
               try:
                   json.loads(p.read_text(encoding="utf-8"))
               except Exception as e:

@@ -95,9 +95,16 @@ class CongressTradesFreeClient:
 
     def _fetch_senate(self) -> list[CongressTrade]:
         data = self._get_json(self._senate_url)
-        # GitHub mirror format (common): list of senators, each with "transactions": [...]
+        # Format A (common): list of senators, each with "transactions": [...]
         out: list[CongressTrade] = []
         if isinstance(data, list):
+            # If this is already a flat list of transactions, accept it.
+            if data and isinstance(data[0], dict) and "transactions" not in data[0]:
+                for tx in data:
+                    if not isinstance(tx, dict):
+                        continue
+                    out.append(_to_trade("senate", tx, source="senate_free"))
+                return out
             for senator in data:
                 if not isinstance(senator, dict):
                     continue
