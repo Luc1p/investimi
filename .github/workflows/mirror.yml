@@ -1,0 +1,64 @@
+name: Mirror Congress trades (House+Senate)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "20 6 * * *" # daily 06:20 UTC
+
+permissions:
+  contents: write
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Download datasets
+        run: |
+          set -euo pipefail
+          mkdir -p data/house data/senate
+
+          # House
+          curl -fsSL -A "CongressTradesMirror/0.1 (public-interest)" \
+            "https://house-stock-watcher-data.s3-us-west-2.amazonaws.com/data/all_transactions.json" \
+            -o data/house/all_transactions.json
+
+          # Senate
+          curl -fsSL -A "CongressTradesMirror/0.1 (public-interest)" \
+            "https://senate-stock-watcher-data.s3-us-west-2.amazonaws.com/aggregate/all_transactions.json" \
+            -o data/senate/all_transactions.json
+
+      - name: Validate JSON
+        run: |
+          python - <<'PY'
+          import json, sys, pathlib
+          for p in [
+              pathlib.Path("data/house/all_transactions.json"),
+              pathlib.Path("data/senate/all_transactions.json"),
+          ]:
+              try:
+                  json.loads(p.read_text(encoding="utf-8"))
+              except Exception as e:
+                  print(f"Invalid JSON: {p}: {e}", file=sys.stderr)
+                  raise
+          print("JSON ok")
+          PY
+
+      - name: Commit changes (if any)
+        run: |
+          git status --porcelain
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "No changes"
+            exit 0
+          fi
+          git config user.name "congress-mirror-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/
+          git commit -m "Mirror update $(date -u +%F)"
+          git push
+

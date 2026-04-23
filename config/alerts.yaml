@@ -1,0 +1,81 @@
+timezone: "Europe/Rome"
+
+# Ogni "rule" ha:
+# - id: stringa stabile
+# - every_seconds: frequenza polling
+# - when: condizione (singola o composita)
+# - notify: messaggio (supporta template basico)
+rules:
+  # Insider trading (SEC Form 4) — privati (corporate insiders)
+  - id: "insider_buys_watchlist"
+    every_seconds: 3600
+    when:
+      type: sec_form4_significant
+      tickers: ["AAPL", "MSFT", "TSLA"]
+      within_days: 7
+      sides: ["acquire"]
+      min_value_usd: 50000
+    notify:
+      text: |
+        🕵️ INSIDER (Privato) — SEC Form 4
+
+        👤 Nome
+        {{hits.0.owner}}
+
+        🪪 Titolo
+        {{hits.0.title}}
+
+        📌 Stock
+        {{hits.0.ticker}}
+
+        🔁 Azione
+        - side: {{hits.0.side}}
+        - code: {{hits.0.code}}
+
+        💰 Dimensione (qty + valore)
+        - shares: {{hits.0.shares}}
+        - price/share: {{hits.0.price}}
+        - value (est.): ${{hits.0.value_usd}}
+
+        🗓️ Filing
+        - filed: {{hits.0.filed_at}}
+        - accession: {{hits.0.accession}}
+
+  # Insider trading (Politico) — STOCK Act (Senate + House)
+  # Nota: soglia 50k usa il MAX della fascia (opzione A).
+  - id: "us_congress_trades_50k_watch"
+    every_seconds: 3600
+    when:
+      type: us_congress_trades_significant
+      symbols: ["AAPL", "MSFT", "TSLA"] # vuoto = tutto
+      chambers: ["house", "senate"]
+      sides: ["buy", "sell"]
+      min_amount_usd: 50000
+      politicians_contains: [] # es: ["pelosi", "tuberville"]
+    notify:
+      text: |
+        🏛️ INSIDER (Politico) — STOCK Act
+
+        👤 Nome
+        {{hits.0.politician}}
+
+        🏛️ Camera
+        {{hits.0.chamber}}
+
+        📌 Asset
+        - ticker: {{hits.0.ticker}}
+        - type: {{hits.0.asset_type}}
+        - desc: {{hits.0.asset_description}}
+
+        🔁 Transazione
+        - side: {{hits.0.side}}
+        - kind: {{hits.0.transaction_type}}
+
+        💸 Importo (range)
+        - range: {{hits.0.amount_raw}}
+        - max: ${{hits.0.amount_max_usd}}
+
+        🗓️ Date
+        - tx: {{hits.0.transaction_date}}
+        - disclosed: {{hits.0.disclosure_date}}
+
