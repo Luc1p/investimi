@@ -76,11 +76,15 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
     """
     base = "https://efdsearch.senate.gov"
     home = f"{base}/search/"
-    r = s.get(home, timeout=45)
-    r.raise_for_status()
+    r = s.get(home, timeout=45, headers={"Accept": "text/html,*/*"})
+    if r.status_code != 200:
+        raise requests.HTTPError(f"senate_efd_home_http_{r.status_code}")
     soup = BeautifulSoup(r.text, "html.parser")
     csrf = soup.find("input", {"name": "csrfmiddlewaretoken"})
     token = csrf.get("value") if csrf else None
+    # Sometimes token is only in cookie.
+    if not token:
+        token = s.cookies.get("csrftoken")
     if not token:
         raise RuntimeError("Missing csrf token on senate efd home")
 
@@ -102,9 +106,11 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
         "Referer": home,
         "X-CSRFToken": token,
         "X-Requested-With": "XMLHttpRequest",
+        "Accept": "application/json,text/plain,*/*",
     }
     r2 = s.post(data_url, data=payload, headers=headers, timeout=45)
-    r2.raise_for_status()
+    if r2.status_code != 200:
+        raise requests.HTTPError(f"senate_efd_data_http_{r2.status_code}:{r2.text[:120]}")
     data = r2.json()
     rows = data.get("data") or []
     out: list[dict[str, Any]] = []
@@ -280,6 +286,7 @@ def main() -> int:
             _write_json("data/senate/all_transactions.json", txs)
         except Exception as e:
             status += _status_line("senate_efd_status", f"error:{type(e).__name__}")
+            status += _status_line("senate_efd_error", (str(e) or "")[:180])
             _write_json("data/senate/all_transactions.json", [])
     else:
         status += _status_line("senate_status", "ok")
