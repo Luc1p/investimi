@@ -1,4 +1,4 @@
-updated_utc=2026-04-23T16:11:26.361239Z
+updated_utc=2026-04-24T08:23:42.690931Z
 house_status=missing
 senate_status=missing_s3_try_efd
 senate_efd_status=error:HTTPError
