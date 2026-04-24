@@ -5,6 +5,10 @@ on:
   schedule:
     - cron: "20 6 * * *" # daily 06:20 UTC
 
+concurrency:
+  group: congress-trades-mirror
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
@@ -52,6 +56,15 @@ jobs:
             echo "No changes"
             exit 0
           fi
+
+          # If only STATUS.txt changed, skip committing (avoids noisy commits + push races).
+          changed="$(git status --porcelain | awk '{print $2}')"
+          non_status="$(echo "$changed" | grep -v '^data/STATUS.txt$' || true)"
+          if [ -z "$non_status" ]; then
+            echo "Only data/STATUS.txt changed; skipping commit."
+            exit 0
+          fi
+
           git config user.name "congress-mirror-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/
