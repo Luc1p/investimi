@@ -108,9 +108,22 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
         "X-Requested-With": "XMLHttpRequest",
         "Accept": "application/json,text/plain,*/*",
     }
-    r2 = s.post(data_url, data=payload, headers=headers, timeout=45)
-    if r2.status_code != 200:
-        raise requests.HTTPError(f"senate_efd_data_http_{r2.status_code}:{r2.text[:120]}")
+    # Retry on transient upstream errors (503 etc.)
+    last_err: str | None = None
+    for attempt in range(5):
+        r2 = s.post(data_url, data=payload, headers=headers, timeout=45)
+        if r2.status_code == 200:
+            break
+        last_err = f"senate_efd_data_http_{r2.status_code}:{r2.text[:120]}"
+        if r2.status_code in (429, 500, 502, 503, 504):
+            # exponential-ish backoff
+            import time
+
+            time.sleep(2 ** attempt)
+            continue
+        raise requests.HTTPError(last_err)
+    else:
+        raise requests.HTTPError(last_err or "senate_efd_data_http_unknown")
     data = r2.json()
     rows = data.get("data") or []
     out: list[dict[str, Any]] = []
@@ -271,7 +284,9 @@ def main() -> int:
     house = fetch_house_from_s3(s)
     if house is None:
         status += _status_line("house_status", "missing")
-        _write_json("data/house/all_transactions.json", [])
+        # Keep last known good file if present; otherwise write empty list.
+        if not os.path.exists("data/house/all_transactions.json"):
+            _write_json("data/house/all_transactions.json", [])
     else:
         status += _status_line("house_status", "ok")
         _write_json("data/house/all_transactions.json", house)
@@ -283,11 +298,15 @@ def main() -> int:
             txs = build_senate_transactions_from_efd(s, days=60, max_reports=80)
             status += _status_line("senate_efd_status", "ok")
             status += _status_line("senate_efd_transactions", str(len(txs)))
-            _write_json("data/senate/all_transactions.json", txs)
+            # Only overwrite if we actually got something.
+            if txs:
+                _write_json("data/senate/all_transactions.json", txs)
         except Exception as e:
             status += _status_line("senate_efd_status", f"error:{type(e).__name__}")
             status += _status_line("senate_efd_error", (str(e) or "")[:180])
-            _write_json("data/senate/all_transactions.json", [])
+            # Keep last known good file if present; otherwise write empty list.
+            if not os.path.exists("data/senate/all_transactions.json"):
+                _write_json("data/senate/all_transactions.json", [])
     else:
         status += _status_line("senate_status", "ok")
         _write_json("data/senate/all_transactions.json", senate)
