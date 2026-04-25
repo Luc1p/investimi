@@ -132,6 +132,7 @@ def _parse_house_ptr_pdf_text(text: str, *, representative: str) -> list[dict[st
     # ticker appears in parentheses: "(AAPL)"
     ticker_re = re.compile(r"\(([A-Z][A-Z0-9.\-]{0,7})\)")
     # transaction type column commonly: "P" or "S (partial)"
+    # Keep this strict: we only want standalone tokens, not random letters in prose.
     tx_type_re = re.compile(r"\b(P|S(?:\s*\([^)]*\))?)\b", re.IGNORECASE)
 
     # disclosure/signature date: "Digitally Signed: ... , 01/17/2025"
@@ -154,12 +155,15 @@ def _parse_house_ptr_pdf_text(text: str, *, representative: str) -> list[dict[st
         nonlocal cur_asset_lines, cur_ticker
         # extract tx type + date + amount from the "type line"
         m_type = tx_type_re.search(type_line)
-        m_date = date_re.search(type_line)
+        dates = date_re.findall(type_line)
+        m_date = dates[0] if dates else None
         m_amt = amt_full_re.search(type_line)
-        if not (m_type and m_date and m_amt):
+        # House PTR rows normally include both transaction date and notification date.
+        # Requiring 2 dates avoids accidentally picking up option expiration dates in description text.
+        if not (m_type and m_date and m_amt and len(dates) >= 2):
             return
         tx_type = m_type.group(1).strip()
-        tx_date = m_date.group(0)
+        tx_date = m_date
         amount = m_amt.group(0)
         asset_desc = " ".join(cur_asset_lines).strip() if cur_asset_lines else None
         # derive buy/sell words for compatibility with existing side inference
@@ -207,12 +211,12 @@ def _parse_house_ptr_pdf_text(text: str, *, representative: str) -> list[dict[st
                 continue
 
         # When we see a line with tx type + date + full amount, close a record.
-        if amt_full_re.search(ln) and date_re.search(ln) and tx_type_re.search(ln):
+        if amt_full_re.search(ln) and len(date_re.findall(ln)) >= 2 and tx_type_re.search(ln):
             flush_if_complete(ln)
             continue
 
         # When we see a line with tx type + date + amount START (split case), remember and wait for next line.
-        if date_re.search(ln) and tx_type_re.search(ln):
+        if len(date_re.findall(ln)) >= 2 and tx_type_re.search(ln):
             mstart = amt_start_re.search(ln)
             if mstart:
                 pending_amount_start = mstart.group(1)
@@ -493,9 +497,29 @@ def main() -> int:
     house = fetch_house_from_s3(s)
     if house is None:
         # fallback: scrape a small set of known names from official House search + PTR PDFs
-        names = [x.strip() for x in os.getenv("HOUSE_KNOWN_NAMES", "Nancy Pelosi").split(",") if x.strip()]
+        default_names = ",".join(
+            [
+                "Nancy Pelosi",
+                "Dan Crenshaw",
+                "Josh Gottheimer",
+                "Brian Mast",
+                "Ro Khanna",
+                "Pat Fallon",
+                "Michael McCaul",
+                "Tommy Tuberville",
+                "Markwayne Mullin",
+                "John Curtis",
+                "Virginia Foxx",
+                "Kevin Hern",
+                "David Rouzer",
+                "Pete Sessions",
+                "Garry Palmer",
+            ]
+        )
+        names = [x.strip() for x in os.getenv("HOUSE_KNOWN_NAMES", default_names).split(",") if x.strip()]
         try:
-            txs = fetch_house_ptr_transactions(s, names=names)
+            y = date.today().year
+            txs = fetch_house_ptr_transactions(s, names=names, years=[y, y - 1, y - 2], max_pdfs_per_name=25)
             if txs:
                 status += _status_line("house_status", "ok_scrape")
                 status += _status_line("house_scrape_transactions", str(len(txs)))

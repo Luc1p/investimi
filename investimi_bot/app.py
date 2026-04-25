@@ -48,11 +48,23 @@ def _render_template(text: str, ctx: dict[str, Any]) -> str:
         expr = out[start + 2 : end].strip()
         val: Any = ctx
         for part in expr.split("."):
-            if isinstance(val, dict) and part in val:
-                val = val[part]
-            else:
+            if isinstance(val, dict):
+                if part in val:
+                    val = val[part]
+                    continue
                 val = ""
                 break
+            if isinstance(val, list) and part.isdigit():
+                idx = int(part)
+                if 0 <= idx < len(val):
+                    val = val[idx]
+                    continue
+                val = ""
+                break
+            val = ""
+            break
+        if val is None:
+            val = ""
         out = out[:start] + str(val) + out[end + 2 :]
     return out
 
@@ -349,7 +361,7 @@ def _build_insider_report(
             trades.extend(engine._congress.fetch(chamber))  # type: ignore[arg-type]  # noqa: SLF001
         items = []
         for t in trades:
-            dt = _parse_date_mm_dd_yyyy(t.transaction_date)
+            dt = _parse_date_mm_dd_yyyy(t.transaction_date) or _parse_date_mm_dd_yyyy(t.disclosure_date)
             if not dt or dt < cutoff:
                 continue
             if symset and (t.ticker or "").upper() not in symset:
@@ -369,7 +381,7 @@ def _build_insider_report(
             # help diagnose: show data freshness + possible source blocking
             latest_dt = None
             for t in trades:
-                dt = _parse_date_mm_dd_yyyy(t.transaction_date)
+                dt = _parse_date_mm_dd_yyyy(t.transaction_date) or _parse_date_mm_dd_yyyy(t.disclosure_date)
                 if dt and (latest_dt is None or dt > latest_dt):
                     latest_dt = dt
             suffix = ""

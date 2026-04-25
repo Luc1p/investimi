@@ -47,7 +47,7 @@ rules:
     every_seconds: 3600
     when:
       type: us_congress_trades_significant
-      symbols: ["AAPL", "MSFT", "TSLA"] # vuoto = tutto
+      symbols: [] # vuoto = tutto (consigliato per politici)
       chambers: ["house", "senate"]
       sides: ["buy", "sell"]
       min_amount_usd: 50000
