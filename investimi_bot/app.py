@@ -239,6 +239,7 @@ def _main_reply_keyboard() -> ReplyKeyboardMarkup:
                 KeyboardButton("📅 Top settimana"),
                 KeyboardButton("🗓️ Top mese"),
             ],
+            [KeyboardButton("🗓️ Politici 45g")],
             [KeyboardButton("📌 Stato"), KeyboardButton("📜 Regole")],
         ],
         resize_keyboard=True,
@@ -379,6 +380,8 @@ def _build_insider_report(
                 )
         else:
             # help diagnose: show data freshness + possible source blocking
+            from datetime import datetime
+
             latest_dt = None
             for t in trades:
                 dt = _parse_date_mm_dd_yyyy(t.transaction_date) or _parse_date_mm_dd_yyyy(t.disclosure_date)
@@ -386,11 +389,15 @@ def _build_insider_report(
                     latest_dt = dt
             suffix = ""
             if latest_dt:
-                suffix = f" (dataset sembra fermo a ~{latest_dt.date().isoformat()})"
+                days_ago = (datetime.utcnow().date() - latest_dt.date()).days
+                suffix = f" (dataset sembra fermo a ~{latest_dt.date().isoformat()} | ultimo evento {days_ago}g fa)"
             # If the mirror produced empty House, warn explicitly.
             if len([x for x in trades if x.chamber == "house"]) == 0:
                 suffix += " (House vuoto: sorgente bloccata, vedi data/STATUS.txt nel repo mirror)"
-            pol_lines.append(f"\n🏛️ Politici (STOCK Act)\n- (nessun evento nel periodo){suffix}")
+            pol_lines.append(
+                f"\n🏛️ Politici (STOCK Act)\n- (nessun evento nel periodo){suffix}\n"
+                f"  Suggerimento: prova `/insider45` se sei spesso a 0 per pochi giorni."
+            )
     else:
         pol_lines.append("\n🏛️ Politici (STOCK Act)\n- (CONGRESS_TRADES_USER_AGENT non configurato)")
 
@@ -435,6 +442,7 @@ def main() -> int:
             BotCommand("insider24", "Report insider ultime 24h"),
             BotCommand("insider7", "Top insider settimana (valore)"),
             BotCommand("insider30", "Top insider mese (valore)"),
+            BotCommand("insider45", "Top insider 45 giorni (valore)"),
             BotCommand("status", "Stato bot / errori"),
             BotCommand("rules", "Lista regole attive"),
             BotCommand("run", "Esegui subito una regola: /run <rule_id>"),
@@ -652,6 +660,16 @@ def main() -> int:
         msg = _build_insider_report(engine, config, cutoff=cutoff, within_days_sec=30, label="Top mese (valore)")
         await update.message.reply_text(msg)
 
+    async def insider_45d(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        if not await _is_allowed(update):
+            return
+        from datetime import datetime, timedelta
+
+        now = datetime.utcnow()
+        cutoff = now - timedelta(days=45)
+        msg = _build_insider_report(engine, config, cutoff=cutoff, within_days_sec=45, label="Top 45 giorni (valore)")
+        await update.message.reply_text(msg)
+
     async def kbtest(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         if not await _is_allowed(update):
             return
@@ -684,6 +702,8 @@ def main() -> int:
             await insider_7d(update, context)
         elif txt == "🗓️ Top mese":
             await insider_30d(update, context)
+        elif txt == "🗓️ Politici 45g":
+            await insider_45d(update, context)
         elif txt == "📌 Stato":
             await status(update, context)
         elif txt == "📜 Regole":
@@ -700,6 +720,7 @@ def main() -> int:
     application.add_handler(CommandHandler("insider24", insider_24h))
     application.add_handler(CommandHandler("insider7", insider_7d))
     application.add_handler(CommandHandler("insider30", insider_30d))
+    application.add_handler(CommandHandler("insider45", insider_45d))
     application.add_handler(CommandHandler("kbtest", kbtest))
     application.add_handler(CommandHandler("panel", panel))
     application.add_handler(CallbackQueryHandler(_insider_callback, pattern=r"^insider:"))
