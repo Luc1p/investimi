@@ -32,6 +32,12 @@ jobs:
       - name: Fetch/mirror (S3 + official fallbacks)
         env:
           MIRROR_UA: "CongressTradesMirror/0.2 (public-interest)"
+          # Senate EFD is sometimes unstable; mirrors are used as fallback.
+          # You can override with SENATE_MIRROR_URLS in repo/workflow env.
+          SENATE_EFD_DAYS: "60"
+          SENATE_EFD_MAX_REPORTS: "120"
+          SENATE_EFD_MAX_PAGES: "6"
+          SENATE_EFD_PAGE_SIZE: "100"
         run: |
           python mirror_fetch.py
 

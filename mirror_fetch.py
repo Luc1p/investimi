@@ -5,6 +5,8 @@ import os
 import re
 import subprocess
 import sys
+import random
+import time
 from dataclasses import asdict, dataclass
 from datetime import date, datetime
 from typing import Any, Literal
@@ -433,10 +435,9 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
     # last N days by submission date
     end = date.today()
     start = end.fromordinal(end.toordinal() - days)
-    payload = {
+    base_payload = {
         "draw": "1",
-        "start": "0",
-        "length": "100",
+        "length": os.getenv("SENATE_EFD_PAGE_SIZE", "100"),
         "report_types[]": ["11"],  # PTR
         "filer_types[]": ["1"],  # senator
         "submitted_start_date": start.strftime("%m/%d/%Y"),
@@ -447,37 +448,76 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
         "X-CSRFToken": token,
         "X-Requested-With": "XMLHttpRequest",
         "Accept": "application/json,text/plain,*/*",
+        "Accept-Language": "en-US,en;q=0.9",
     }
-    # Retry on transient upstream errors (503 etc.)
-    last_err: str | None = None
-    for attempt in range(5):
-        r2 = s.post(data_url, data=payload, headers=headers, timeout=45)
-        if r2.status_code == 200:
-            break
-        last_err = f"senate_efd_data_http_{r2.status_code}:{r2.text[:120]}"
-        if r2.status_code in (429, 500, 502, 503, 504):
-            # exponential-ish backoff
-            import time
-
-            time.sleep(2 ** attempt)
-            continue
-        raise requests.HTTPError(last_err)
-    else:
-        raise requests.HTTPError(last_err or "senate_efd_data_http_unknown")
-    data = r2.json()
-    rows = data.get("data") or []
+    # DataTables pagination: keep fetching until empty or SENATE_EFD_MAX_PAGES reached.
     out: list[dict[str, Any]] = []
+    max_pages = int(os.getenv("SENATE_EFD_MAX_PAGES", "6"))
+    start_idx = 0
+    page = 0
+    page_size = int(str(base_payload["length"]))
 
-    for row in rows:
-        # row is typically a list of columns, some may contain HTML <a href="...">
-        if isinstance(row, dict):
-            out.append(row)
-            continue
-        if not isinstance(row, list):
+    while page < max_pages:
+        payload = dict(base_payload)
+        payload["start"] = str(start_idx)
+
+        # Retry on transient upstream errors (503 etc.) with jitter.
+        last_err: str | None = None
+        for attempt in range(7):
+            r2 = s.post(data_url, data=payload, headers=headers, timeout=45)
+            if r2.status_code == 200:
+                break
+            last_err = f"senate_efd_data_http_{r2.status_code}:{r2.text[:120]}"
+            if r2.status_code in (429, 500, 502, 503, 504):
+                time.sleep(min(30, (2 ** attempt) + random.random()))
+                continue
+            raise requests.HTTPError(last_err)
+        else:
+            raise requests.HTTPError(last_err or "senate_efd_data_http_unknown")
+
+        data = r2.json()
+        rows = data.get("data") or []
+        if not rows:
+            break
+        for row in rows:
+            # row is typically a list of columns, some may contain HTML <a href="...">
+            if isinstance(row, dict):
+                out.append(row)
+                continue
+            if not isinstance(row, list):
+                out.append({"raw": row})
+                continue
             out.append({"raw": row})
-            continue
-        out.append({"raw": row})
+
+        page += 1
+        start_idx += page_size
+
     return out
+
+
+def fetch_senate_from_mirrors(s: requests.Session) -> tuple[str | None, list[dict[str, Any]] | None]:
+    """
+    Fallback: pull Senate transactions from one of several public JSON mirrors.
+    Provide SENATE_MIRROR_URLS as comma-separated URLs (raw GitHub recommended).
+    """
+    default_urls = [
+        # Actively updated community mirror of Senate EFD PTR trades
+        "https://raw.githubusercontent.com/timothycarambat/senate-stock-watcher-data/master/aggregate/all_transactions.json",
+    ]
+    urls = [u.strip() for u in os.getenv("SENATE_MIRROR_URLS", "").split(",") if u.strip()] or default_urls
+    if not urls:
+        return (None, None)
+    for u in urls:
+        try:
+            r = s.get(u, timeout=60)
+            if r.status_code != 200:
+                continue
+            data = r.json()
+            if isinstance(data, list):
+                return (u, data)
+        except Exception:
+            continue
+    return (None, None)
 
 
 def _extract_first_href(html: str) -> str | None:
@@ -754,7 +794,9 @@ def main() -> int:
     if senate is None:
         status += _status_line("senate_status", "missing_s3_try_efd")
         try:
-            txs = build_senate_transactions_from_efd(s, days=60, max_reports=80)
+            efd_days = int(os.getenv("SENATE_EFD_DAYS", "60"))
+            max_reports = int(os.getenv("SENATE_EFD_MAX_REPORTS", "120"))
+            txs = build_senate_transactions_from_efd(s, days=efd_days, max_reports=max_reports)
             status += _status_line("senate_efd_status", "ok")
             status += _status_line("senate_efd_transactions", str(len(txs)))
             # Only overwrite if we actually got something.
@@ -763,9 +805,18 @@ def main() -> int:
         except Exception as e:
             status += _status_line("senate_efd_status", f"error:{type(e).__name__}")
             status += _status_line("senate_efd_error", (str(e) or "")[:180])
-            # Keep last known good file if present; otherwise write empty list.
-            if not os.path.exists("data/senate/all_transactions.json"):
-                _write_json("data/senate/all_transactions.json", [])
+            # Fallback: try mirrors, then keep last known good file.
+            src, mirrored = fetch_senate_from_mirrors(s)
+            if mirrored:
+                status += _status_line("senate_mirror_status", "ok")
+                status += _status_line("senate_mirror_url", (src or "")[:180])
+                status += _status_line("senate_mirror_transactions", str(len(mirrored)))
+                _write_json("data/senate/all_transactions.json", mirrored)
+            else:
+                status += _status_line("senate_mirror_status", "missing")
+                # Keep last known good file if present; otherwise write empty list.
+                if not os.path.exists("data/senate/all_transactions.json"):
+                    _write_json("data/senate/all_transactions.json", [])
     else:
         status += _status_line("senate_status", "ok")
         _write_json("data/senate/all_transactions.json", senate)
