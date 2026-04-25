@@ -177,6 +177,7 @@ class BotApp:
                 [InlineKeyboardButton("🕑 Ultime 24h", callback_data="insider:24h")],
                 [InlineKeyboardButton("📅 Top settimana (valore)", callback_data="insider:7d")],
                 [InlineKeyboardButton("🗓️ Top mese (valore)", callback_data="insider:30d")],
+                [InlineKeyboardButton("🗓️ Politici 45g", callback_data="insider:45d")],
             ]
         )
         text = (
@@ -580,6 +581,7 @@ def main() -> int:
                 [InlineKeyboardButton("🕑 Ultime 24h", callback_data="insider:24h")],
                 [InlineKeyboardButton("📅 Top settimana (valore)", callback_data="insider:7d")],
                 [InlineKeyboardButton("🗓️ Top mese (valore)", callback_data="insider:30d")],
+                [InlineKeyboardButton("🗓️ Politici 45g", callback_data="insider:45d")],
             ]
         )
         await update.message.reply_text(
@@ -587,7 +589,8 @@ def main() -> int:
             "Se non li vedi, usa i comandi:\n"
             "- /insider24\n"
             "- /insider7\n"
-            "- /insider30",
+            "- /insider30\n"
+            "- /insider45",
             reply_markup=kb,
         )
 
@@ -614,6 +617,10 @@ def main() -> int:
             cutoff = now - timedelta(days=7)
             within_days_sec = 7
             label = "Top settimana"
+        elif window == "45d":
+            cutoff = now - timedelta(days=45)
+            within_days_sec = 45
+            label = "Top 45 giorni"
         else:
             cutoff = now - timedelta(days=30)
             within_days_sec = 30
@@ -626,6 +633,7 @@ def main() -> int:
                 [InlineKeyboardButton("🕑 Ultime 24h", callback_data="insider:24h")],
                 [InlineKeyboardButton("📅 Top settimana (valore)", callback_data="insider:7d")],
                 [InlineKeyboardButton("🗓️ Top mese (valore)", callback_data="insider:30d")],
+                [InlineKeyboardButton("🗓️ Politici 45g", callback_data="insider:45d")],
             ]
         )
         await q.edit_message_text(msg, reply_markup=kb)
