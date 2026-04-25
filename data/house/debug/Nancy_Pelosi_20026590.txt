@@ -1,0 +1,88 @@
+                                                                                                                           Filing ID #20026590
+
+                          P                               T                                          R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Nancy Pelosi
+Status:              Member
+State/District: CA11
+
+
+T
+ID        Owner Asset                                          Transaction Date                Notification Amount                    Cap.
+                                                               Type                            Date                                   Gains >
+                                                                                                                                      $200?
+
+          SP          Alphabet Inc. - Class A Common           P                 01/14/2025 01/14/2025           $250,001 -
+                      Stock (GOOGL) [OP]                                                                         $500,000
+                      F      S      : New
+                      D           : Purchased 50 call options with a strike price of $150 and an expiration date of 1/16/26.
+
+
+          SP          Amazon.com, Inc. - Common Stock          P                 01/14/2025 01/14/2025           $250,001 -
+                      (AMZN) [OP]                                                                                $500,000
+                      F      S      : New
+                      D           : Purchased 50 call options with a strike price of $150 and an expiration date of 1/16/26.
+
+
+          SP          Apple Inc. - Common Stock (AAPL)         S (partial)       12/31/2024 12/31/2024           $5,000,001 -
+                      [ST]                                                                                       $25,000,000
+                      F      S      : New
+                      D           : Sold 31,600 shares.
+
+
+          SP          NVIDIA Corporation - Common              S (partial)       12/31/2024 12/31/2024           $1,000,001 -
+                      Stock (NVDA) [ST]                                                                          $5,000,000
+                      F      S      : New
+                      D           : Sold 10,000 shares.
+
+
+          SP          NVIDIA Corporation - Common              P                 12/20/2024 12/20/2024           $500,001 -
+                      Stock (NVDA) [ST]                                                                          $1,000,000
+                      F      S       : New
+                      D            : Exercised 500 call options purchased 11/22/23 (50,000 shares) at a strike price of $12 with an expiration date
+                      of 12/20/24.
+
+
+          SP          NVIDIA Corporation - Common              P                 01/14/2025 01/14/2025           $250,001 -
+                      Stock (NVDA) [OP]                                                                          $500,000
+                      F      S      : New
+ID         Owner Asset                                            Transaction Date                 Notification Amount              Cap.
+                                                                  Type                             Date                             Gains >
+                                                                                                                                    $200?
+                     D             : Purchased 50 call options with a strike price of $80 and an expiration date of 1/16/26.
+
+
+           SP         Palo Alto Networks, Inc. (PANW)             P                 12/20/2024 12/20/2024            $1,000,001 -
+                      [ST]                                                                                           $5,000,000
+                     F      S       : New
+                     D            : Exercised 140 call options purchased 2/12/24 & 2/21/24 (14,000 shares) at a strike price of $100 with an
+                     expiration date of 12/20/24.
+
+
+           SP         Tempus AI, Inc. - Class A Common            P                 01/14/2025 01/14/2025            $50,001 -
+                      Stock (TEM) [OP]                                                                               $100,000
+                     F       S       : New
+                     D             : Purchased 50 call options with a strike price of $20 and an expiration date of 1/16/26.
+
+
+           SP         Vistra Corp. Common Stock (VST)             P                 01/14/2025 01/14/2025            $500,001 -
+                      [OP]                                                                                           $1,000,000
+                     F       S       : New
+                     D             : Purchased 50 call options with a strike price of $50 and an expiration date of 1/16/26.
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I            P             O
+     Yes     No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Nancy Pelosi , 01/17/2025
+
