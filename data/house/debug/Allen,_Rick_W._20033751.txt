@@ -1,0 +1,50 @@
+                                                                                                                                  Filing ID #20033751
+
+                           P                               T                                             R
+               Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F          I
+Name:                 Hon. Richard W. Allen
+Status:               Member
+State/District: GA12
+
+
+T
+ID         Owner Asset                                            Transaction Date                 Notification Amount                    Cap.
+                                                                  Type                             Date                                   Gains >
+                                                                                                                                          $200?
+
+           SP          Ferguson Enterprises Inc. Common           P                 12/12/2025 01/06/2026             $15,001 -
+                       Stock (FERG) [ST]                                                                              $50,000
+                       F      S      : New
+                       S            O : R.W. Allen & Associates, Inc. > RWA&A - Securities
+
+
+           SP          Netflix, Inc. - Common Stock (NFLX)        S                 12/12/2025 01/06/2026             $1,001 - $15,000
+                       [ST]
+                       F      S      : New
+                       S            O : R.W. Allen & Associates, Inc. > RWA&A - Securities
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                      V               D
+
+     R.W. Allen & Associates, Inc. (Owner: SP)
+     L        : US
+     R.W. Allen & Associates, Inc. ⇒ RWA&A - Securities (100% Interest) (Owner: SP)
+     L        : Augusta/ Richmond, GA, US
+
+
+
+I               P           O
+     Yes        No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Richard W. Allen , 01/15/2026
+

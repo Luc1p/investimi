@@ -1,0 +1,65 @@
+                                                                                                                              Filing ID #20034346
+
+                          P                                T                                             R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Sheri Biggs
+Status:              Member
+State/District: SC03
+
+
+T
+ID         Owner Asset                                            Transaction Date                 Notification Amount                   Cap.
+                                                                  Type                             Date                                  Gains >
+                                                                                                                                         $200?
+
+           SP         Apollo Debt Solutions BDC Class S           P                 03/03/2026 04/09/2026             $1,001 - $15,000
+                      [OT]
+                      F      S        : New
+                      S              O : W.S.B Trust > UBS Financial Services 26
+                      L          : US
+                      D             : Dividend reinvestment in a professionally managed account – Business Development Company.
+
+
+           SP         Apollo Debt Solutions BDC Class S           P                 03/27/2026 04/09/2026             $1,001 - $15,000
+                      [OT]
+                      F      S        : New
+                      S              O : W.S.B Trust > UBS Financial Services 26
+                      L          : US
+                      D             : Dividend reinvestment in a professionally managed account – Business Development Company.
+
+
+           SP         iShares Bitcoin Trust ETF (IBIT) [ST] P                       03/04/2026 04/09/2026             $100,001 -
+                                                                                                                      $250,000
+                      F      S       : New
+                      S             O : W.S.B Trust > UBS Financial Services 26
+                      D            : Professionally managed account.
+
+
+           SP         Oaktree Strategic Credit Fund Class S P                       03/30/2026 04/09/2026             $1,001 - $15,000
+                      [OT]
+                      F      S        : New
+                      S              O : W.S.B Trust > UBS Financial Services 26
+                      L          : US
+                      D             : Dividend reinvestment in a professionally managed account – Business Development Company.
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+I                   V               D
+     W.S.B Trust (Owner: SP)
+     W.S.B Trust ⇒ UBS Financial Services 26 (Owner: SP)
+     D           : Professionally managed account
+
+
+
+I           P            O
+    Yes     No
+
+
+C                               S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Sheri Biggs , 04/16/2026
+

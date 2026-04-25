@@ -1,0 +1,181 @@
+                                                                                                                     Filing ID #20033800
+
+                          P                              T                                         R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Sheri Biggs
+Status:              Member
+State/District: SC03
+
+
+T
+ID        Owner Asset                                           Transaction Date              Notification Amount                 Cap.
+                                                                Type                          Date                                Gains >
+                                                                                                                                  $200?
+
+          SP          Apollo Debt Solutions BDC Class S         P                12/01/2025 01/12/2026      $1,001 - $15,000
+                      [OT]
+                      F      S        : New
+                      S              O : W.S.B Trust > UBS Financial Services 26
+                      L          : US
+                      D             : Dividend reinvestment in a professionally managed account – Business Development Company.
+
+
+          SP          Fannie Mae Note 9/24/26 [GS]              P                12/02/2025 01/12/2026      $1,001 - $15,000
+
+                      F      S        : New
+                      S              O : W.S.B Trust > UBS Financial Services Inc 35
+                      D             : Professional managed account.
+
+
+          SP          KKR Real Estate Select Trust Class U      P                12/02/2025 01/12/2026      $1,001 - $15,000
+                      [PS]
+                      F      S        : New
+                      S              O : W.S.B Trust > UBS Financial Services 26
+                      L          : US
+                      D             : Dividend reinvestment in a professionally managed account.
+
+
+          JT          UBS AG [CS]                               S                12/12/2025 01/12/2026      $15,001 -
+                                                                                                            $50,000
+                      F      S        : New
+                      S              O : UBS Financial Services, Inc. > UBS Financial Services, Inc. 96
+                      D             : Professionally managed account. Structured product (EEM & IWM).
+
+
+          SP          US TSY DUE 05/15/34 [GS]                  P                12/02/2025 01/12/2026      $1,001 - $15,000
+
+                      F      S        : New
+                      S              O : W.S.B Trust > UBS Financial Services Inc 35
+                      D             : Professionally managed account.
+ID   Owner Asset                                   Transaction Date              Notification Amount             Cap.
+                                                   Type                          Date                            Gains >
+                                                                                                                 $200?
+
+
+     SP    US TSY DUE 11/15/34 [GS]                P                  12/02/2025 01/12/2026   $1,001 - $15,000
+
+           F       S     : New
+           S            O : W.S.B Trust > UBS Financial Services Inc 35
+           D           : Professionally managed account.
+
+
+     SP    US TSY NOTE 02/15/26 [GS]               P                  12/02/2025 01/12/2026   $1,001 - $15,000
+
+           F       S     : New
+           S            O : W.S.B Trust > UBS Financial Services 26
+           D           : Professionally managed account.
+
+
+     SP    US TSY NOTE 02/15/32 [GS]               P                  12/02/2025 01/12/2026   $1,001 - $15,000
+
+           F       S     : New
+           S            O : W.S.B Trust > UBS Financial Services Inc 35
+           D           : Professionally managed account.
+
+
+     SP    US TSY NOTE 02/15/33 [GS]               P                  12/02/2025 01/12/2026   $1,001 - $15,000
+
+           F       S     : New
+           S            O : W.S.B Trust > UBS Financial Services Inc 35
+           D           : Professionally managed account.
+
+
+     SP    US TSY NOTE 02/15/34 [GS]               P                  12/02/2025 01/12/2026   $1,001 - $15,000
+
+           F       S     : New
+           S            O : W.S.B Trust > UBS Financial Services Inc 35
+           D           : Professionally managed account.
+
+
+     SP    US TSY NOTE 02/15/35 [GS]               P                  12/02/2025 01/12/2026   $1,001 - $15,000
+
+           F       S     : New
+           S            O : W.S.B Trust > UBS Financial Services Inc 35
+           D           : Professionally managed account.
+
+
+     SP    US TSY NOTE 05/15/32 [GS]               P                  12/02/2025 01/12/2026   $1,001 - $15,000
+
+           F       S     : New
+           S            O : W.S.B Trust > UBS Financial Services Inc 35
+           D           : Professionally managed account.
+
+
+     SP    US TSY NOTE 05/15/35 [GS]               P                  12/02/2025 01/12/2026   $1,001 - $15,000
+
+           F       S     : New
+           S            O : W.S.B Trust > UBS Financial Services Inc 35
+           D           : Professionally managed account.
+ID         Owner Asset                                            Transaction Date                 Notification Amount                   Cap.
+                                                                  Type                             Date                                  Gains >
+                                                                                                                                         $200?
+           SP         US TSY NOTE 08/15/31 [GS]                   P                 12/02/2025 01/12/2026             $1,001 - $15,000
+
+                      F      S       : New
+                      S             O : W.S.B Trust > UBS Financial Services Inc 35
+                      D            : Professionally managed account.
+
+
+           SP         US TSY NOTE 08/15/33 [GS]                   P                 12/02/2025 01/12/2026             $1,001 - $15,000
+
+                      F      S       : New
+                      S             O : W.S.B Trust > UBS Financial Services Inc 35
+                      D            : Professionally managed account.
+
+
+           SP         US TSY NOTE 08/31/30 [GS]                   P                 12/02/2025 01/12/2026             $1,001 - $15,000
+
+                      F      S       : New
+                      S             O : W.S.B Trust > UBS Financial Services Inc 35
+                      D            : Professionally managed account.
+
+
+           SP         US TSY NOTE 11/15/31 [GS]                   P                 12/02/2025 01/12/2026             $1,001 - $15,000
+
+                      F      S       : New
+                      S             O : W.S.B Trust > UBS Financial Services Inc 35
+                      D            : Professionally managed account.
+
+
+           SP         US TSY NOTE 11/15/32 [GS]                   P                 12/02/2025 01/12/2026             $1,001 - $15,000
+
+                      F      S       : New
+                      S             O : W.S.B Trust > UBS Financial Services Inc 35
+                      D            : Professionally managed account.
+
+
+           SP         US TSY NOTE 11/15/33 [GS]                   P                 12/02/2025 01/12/2026             $1,001 - $15,000
+
+                      F      S       : New
+                      S             O : W.S.B Trust > UBS Financial Services Inc 35
+                      D            : Professionally managed account.
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V               D
+
+     UBS Financial Services, Inc. (Owner: JT)
+     UBS Financial Services, Inc. ⇒ UBS Financial Services, Inc. 96 (Owner: JT)
+     D          : Professionally managed account
+     W.S.B Trust (Owner: SP)
+     W.S.B Trust ⇒ UBS Financial Services 26 (Owner: SP)
+     D           : Professionally managed account
+     W.S.B Trust ⇒ UBS Financial Services Inc 35 (Owner: SP)
+     D            : Professionally managed account
+
+
+
+I           P            O
+    Yes     No
+
+
+C                               S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Sheri Biggs , 01/14/2026
+

@@ -1,0 +1,58 @@
+                                                                                                                                  Filing ID #20033714
+
+                          P                                T                                             R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Donald Sternoff Beyer Jr
+Status:              Member
+State/District: VA08
+
+
+T
+ID         Owner Asset                                            Transaction Date                 Notification Amount                     Cap.
+                                                                  Type                             Date                                    Gains >
+                                                                                                                                           $200?
+
+           JT         King CNTY Wash Ltd 4.00% 12/1/32            S                 12/18/2025 01/02/2026             $15,001 -
+                      [GS]                                                                                            $50,000
+                      F      S       : New
+                      S             O : Stocks, Bonds, & Mutual Funds
+                      D            : Bond reached maturity
+
+
+           JT         Madison Conn GO BD 3.5% 12/18/25 S                            12/18/2025 01/02/2026             $50,001 -
+                      [GS]                                                                                            $100,000
+                      F      S       : New
+                      S             O : Stocks, Bonds, & Mutual Funds
+                      D            : Bonds reached maturity
+
+
+           JT         Virginia ST 4.00% 8/1/38 [GS]               S                 12/10/2025 01/02/2026             $50,001 -
+                                                                                                                      $100,000
+                      F      S       : New
+                      S             O : Stocks, Bonds, & Mutual Funds
+                      D            : Maturity 60,000 units
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V               D
+     Stocks, Bonds, & Mutual Funds (Owner: JT)
+     L        : VA, US
+
+
+
+C
+
+I              P           O
+    Yes     No
+
+
+C                               S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Donald Sternoff Beyer Jr, 01/02/2026
+

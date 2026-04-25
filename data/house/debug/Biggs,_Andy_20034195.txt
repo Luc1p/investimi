@@ -1,0 +1,103 @@
+                                                                                                                      Filing ID #20034195
+
+                          P                              T                                           R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Sheri Biggs
+Status:              Member
+State/District: SC03
+
+
+T
+ID        Owner Asset                                           Transaction Date                  Notification Amount             Cap.
+                                                                Type                              Date                            Gains >
+                                                                                                                                  $200?
+
+          SP          APOLLO DEBT SOLUTIONS BDC                 P                  02/04/2026 03/06/2026     $1,001 - $15,000
+                      CLASS S [OT]
+                      F      S        : New
+                      S              O : W.S.B Trust > UBS Financial Services 26
+                      L          : US
+                      D             : Dividend reinvestment in a professionally managed account – Business Development Company.
+
+
+          SP          BARCLAYS BANK PLC TAR-SS INTL S                              02/19/2026 03/06/2026     $100,001 -
+                      BASKET [CS]                                                                            $250,000
+                      F      S        : New
+                      S              O : W.S.B Trust > UBS Financial Services 26
+                      D             : Professional managed account.
+
+
+          SP          KKR Real Estate Select Trust Class U      P                  02/04/2026 03/06/2026     $1,001 - $15,000
+                      (KRSOX) [PS]
+                      F      S        : New
+                      S              O : W.S.B Trust > UBS Financial Services 26
+                      L          : US
+                      D             : Divided reinvestment in a professionally managed account.
+
+
+          SP          OAKTREE STRATEGIC CREDIT                  P                  02/27/2026 03/06/2026     $1,001 - $15,000
+                      FUND CLASS S [OT]
+                      F      S        : New
+                      S              O : W.S.B Trust > UBS Financial Services 26
+                      L          : US
+                      D             : Dividend reinvestment in a professionally managed account – Business Development Company.
+
+
+          SP          OAKTREE STRATEGIC CREDIT                  P                  02/06/2026 03/06/2026     $1,001 - $15,000
+                      FUND CLASS S [OT]
+                      F      S       : New
+ID         Owner Asset                                            Transaction Date                  Notification Amount                  Cap.
+                                                                  Type                              Date                                 Gains >
+                                                                                                                                         $200?
+                     S               O : W.S.B Trust > UBS Financial Services 26
+                     L           : US
+                     D              : Dividend reinvestment in a professionally managed account – Business Development Company.
+
+
+           SP         US TSY BOND DUE 02/15/36 [GS]               P                 02/18/2026 03/06/2026             $15,001 -
+                                                                                                                      $50,000
+                     F       S       : New
+                     S              O : W.S.B Trust > UBS Financial Services Inc 35
+                     D             : Professionally managed account.
+
+
+           SP         US TSY DUE 02/15/26 [GS]                    S                 02/15/2026 03/06/2026             $1,001 - $15,000
+
+                     F       S       : New
+                     S              O : W.S.B Trust > UBS Financial Services Inc 35
+                     D             : Professionally managed account.
+
+
+           SP         US TSY NOTE DUE 02/15/26 [GS]               S                 02/17/2026 03/06/2026             $15,001 -
+                                                                                                                      $50,000
+                     F       S       : New
+                     S              O : W.S.B Trust > UBS Financial Services Inc 35
+                     D             : Professionally managed account.
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V                D
+
+     W.S.B Trust (Owner: SP)
+     W.S.B Trust ⇒ UBS Financial Services 26 (Owner: SP)
+     D           : Professionally managed account
+
+     W.S.B Trust ⇒ UBS Financial Services Inc 35 (Owner: SP)
+     D           : Professionally managed account
+
+
+
+I            P             O
+     Yes     No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Sheri Biggs , 03/21/2026
+
