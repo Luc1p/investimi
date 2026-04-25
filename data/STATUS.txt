@@ -1,4 +1,4 @@
-updated_utc=2026-04-25T16:18:48.793875Z
+updated_utc=2026-04-25T16:23:46.318480Z
 house_status=ok_scrape
 house_scrape_transactions=1
 senate_status=missing_s3_try_efd
