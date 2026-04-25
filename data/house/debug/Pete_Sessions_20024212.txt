@@ -1,0 +1,60 @@
+                                                                                                                               Filing ID #20024212
+
+                           P                               T                                             R
+              Clerk of the House of Representatives • Legislative Resource Center • 135 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Pete Sessions
+Status:              Member
+State/District: TX17
+
+
+T
+ID         Owner Asset                                            Transaction Date                 Notification Amount                   Cap.
+                                                                  Type                             Date                                  Gains >
+                                                                                                                                         $200?
+
+           SP         Alibaba Group Holding Limited               S                 12/28/2023 12/29/2023             $1,001 - $15,000
+                      American Depositary Shares each
+                      representing eight Ordinary share
+                      (BABA) [ST]
+                      F      S       : New
+                      S             O : Trust One
+                      D            : 45 shares loss ~$5500
+
+
+           SP         American Tower Corporation (AMT)            S                 12/28/2023 12/29/2023             $1,001 - $15,000
+                      [ST]
+                      F      S       : New
+                      S             O : Trust One
+                      D            : sold loss 21.1125 shares
+
+
+           SP         Crown Castle Inc. (CCI) [ST]                S                 12/28/2023 12/29/2023             $1,001 - $15,000
+
+                      F      S       : New
+                      S             O : Trust One
+                      D            : Sale loss 45.9831 shares
+
+
+                      US Treasury Bill 9128286R6 [GS]             P                 01/25/2024 01/25/2024             $1,001 - $15,000
+
+                      F      S       : New
+                      D            : $5K 30 day T-Bill 5.1%
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+A         C            D
+     Trust One (100% Interest) (Owner: SP)
+I           P            O
+    Yes     No
+
+
+C                               S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Pete Sessions , 01/24/2024
+

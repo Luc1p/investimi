@@ -1,0 +1,322 @@
+                                                                                                                   Filing ID #20024612
+
+                          P                           T                                        R
+              Clerk of the House of Representatives • Legislative Resource Center • 135 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Josh Gottheimer
+Status:              Member
+State/District: NJ05
+
+
+T
+ID        Owner Asset                                       Transaction Date              Notification Amount                Cap.
+                                                            Type                          Date                               Gains >
+                                                                                                                             $200?
+
+          JT          Advanced Micro Devices, Inc. (AMD)    P               02/22/2024 03/05/2024         $1,001 - $15,000
+                      [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Booking Holdings Inc. - Common        P               02/09/2024 03/05/2024         $1,001 - $15,000
+                      Stock (BKNG) [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Booking Holdings Inc. - Common        P               02/08/2024 03/05/2024         $1,001 - $15,000
+                      Stock (BKNG) [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Charles Schwab Corporation (SCHW) S (partial)         02/01/2024 03/05/2024         $1,001 - $15,000
+                      [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Cheniere Energy, Inc. Common Stock S                  02/01/2024 03/05/2024         $1,001 - $15,000
+                      (LNG) [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Chord Energy Corporation - Common P                   02/13/2024 03/05/2024         $1,001 - $15,000
+                      Stock (CHRD) [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                 Transaction Date           Notification Amount             Cap.
+                                                 Type                       Date                            Gains >
+                                                                                                            $200?
+
+     JT    Cognizant Technology Solutions        S (partial)     02/12/2024 03/05/2024   $1,001 - $15,000
+           Corporation - Class A Common Stock
+           (CTSH) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    DBS GROUP HLDGS LTD S/ADR             P               02/13/2024 03/05/2024   $1,001 - $15,000
+           (DBSDY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Deere & Company Common Stock          S (partial)     02/01/2024 03/05/2024   $1,001 - $15,000
+           (DE) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Eli Lilly and Company Common Stock S (partial)        02/08/2024 03/05/2024   $1,001 - $15,000
+           (LLY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Exact Sciences Corporation -          S (partial)     02/01/2024 03/05/2024   $1,001 - $15,000
+           Common Stock (EXAS) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    First Solar, Inc. - Common Stock      S               02/01/2024 03/05/2024   $1,001 - $15,000
+           (FSLR) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Freeport-McMoRan, Inc. Common         S               02/29/2024 03/05/2024   $1,001 - $15,000
+           Stock (FCX) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    KKR & Co. Inc. Common Stock (KKR) P                   02/08/2024 03/05/2024   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    L'Oreal Co. American Depositary       P               02/26/2024 03/05/2024   $1,001 - $15,000
+           Shares (LRLCY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                    Transaction Date               Notification Amount           Cap.
+                                                    Type                           Date                          Gains >
+                                                                                                                 $200?
+
+     JT    Meta Platforms, Inc. - Class A           S (partial)     02/08/2024 03/05/2024     $1,001 - $15,000
+           Common Stock (META) [ST]
+           F       S      : New
+           S             O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Microsoft Corporation - Common           S (partial)     02/08/2024 03/05/2024     $1,001 - $15,000
+           Stock (MSFT) [ST]
+           F       S      : New
+           S             O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Microsoft Corporation - Common           P               02/13/2024 03/05/2024     $500,001 -
+           Stock (MSFT) [OP]                                                                  $1,000,000
+           F       S       : New
+           S              O : Morgan Stanley - Portfolio Management Active Assets Account
+           D             : Call options; Strike price $170; Expires 01/17/2025
+           C           : Ref: 044Q34N6
+
+
+     JT    Microsoft Corporation - Common           P               02/12/2024 03/05/2024     $1,000,001 -
+           Stock (MSFT) [OP]                                                                  $5,000,000
+           F       S       : New
+           S              O : Morgan Stanley - Portfolio Management Active Assets Account
+           D             : Call options; Strike price $170; Expires 01/17/2025
+           C           : Ref: 043IK92L
+
+
+     JT    Microsoft Corporation - Common           P               02/13/2024 03/05/2024     $1,000,001 -
+           Stock (MSFT) [OP]                                                                  $5,000,000
+           F       S       : New
+           S              O : Morgan Stanley - Portfolio Management Active Assets Account
+           D             : Call options; Strike price $170; Expires 01/17/2025
+           C           : Ref: 044Q34N4
+
+
+     JT    Microsoft Corporation - Common           P               02/12/2024 03/05/2024     $1,000,001 -
+           Stock (MSFT) [OP]                                                                  $5,000,000
+           F       S       : New
+           S              O : Morgan Stanley - Portfolio Management Active Assets Account
+           D             : Call options; Strike price $165; Expires 01/17/2025
+           C           : Ref: 043IK90L
+
+
+     JT    Microsoft Corporation - Common           P               02/12/2024 03/05/2024     $500,001 -
+           Stock (MSFT) [OP]                                                                  $1,000,000
+           F       S       : New
+           S              O : Morgan Stanley - Portfolio Management Active Assets Account
+           D             : Call options; Strike price $165; Expires 01/17/2025
+           C           : Ref: 043IK88L
+ID   Owner Asset                                    Transaction Date               Notification Amount       Cap.
+                                                    Type                           Date                      Gains >
+                                                                                                             $200?
+     JT    Microsoft Corporation - Common           P               02/12/2024 03/05/2024     $1,000,001 -
+           Stock (MSFT) [OP]                                                                  $5,000,000
+           F       S       : New
+           S              O : Morgan Stanley - Portfolio Management Active Assets Account
+           D             : Call options; Strike price $165; Expires 01/17/2025
+           C           : Ref: 043IK86L
+
+
+     JT    Microsoft Corporation - Common           P               02/12/2024 03/05/2024     $1,000,001 -
+           Stock (MSFT) [OP]                                                                  $5,000,000
+           F       S       : New
+           S              O : Morgan Stanley - Portfolio Management Active Assets Account
+           D             : Call options; Strike price $165; Expires 01/17/2025
+           C           : Ref: 043IK73L
+
+
+     JT    Microsoft Corporation - Common           S               02/13/2024 03/05/2024     $1,000,001 -
+           Stock (MSFT) [OP]                                                                  $5,000,000
+           F       S      : New
+           S             O : Morgan Stanley - Portfolio Management Active Assets Account
+           D            : Call options; Strike price $240; Expires 06/20/2025
+
+
+     JT    Microsoft Corporation - Common           S               02/13/2024 03/05/2024     $500,001 -
+           Stock (MSFT) [OP]                                                                  $1,000,000
+           F       S      : New
+           S             O : Morgan Stanley - Portfolio Management Active Assets Account
+           D            : Call options; Strike price $225; Expires 06/20/2025
+
+
+     JT    Microsoft Corporation - Common           S (partial)     02/12/2024 03/05/2024     $1,000,001 -
+           Stock (MSFT) [ST]                                                                  $5,000,000
+           F       S      : New
+           S             O : Morgan Stanley - Portfolio Management Active Assets Account
+
+
+     JT    Microsoft Corporation - Common           S               02/12/2024 03/05/2024     $1,000,001 -
+           Stock (MSFT) [OP]                                                                  $5,000,000
+           F       S      : New
+           S             O : Morgan Stanley - Portfolio Management Active Assets Account
+           D            : Call options; Strike price $235; Expires 06/20/2025
+
+
+     JT    Microsoft Corporation - Common           S               02/12/2024 03/05/2024     $1,000,001 -
+           Stock (MSFT) [OP]                                                                  $5,000,000
+           F       S      : New
+           S             O : Morgan Stanley - Portfolio Management Active Assets Account
+           D            : Call options; Strike price $230; Expires 06/20/2025
+
+
+     JT    Microsoft Corporation - Common           S               02/12/2024 03/05/2024     $500,001 -
+           Stock (MSFT) [OP]                                                                  $1,000,000
+ID   Owner Asset                                  Transaction Date               Notification Amount           Cap.
+                                                  Type                           Date                          Gains >
+                                                                                                               $200?
+           F       S     : New
+           S            O : Morgan Stanley - Portfolio Management Active Assets Account
+           D           : Call options; Strike price $225; Expires 06/20/2025
+
+
+     JT    Microsoft Corporation - Common         S               02/12/2024 03/05/2024     $1,000,001 -
+           Stock (MSFT) [OP]                                                                $5,000,000
+           F       S     : New
+           S            O : Morgan Stanley - Portfolio Management Active Assets Account
+           D           : Call options; Strike price $220; Expires 06/20/2025
+
+
+     JT    Moderna, Inc. - Common Stock           S               02/01/2024 03/05/2024     $1,001 - $15,000
+           (MRNA) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    MongoDB, Inc. - Class A Common         S (partial)     02/08/2024 03/05/2024     $1,001 - $15,000
+           Stock (MDB) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Morgan Stanley Common Stock (MS)       S               02/01/2024 03/05/2024     $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    MSCI Inc. Common Stock (MSCI)          S               02/01/2024 03/05/2024     $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Netflix, Inc. - Common Stock (NFLX)    S (partial)     02/08/2024 03/05/2024     $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    NVIDIA Corporation - Common Stock S (partial)          02/08/2024 03/05/2024     $1,001 - $15,000
+           (NVDA) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Palo Alto Networks, Inc. (PANW)        S (partial)     02/21/2024 03/05/2024     $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+ID         Owner Asset                                            Transaction Date                  Notification Amount                  Cap.
+                                                                  Type                              Date                                 Gains >
+                                                                                                                                         $200?
+           JT         Regeneron Pharmaceuticals, Inc. -           S (partial)       02/08/2024 03/05/2024             $1,001 - $15,000
+                      Common Stock (REGN) [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Taiwan Semiconductor                        S (partial)       02/09/2024 03/05/2024             $1,001 - $15,000
+                      Manufacturing Company Ltd. (TSM)
+                      [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Terex Corporation Common Stock              S (partial)       02/13/2024 03/05/2024             $1,001 - $15,000
+                      (TEX) [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         The Trade Desk, Inc. - Class A              S (partial)       02/01/2024 03/05/2024             $1,001 - $15,000
+                      Common Stock (TTD) [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V                D
+
+     Morgan Stanley - Portfolio Management Active Assets Account (Owner: JT)
+     L       : US
+
+     Morgan Stanley - Select UMA Account # 1 (Owner: JT)
+     L       : US
+
+
+
+I            P             O
+     Yes     No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Josh Gottheimer , 03/07/2024
+

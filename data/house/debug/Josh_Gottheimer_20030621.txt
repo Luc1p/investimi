@@ -1,0 +1,149 @@
+                                                                                                                   Filing ID #20030621
+
+                          P                             T                                      R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Josh Gottheimer
+Status:              Member
+State/District: NJ05
+
+
+T
+ID        Owner Asset                                        Transaction Date             Notification Amount                Cap.
+                                                             Type                         Date                               Gains >
+                                                                                                                             $200?
+
+          JT          Akamai Technologies, Inc. - Common S                    06/03/2025 07/07/2025       $1,001 - $15,000
+                      Stock (AKAM) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Active Asset Account # 3
+
+
+          JT          Broadcom Inc. - Common Stock           P                06/25/2025 07/07/2025       $1,001 - $15,000
+                      (AVGO) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Carvana Co. Class A Common Stock       P                06/20/2025 07/07/2025       $1,001 - $15,000
+                      (CVNA) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Chubb Limited Common Stock (CB)        P                06/13/2025 07/07/2025       $1,001 - $15,000
+                      [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Cloudflare, Inc. Class A Common        P                06/20/2025 07/07/2025       $1,001 - $15,000
+                      Stock (NET) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          ConocoPhillips Common Stock (COP) S (partial)           06/24/2025 07/07/2025       $1,001 - $15,000
+                      [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                   Transaction Date            Notification Amount             Cap.
+                                                   Type                        Date                            Gains >
+                                                                                                               $200?
+
+     JT    Fidelity National Information           S                06/03/2025 07/07/2025   $1,001 - $15,000
+           Services, Inc. Common Stock (FIS)
+           [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Active Asset Account # 3
+
+
+     JT    Insmed Incorporated - Common            P                06/16/2025 07/07/2025   $1,001 - $15,000
+           Stock (INSM) [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    McDonald's Corporation Common           S (partial)      06/20/2025 07/07/2025   $1,001 - $15,000
+           Stock (MCD) [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    NVIDIA Corporation - Common Stock P                      06/24/2025 07/07/2025   $1,001 - $15,000
+           (NVDA) [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Pfizer, Inc. Common Stock (PFE) [ST] S                   06/03/2025 07/07/2025   $1,001 - $15,000
+
+           F       S     : New
+           S            O : Morgan Stanley - Active Asset Account # 3
+
+
+     JT    Salesforce, Inc. Common Stock (CRM) S                    06/04/2025 07/07/2025   $1,001 - $15,000
+           [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Tesla, Inc. - Common Stock (TSLA)       S (partial)      06/05/2025 07/07/2025   $1,001 - $15,000
+           [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Union Pacific Corporation Common        S                06/04/2025 07/07/2025   $1,001 - $15,000
+           Stock (UNP) [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Visa Inc. (V) [ST]                      S (partial)      06/20/2025 07/07/2025   $1,001 - $15,000
+
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+ID         Owner Asset                                            Transaction Date                  Notification Amount                  Cap.
+                                                                  Type                              Date                                 Gains >
+                                                                                                                                         $200?
+           JT         Visa Inc. (V) [ST]                          S (partial)       06/26/2025 07/07/2025             $1,001 - $15,000
+
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Visa Inc. (V) [ST]                          S (partial)       06/25/2025 07/07/2025             $1,001 - $15,000
+
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Visa Inc. (V) [ST]                          S (partial)       06/24/2025 07/07/2025             $1,001 - $15,000
+
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V                D
+     Morgan Stanley - Active Asset Account # 3 (Owner: JT)
+     L       : US
+     Morgan Stanley - Select UMA Account # 1 (Owner: JT)
+     L       : US
+
+
+
+I            P             O
+     Yes     No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Josh Gottheimer , 07/16/2025
+

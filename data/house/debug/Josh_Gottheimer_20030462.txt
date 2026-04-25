@@ -1,0 +1,184 @@
+                                                                                                                  Filing ID #20030462
+
+                          P                            T                                       R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Josh Gottheimer
+Status:              Member
+State/District: NJ05
+
+
+T
+ID        Owner Asset                                         Transaction Date            Notification Amount                Cap.
+                                                              Type                        Date                               Gains >
+                                                                                                                             $200?
+
+          JT          AbbVie Inc. Common Stock (ABBV)         P             05/22/2025 06/04/2025        $1,001 - $15,000
+                      [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Alphabet Inc. - Class C Capital Stock   S (partial)   05/08/2025 06/04/2025        $1,001 - $15,000
+                      (GOOG) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Applovin Corporation - Class A          P             05/28/2025 06/04/2025        $1,001 - $15,000
+                      Common Stock (APP) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          ASML Holding N.V. - New York            P             05/22/2025 06/04/2025        $1,001 - $15,000
+                      Registry Shares (ASML) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          COLOPLAST AS SP/ADR (CLPBY)             S             05/14/2025 06/04/2025        $1,001 - $15,000
+                      [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Corning Incorporated Common Stock P                   05/28/2025 06/04/2025        $1,001 - $15,000
+                      (GLW) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                 Transaction Date           Notification Amount             Cap.
+                                                 Type                       Date                            Gains >
+                                                                                                            $200?
+
+     JT    Corning Incorporated Common Stock P                   05/22/2025 06/04/2025   $1,001 - $15,000
+           (GLW) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Eli Lilly and Company Common Stock P                  05/01/2025 06/04/2025   $1,001 - $15,000
+           (LLY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Eli Lilly and Company Common Stock S (partial)        05/13/2025 06/04/2025   $1,001 - $15,000
+           (LLY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Fiserv, Inc. Common Stock (FI) [ST]   S               05/14/2025 06/04/2025   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Gilead Sciences, Inc. - Common Stock S                05/14/2025 06/04/2025   $1,001 - $15,000
+           (GILD) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Microsoft Corporation - Common        P               05/21/2025 06/04/2025   $1,001 - $15,000
+           Stock (MSFT) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Microsoft Corporation - Common        P               05/22/2025 06/04/2025   $1,001 - $15,000
+           Stock (MSFT) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Salesforce, Inc. Common Stock         P               05/22/2025 06/04/2025   $1,001 - $15,000
+           (CRM) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Sea Limited American Depositary       P               05/23/2025 06/04/2025   $1,001 - $15,000
+           Shares, each representing one Class A
+           Ordinary Share (SE) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                 Transaction Date           Notification Amount             Cap.
+                                                 Type                       Date                            Gains >
+                                                                                                            $200?
+
+     JT    TE Connectivity plc Ordinary Shares   P               05/22/2025 06/04/2025   $1,001 - $15,000
+           (TEL) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Tesla, Inc. - Common Stock (TSLA)     P               05/29/2025 06/04/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Tesla, Inc. - Common Stock (TSLA)     P               05/27/2025 06/04/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Tesla, Inc. - Common Stock (TSLA)     P               05/16/2025 06/04/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Tesla, Inc. - Common Stock (TSLA)     P               05/15/2025 06/04/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Uber Technologies, Inc. Common        P               05/15/2025 06/04/2025   $1,001 - $15,000
+           Stock (UBER) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    UNICHARM CORP S/ADR (UNICY)           S (partial)     05/14/2025 06/04/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    United Parcel Service, Inc. Common    S (partial)     05/28/2025 06/04/2025   $1,001 - $15,000
+           Stock (UPS) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    ZTO Express (ZTO) [ST]                S               05/23/2025 06/04/2025   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V                D
+
+     Morgan Stanley - Select UMA Account # 1 (Owner: JT)
+     L       : US
+
+
+
+I            P             O
+    Yes      No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Josh Gottheimer , 06/11/2025
+

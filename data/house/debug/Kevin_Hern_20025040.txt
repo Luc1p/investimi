@@ -1,0 +1,59 @@
+                                                                                                                              Filing ID #20025040
+
+                          P                                T                                             R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Kevin Hern
+Status:              Member
+State/District: OK01
+
+
+T
+ID         Owner Asset                                            Transaction Date                 Notification Amount                   Cap.
+                                                                  Type                             Date                                  Gains >
+                                                                                                                                         $200?
+
+           JT         Inland Real Estate Income Trust [PS] P                        04/08/2024 04/09/2024             $1,001 - $15,000
+
+                      F      S        : New
+                      S              O : Hern Family Revocable Trust > Brokerage Investment Account
+                      L          : US
+                      D             : Dividend Reinvestment
+
+
+           JT         JP Morgan Chase & Co. Common                P                 04/30/2024 05/01/2024             $1,001 - $15,000
+                      Stock (JPM) [ST]
+                      F      S       : New
+                      S             O : Hern Family Revocable Trust > Brokerage Investment Account
+                      D            : Dividend Reinvestment
+
+
+           JT         TORONTO DOMINION BANK SER E P                                 04/24/2024 04/25/2024             $250,001 -
+                      NOTE 04/27/2029 [CS]                                                                            $500,000
+                      F      S       : New
+                      S             O : Hern Family Foundation
+                      D            : Buy Open
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V               D
+     Hern Family Foundation (100% Interest) (Owner: JT)
+
+     Hern Family Revocable Trust (100% Interest) (Owner: JT)
+     D          : Family Revocable Trust
+     Hern Family Revocable Trust ⇒ Brokerage Investment Account (100% Interest) (Owner: JT)
+     L       : US
+     D          : Stock, Bonds, EFTs, & Mutual funds
+I           P            O
+    Yes     No
+
+
+C                               S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Kevin Hern , 05/12/2024
+

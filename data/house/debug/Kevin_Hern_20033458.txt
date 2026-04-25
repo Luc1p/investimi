@@ -1,0 +1,138 @@
+                                                                                                                   Filing ID #20033458
+
+                          P                             T                                      R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Kevin Hern
+Status:              Member
+State/District: OK01
+
+
+T
+ID        Owner Asset                                         Transaction Date           Notification Amount                 Cap.
+                                                              Type                       Date                                Gains >
+                                                                                                                             $200?
+
+          JT          Accenture plc Class A Ordinary          S             10/27/2025 10/28/2025        $100,001 -
+                      Shares (ACN) [ST]                                                                  $250,000
+                      F      S      : New
+                      S            O : Hern Family Foundation
+                      D           : sell to close
+
+
+          JT          BNP Paribas MTN 4/9/2030 [CS]           S             10/09/2025 10/10/2025        $250,001 -
+                                                                                                         $500,000
+                      F      S      : New
+                      S            O : Hern Family Foundation
+                      D           : note redeemed/called by issuer
+
+
+          JT          BNP Paribas MTN 4/9/2030 [CS]           S             10/09/2025 10/10/2025        $1,000,001 -
+                                                                                                         $5,000,000
+                      F      S      : New
+                      S            O : Hern Family Revocable Trust
+                      D           : note redeemed/called by the issuer
+
+
+          JT          Boston Scientific Corporation           S (partial)   10/28/2025 10/29/2025        $15,001 - $50,000
+                      Common Stock (BSX) [ST]
+                      F      S     : New
+                      S           O : Hern Family Foundation
+
+
+                      CSX Corporation (CSX) [ST]              S (partial)   10/28/2025 10/29/2025        $15,001 - $50,000
+
+                      F      S     : New
+                      S           O : Kevin Hern Traditional IRA
+
+
+                      Eaton Corporation, PLC Ordinary         S (partial)   10/06/2025 10/07/2025        $15,001 - $50,000
+                      Shares (ETN) [ST]
+ID   Owner Asset                                  Transaction Date          Notification Amount              Cap.
+                                                  Type                      Date                             Gains >
+                                                                                                             $200?
+           F       S    : New
+           S           O : Kevin Hern Traditional IRA
+
+
+           Home Depot, Inc. (HD) [ST]             S (partial)    10/28/2025 10/29/2025   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Kevin Hern Traditional IRA
+
+
+     JT    McDonald's Corporation Common          S              10/23/2025 10/24/2025   $1,001 - $15,000
+           Stock (MCD) [ST]
+           F       S    : New
+           S           O : Hern Family Foundation
+
+
+     JT    McDonald's Corporation Common          S              10/23/2025 10/24/2025   $100,001 -
+           Stock (MCD) [ST]                                                              $250,000
+           F       S    : New
+           S           O : Hern Family Revocable Trust
+
+
+     JT    Microsoft Corporation - Common         S (partial)    10/28/2025 10/29/2025   $15,001 - $50,000
+           Stock (MSFT) [ST]
+           F       S    : New
+           S           O : Hern Family Foundation
+
+
+     JT    O'Reilly Automotive, Inc. - Common     S (partial)    10/28/2025 10/29/2025   $1,001 - $15,000
+           Stock (ORLY) [ST]
+           F       S    : New
+           S           O : Hern Family Foundation
+
+
+     JT    RBC 11.25% 30F DUE 10/16/30 [CS]       P              10/10/2025 10/13/2025   $500,001 -
+                                                                                         $1,000,000
+           F       S     : New
+           S            O : Hern Family Foundation
+           D           : Buy to open Royal Bank of Canada Note
+
+
+     JT    RBC 11.25% 30F DUE 10/16/30 [CS]       P              10/10/2025 10/13/2025   $1,000,001 -
+                                                                                         $5,000,000
+           F       S     : New
+           S            O : Hern Family Revocable Trust
+           D           : Buy to open
+
+
+           Seagate Technology Holdings PLC -      S (partial)    10/28/2025 10/29/2025   $15,001 - $50,000
+           Ordinary Shares (STX) [ST]
+           F       S    : New
+           S           O : Kevin Hern Traditional IRA
+
+
+           Seagate Technology Holdings PLC -      S (partial)    10/06/2025 10/07/2025   $15,001 - $50,000
+ID         Owner Asset                                            Transaction Date                 Notification Amount       Cap.
+                                                                  Type                             Date                      Gains >
+                                                                                                                             $200?
+                      Ordinary Shares (STX) [ST]
+                     F       S       : New
+                     S              O : Kevin Hern Traditional IRA
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V                D
+     Hern Family Foundation (100% Interest) (Owner: JT)
+     Hern Family Revocable Trust (100% Interest) (Owner: JT)
+     D          : Family Revocable Trust
+     Kevin Hern Traditional IRA
+
+
+
+I            P             O
+     Yes     No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Kevin Hern , 11/16/2025
+

@@ -1,0 +1,456 @@
+                                                                                                                  Filing ID #20030338
+
+                          P                           T                                        R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Josh Gottheimer
+Status:              Member
+State/District: NJ05
+
+
+T
+ID        Owner Asset                                        Transaction Date             Notification Amount                Cap.
+                                                             Type                         Date                               Gains >
+                                                                                                                             $200?
+
+          JT          3M Company Common Stock (MMM) P                       04/05/2025 05/12/2025         $1,001 - $15,000
+                      [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          AbbVie Inc. Common Stock (ABBV)        P              04/03/2025 05/12/2025         $1,001 - $15,000
+                      [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          AbbVie Inc. Common Stock (ABBV)        P              04/01/2025 05/12/2025         $1,001 - $15,000
+                      [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          AbbVie Inc. Common Stock (ABBV)        S              04/17/2025 05/13/2025         $1,001 - $15,000
+                      [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Advanced Energy Industries, Inc. -     S              04/17/2025 05/13/2025         $1,001 - $15,000
+                      Common Stock (AEIS) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Agree Realty Corporation Common        S (partial)    04/09/2025 05/14/2025         $1,001 - $15,000
+                      Stock (ADC) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                   Transaction Date         Notification Amount             Cap.
+                                                   Type                     Date                            Gains >
+                                                                                                            $200?
+
+     JT    Air Products and Chemicals, Inc.        S (partial)   04/09/2025 05/13/2025   $1,001 - $15,000
+           Common Stock (APD) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Alibaba Group Holding Limited           P             04/04/2025 05/12/2025   $1,001 - $15,000
+           American Depositary Shares each
+           representing eight Ordinary share
+           (BABA) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    ALLIANZ SE UNSP/ADR (ALIZY)             S (partial)   04/09/2025 05/13/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Alphabet Inc. - Class C Capital Stock   S (partial)   04/09/2025 05/13/2025   $1,001 - $15,000
+           (GOOG) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Ameris Bancorp - Common Stock           S (partial)   04/09/2025 05/13/2025   $1,001 - $15,000
+           (ABCB) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    AppFolio, Inc. - Class A Common         S (partial)   04/09/2025 05/13/2025   $1,001 - $15,000
+           Stock (APPF) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Apple Inc. - Common Stock (AAPL)        S (partial)   04/09/2025 05/13/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Applovin Corporation - Class A          S             04/16/2025 05/13/2025   $1,001 - $15,000
+           Common Stock (APP) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Applovin Corporation - Class A          S             04/14/2025 05/13/2025   $1,001 - $15,000
+           Common Stock (APP) [ST]
+           F       S    : New
+ID   Owner Asset                                 Transaction Date           Notification Amount             Cap.
+                                                 Type                       Date                            Gains >
+                                                                                                            $200?
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Asbury Automotive Group Inc           S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           Common Stock (ABG) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    ASML Holding N.V. - New York          S               04/17/2025 05/13/2025   $1,001 - $15,000
+           Registry Shares (ASML) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    ATLAS COPCO AB A S/ADR (ATLKY) S (partial)            04/09/2025 05/14/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Balchem Corporation - Common          S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           Stock (BCPC) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Berkshire Hathaway Inc. New           S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           Common Stock (BRK.B) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Berkshire Hathaway Inc. New           S (partial)     04/01/2025 05/14/2025   $1,001 - $15,000
+           Common Stock (BRK.B) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    BHP Group Limited American            S (partial)     04/09/2025 05/14/2025   $1,001 - $15,000
+           Depositary Shares (BHP) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    BlackRock, Inc. Common Stock (BLK) S (partial)        04/01/2025 05/14/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    BlackRock, Inc. Common Stock (BLK) S (partial)        04/09/2025 05/13/2025   $1,001 - $15,000
+           [ST]
+           F       S   : New
+ID   Owner Asset                                 Transaction Date           Notification Amount             Cap.
+                                                 Type                       Date                            Gains >
+                                                                                                            $200?
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Blackstone Inc. Common Stock (BX)     S (partial)     04/14/2025 05/13/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Cadre Holdings, Inc. Common Stock     S               04/17/2025 05/13/2025   $1,001 - $15,000
+           (CDRE) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Cathay General Bancorp - Common       S (partial)     04/09/2025 05/14/2025   $1,001 - $15,000
+           Stock (CATY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    CBIZ, Inc. Common Stock (CBZ) [ST]    S (partial)     04/09/2025 05/14/2025   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Central Garden & Pet Company -        S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           Class A Common Stock Nonvoting
+           (CENTA) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Champion Homes, Inc. Common           S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           Stock (SKY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    ChampionX Corporation (CHX) [ST]      S               04/07/2025 05/14/2025   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Charles Schwab Corporation (SCHW) P                   04/07/2025 05/12/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Cheniere Energy, Inc. Common Stock    P               04/22/2025 05/12/2025   $1,001 - $15,000
+           (LNG) [ST]
+           F       S   : New
+ID   Owner Asset                                 Transaction Date           Notification Amount             Cap.
+                                                 Type                       Date                            Gains >
+                                                                                                            $200?
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Chevron Corporation Common Stock      S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           (CVX) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    CHUGAI PHARM UNSP/ADR                 S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           (CHGCY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Cincinnati Financial Corporation -    S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           Common Stock (CINF) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Cisco Systems, Inc. - Common Stock    S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           (CSCO) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Coca-Cola Company (KO) [ST]           S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Corning Incorporated Common Stock S                   04/09/2025 05/13/2025   $1,001 - $15,000
+           (GLW) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Corning Incorporated Common Stock S                   04/17/2025 05/13/2025   $15,001 -
+           (GLW) [ST]                                                                    $50,000
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Crown Castle Inc. Common Stock        S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           (CCI) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    D.R. Horton, Inc. Common Stock        P               04/21/2025 05/12/2025   $1,001 - $15,000
+           (DHI) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                 Transaction Date           Notification Amount             Cap.
+                                                 Type                       Date                            Gains >
+                                                                                                            $200?
+
+
+     JT    DASSAULT SYSTEMES SA ADR              S (partial)     04/09/2025 05/14/2025   $1,001 - $15,000
+           (DASTY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    DBS GROUP HLDGS LTD S/ADR             S (partial)     04/09/2025 05/14/2025   $1,001 - $15,000
+           (DBSDY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Dominion Energy, Inc. Common          S (partial)     04/09/2025 05/14/2025   $1,001 - $15,000
+           Stock (D) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    DoorDash, Inc. - Common Stock         S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           (DASH) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Eli Lilly and Company Common Stock S (partial)        04/09/2025 05/13/2025   $1,001 - $15,000
+           (LLY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Enerpac Tool Group Corp. Common       S               04/17/2025 05/13/2025   $1,001 - $15,000
+           Stock (EPAC) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Fastenal Company - Common Stock       S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           (FAST) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Fidelity National Information         S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           Services, Inc. Common Stock (FIS)
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Fiserv, Inc. Common Stock (FI) [ST]   P               04/04/2025 05/12/2025   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                 Transaction Date           Notification Amount             Cap.
+                                                 Type                       Date                            Gains >
+                                                                                                            $200?
+
+
+     JT    Fomento Economico Mexicano S.A.B. S (partial)         04/09/2025 05/14/2025   $1,001 - $15,000
+           de C.V. Common Stock (FMX) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Globus Medical, Inc. Class A Common S (partial)       04/09/2025 05/13/2025   $1,001 - $15,000
+           Stock (GMED) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Haleon plc American Depositary        S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           Shares (HLN) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    HDFC Bank Limited Common Stock        S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           (HDB) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Hillman Solutions Corp. - Common      S               04/17/2025 05/13/2025   $1,001 - $15,000
+           Stock (HLMN) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Home Depot, Inc. (HD) [ST]            P               04/21/2025 05/12/2025   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Horace Mann Educators Corporation     S (partial)     04/09/2025 05/14/2025   $1,001 - $15,000
+           Common Stock (HMN) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Houlihan Lokey, Inc. Class A          S (partial)     04/09/2025 05/13/2025   $1,001 - $15,000
+           Common Stock (HLI) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    IDACORP, Inc. Common Stock (IDA)      S (partial)     04/09/2025 05/14/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                  Transaction Date          Notification Amount             Cap.
+                                                  Type                      Date                            Gains >
+                                                                                                            $200?
+
+     JT    Insmed Incorporated - Common           S (partial)    04/09/2025 05/14/2025   $1,001 - $15,000
+           Stock (INSM) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Intapp, Inc. - Common Stock (INTA)     S (partial)    04/09/2025 05/13/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Intra-Cellular Therapies Inc. (ITCI)   S              04/03/2025 05/14/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Intuitive Surgical, Inc. - Common      S (partial)    04/09/2025 05/13/2025   $1,001 - $15,000
+           Stock (ISRG) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Johnson & Johnson Common Stock         S (partial)    04/09/2025 05/13/2025   $1,001 - $15,000
+           (JNJ) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    KKR & Co. Inc. Common Stock (KKR) S (partial)         04/21/2025 05/12/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    KKR & Co. Inc. Common Stock (KKR) S (partial)         04/14/2025 05/13/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    L'Oreal Co. American Depositary        S (partial)    04/09/2025 05/13/2025   $1,001 - $15,000
+           Shares (LRLCY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Lowe's Companies, Inc. Common          S (partial)    04/09/2025 05/13/2025   $1,001 - $15,000
+           Stock (LOW) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                  Transaction Date               Notification Amount           Cap.
+                                                  Type                           Date                          Gains >
+                                                                                                               $200?
+     JT    MACOM Technology Solutions             S (partial)      04/09/2025 05/1

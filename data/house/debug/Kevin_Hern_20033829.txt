@@ -1,0 +1,42 @@
+                                                                                                                              Filing ID #20033829
+
+                           P                               T                                             R
+               Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F          I
+Name:                 Hon. Kevin Hern
+Status:               Member
+State/District: OK01
+
+
+T
+ID         Owner Asset                                            Transaction Date                 Notification Amount                 Cap.
+                                                                  Type                             Date                                Gains >
+                                                                                                                                       $200?
+
+           JT          UnitedHealth Group Incorporated            S                 12/23/2025 12/24/2025             $250,001 -
+                       Common Stock (UNH) [ST]                                                                        $500,000
+                       F      S      : New
+                       S            O : Hern Family Revocable Trust
+                       D           : sell to close
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                      V               D
+     Hern Family Revocable Trust (100% Interest) (Owner: JT)
+     D          : Family Revocable Trust
+
+
+
+I               P           O
+     Yes        No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Kevin Hern , 01/22/2026
+

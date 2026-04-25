@@ -1,0 +1,263 @@
+                                                                                                                   Filing ID #20024461
+
+                          P                              T                                     R
+              Clerk of the House of Representatives • Legislative Resource Center • 135 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Josh Gottheimer
+Status:              Member
+State/District: NJ05
+
+
+T
+ID        Owner Asset                                        Transaction Date              Notification Amount               Cap.
+                                                             Type                          Date                              Gains >
+                                                                                                                             $200?
+
+          JT          Advanced Micro Devices, Inc. (AMD)     P                  01/24/2024 02/07/2024     $1,001 - $15,000
+                      [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Agios Pharmaceuticals, Inc. -          P                  01/24/2024 02/07/2024     $1,001 - $15,000
+                      Common Stock (AGIO) [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Air Products and Chemicals, Inc.       P                  01/18/2024 02/07/2024     $1,001 - $15,000
+                      Common Stock (APD) [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Allegro MicroSystems, Inc. - Common P                     01/11/2024 02/07/2024     $1,001 - $15,000
+                      Stock (ALGM) [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Alnylam Pharmaceuticals, Inc. -        P                  01/11/2024 02/07/2024     $1,001 - $15,000
+                      Common Stock (ALNY) [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Alnylam Pharmaceuticals, Inc. -        S                  01/29/2024 02/07/2024     $1,001 - $15,000
+                      Common Stock (ALNY) [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                  Transaction Date              Notification Amount             Cap.
+                                                  Type                          Date                            Gains >
+                                                                                                                $200?
+
+     JT    Amphenol Corporation Common            S (partial)        01/25/2024 02/07/2024   $1,001 - $15,000
+           Stock (APH) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Apple Inc. - Common Stock (AAPL)       S (partial)        01/18/2024 02/07/2024   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Asbury Automotive Group Inc            P                  01/24/2024 02/07/2024   $1,001 - $15,000
+           Common Stock (ABG) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Charles Schwab Corporation (SCHW)      P                  01/12/2024 02/07/2024   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Chart Industries, Inc. (GTLS) [ST]     P                  01/11/2024 02/07/2024   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Chord Energy Corporation - Common P                       01/24/2024 02/07/2024   $1,001 - $15,000
+           Stock (CHRD) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Credicorp Ltd. Common Stock (BAP)      P                  01/11/2024 02/07/2024   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    EEN ENERGY HLDGS UNSP/ADR              P                  01/11/2024 02/07/2024   $1,001 - $15,000
+           (XNGSY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Grand Canyon Education, Inc. -         S (partial)        01/09/2024 02/07/2024   $1,001 - $15,000
+           Common Stock (LOPE) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                  Transaction Date              Notification Amount             Cap.
+                                                  Type                          Date                            Gains >
+                                                                                                                $200?
+     JT    HAIER SMART HOME U/ADR                 P                  01/11/2024 02/07/2024   $1,001 - $15,000
+           (HSHCY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Helen of Troy Limited - Common         P                  01/11/2024 02/07/2024   $1,001 - $15,000
+           Stock (HELE) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Intuitive Surgical, Inc. - Common      P                  01/29/2024 02/07/2024   $1,001 - $15,000
+           Stock (ISRG) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Lam Research Corporation - Common P                       01/25/2024 02/07/2024   $1,001 - $15,000
+           Stock (LRCX) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Lithia Motors, Inc. Common Stock       S                  01/24/2024 02/07/2024   $1,001 - $15,000
+           (LAD) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Lowe's Companies, Inc. Common          S (partial)        01/24/2024 02/07/2024   $1,001 - $15,000
+           Stock (LOW) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Medpace Holdings, Inc. - Common        S (partial)        01/24/2024 02/07/2024   $1,001 - $15,000
+           Stock (MEDP) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Microsoft Corporation - Common         S (partial)        01/18/2024 02/07/2024   $1,001 - $15,000
+           Stock (MSFT) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    NITORI HOLDINGS CO U/ADR               S                  01/11/2024 02/07/2024   $1,001 - $15,000
+           (NCLTY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                  Transaction Date              Notification Amount             Cap.
+                                                  Type                          Date                            Gains >
+                                                                                                                $200?
+     JT    OceanFirst Financial Corp. - Common P                     01/11/2024 02/07/2024   $1,001 - $15,000
+           Stock (OCFC) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    ON Semiconductor Corporation -         P                  01/11/2024 02/07/2024   $1,001 - $15,000
+           Common Stock (ON) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    ON Semiconductor Corporation -         S                  01/25/2024 02/07/2024   $1,001 - $15,000
+           Common Stock (ON) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Patterson-UTI Energy, Inc. - Common P                     01/11/2024 02/07/2024   $1,001 - $15,000
+           Stock (PTEN) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Paycor HCM, Inc. - Common Stock        P                  01/11/2024 02/07/2024   $1,001 - $15,000
+           (PYCR) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    PING AN INS CO OF CHINA                P                  01/11/2024 02/07/2024   $1,001 - $15,000
+           (PNGAY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    ServiceNow, Inc. Common Stock          P                  01/25/2024 02/07/2024   $1,001 - $15,000
+           (NOW) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Shiseido Co Ltd Ord American           P                  01/11/2024 02/07/2024   $1,001 - $15,000
+           Depositary Shares (SSDOY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Shoals Technologies Group, Inc. -      P                  01/11/2024 02/07/2024   $1,001 - $15,000
+           Class A Common Stock (SHLS) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+ID         Owner Asset                                            Transaction Date                  Notification Amount                  Cap.
+                                                                  Type                              Date                                 Gains >
+                                                                                                                                         $200?
+           JT         SPX Technologies, Inc. Common               S (partial)       01/04/2024 02/07/2024             $1,001 - $15,000
+                      Stock (SPXC) [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Taiwan Semiconductor Manufacturing P                          01/18/2024 02/07/2024             $1,001 - $15,000
+                      Company Ltd. (TSM) [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Tesla, Inc. - Common Stock (TSLA)           S (partial)       01/25/2024 02/07/2024             $1,001 - $15,000
+                      [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Tri Pointe Homes, Inc. Common Stock P                         01/24/2024 02/07/2024             $1,001 - $15,000
+                      (TPH) [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V                D
+
+     Morgan Stanley - Select UMA Account # 1 (Owner: JT)
+     L       : US
+
+
+
+I            P             O
+     Yes     No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Josh Gottheimer , 02/15/2024
+

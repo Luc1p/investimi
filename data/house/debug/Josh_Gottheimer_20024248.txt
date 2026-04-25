@@ -1,0 +1,296 @@
+                                                                                                                   Filing ID #20024248
+
+                          P                            T                                         R
+              Clerk of the House of Representatives • Legislative Resource Center • 135 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Josh Gottheimer
+Status:              Member
+State/District: NJ05
+
+
+T
+ID        Owner Asset                                         Transaction Date               Notification Amount             Cap.
+                                                              Type                           Date                            Gains >
+                                                                                                                             $200?
+
+          JT          Advanced Micro Devices, Inc. (AMD)      S (partial)       12/20/2023 01/04/2024     $1,001 - $15,000
+                      [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Allegro MicroSystems, Inc. (ALGM)       S (partial)       12/11/2023   01/04/2024   $1,001 - $15,000
+                      [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Alnylam Pharmaceuticals, Inc.           S                 12/11/2023   01/04/2024   $1,001 - $15,000
+                      (ALNY) [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Alphabet Inc. - Class C Capital Stock   S (partial)       12/01/2023 01/04/2024     $1,001 - $15,000
+                      (GOOG) [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          BioNTech SE - American Depositary       P                 12/06/2023 01/04/2024     $1,001 - $15,000
+                      Shares (BNTX) [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          BioNTech SE - American Depositary       P                 12/05/2023 01/04/2024     $1,001 - $15,000
+                      Shares (BNTX) [ST]
+                      F     S      : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                  Transaction Date                Notification Amount             Cap.
+                                                  Type                            Date                            Gains >
+                                                                                                                  $200?
+
+     JT    BioNTech SE - American Depositary      P                  12/07/2023 01/04/2024     $1,001 - $15,000
+           Shares (BNTX) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Celsius Holdings, Inc. (CELH) [ST]     P                  12/04/2023 01/04/2024     $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Chart Industries, Inc. (GTLS) [ST]     S (partial)        12/11/2023   01/04/2024   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    ConocoPhillips (COP) [ST]              S (partial)        12/20/2023 01/04/2024     $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Credicorp Ltd. (BAP) [ST]              S                  12/11/2023   01/04/2024   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    D.R. Horton, Inc. (DHI) [ST]           P                  12/11/2023   01/04/2024   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Dbs Group Holdings Ltd Ord         P                      12/21/2023 01/04/2024     $1,001 - $15,000
+           American Depositary Shares (DBSDY)
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Edwards Lifesciences Corporation       P                  12/11/2023   01/04/2024   $1,001 - $15,000
+           (EW) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    ENN Energy Holdings Ltd                S                  12/11/2023   01/04/2024   $1,001 - $15,000
+           Unsponsored ADR (XNGSY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Fanuc Corporation Unsponsored ADR S                       12/06/2023 01/04/2024     $1,001 - $15,000
+           (FANUY) [ST]
+ID   Owner Asset                                  Transaction Date                Notification Amount             Cap.
+                                                  Type                            Date                            Gains >
+                                                                                                                  $200?
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Grand Canyon Education, Inc. (LOPE) S (partial)           12/20/2023 01/04/2024     $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    HAIER SMART HOME U/ADR                 S                  12/11/2023   01/04/2024   $1,001 - $15,000
+           (HSHCY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Helen of Troy Limited (HELE) [ST]      S (partial)        12/11/2023   01/04/2024   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Houlihan Lokey, Inc. Class A (HLI)     S (partial)        12/20/2023 01/04/2024     $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Intapp, Inc. (INTA) [ST]               P                  12/20/2023 01/04/2024     $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Kering Unsponsored ADR (PPRUY)         S                  12/05/2023 01/04/2024     $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Lonza Group Ag Zuerich Unsponsored S (partial)            12/05/2023 01/04/2024     $1,001 - $15,000
+           ADR (LZAGY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Lonza Group Ag Zuerich Unsponsored S                      12/21/2023 01/04/2024     $1,001 - $15,000
+           ADR (LZAGY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Lowe's Companies, Inc. (LOW) [ST]      S (partial)        12/11/2023   01/04/2024   $1,001 - $15,000
+
+           F       S    : New
+ID   Owner Asset                                  Transaction Date                Notification Amount             Cap.
+                                                  Type                            Date                            Gains >
+                                                                                                                  $200?
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Mastercard Incorporated (MA) [ST]      S (partial)        12/20/2023 01/04/2024     $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Monster Beverage Corporation           S (partial)        12/04/2023 01/04/2024     $1,001 - $15,000
+           (MNST) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Northrop Grumman Corporation           P                  12/29/2023 01/04/2024     $15,001 -
+           (NOC) [ST]                                                                          $50,000
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    OceanFirst Financial Corp. (OCFC)      S (partial)        12/11/2023   01/04/2024   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    ON Semiconductor Corporation (ON)      S                  12/11/2023   01/04/2024   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Oracle Corporation (ORCL) [ST]         S (partial)        12/14/2023 01/04/2024     $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Patterson-UTI Energy, Inc. (PTEN)      S (partial)        12/11/2023   01/04/2024   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Paycor HCM, Inc. (PYCR) [ST]           S (partial)        12/11/2023   01/04/2024   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Ping An Insurance (PNGAY) [ST]         S                  12/11/2023   01/04/2024   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+ID         Owner Asset                                            Transaction Date                  Notification Amount                  Cap.
+                                                                  Type                              Date                                 Gains >
+                                                                                                                                         $200?
+           JT         Salesforce, Inc. (CRM) [ST]                 P                 12/01/2023 01/04/2024             $1,001 - $15,000
+
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Schneider Electric SE Unsponsored           S (partial)       12/05/2023 01/04/2024             $1,001 - $15,000
+                      ADR (SBGSY) [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Shiseido Co Ltd Ord American                S                 12/11/2023      01/04/2024        $1,001 - $15,000
+                      Depositary Shares (SSDOY) [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Shoals Technologies Group, Inc. -           S                 12/11/2023      01/04/2024        $1,001 - $15,000
+                      Class A (SHLS) [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Sony Group Corporation American             P                 12/06/2023 01/04/2024             $1,001 - $15,000
+                      Depositary Shares (SONY) [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         The Vita Coco Company, Inc. (COCO)          P                 12/01/2023 01/04/2024             $1,001 - $15,000
+                      [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Tri Pointe Homes, Inc. (TPH) [ST]           P                 12/20/2023 01/04/2024             $1,001 - $15,000
+
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         UMB Financial Corporation (UMBF)            P                 12/20/2023 01/04/2024             $1,001 - $15,000
+                      [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+A         C           D
+
+     Morgan Stanley - Select UMA Account # 1 (Owner: JT)
+     L       : US
+I           P            O
+    Yes     No
+
+
+C                               S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Josh Gottheimer , 01/07/2024
+

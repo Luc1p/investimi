@@ -1,0 +1,47 @@
+                                                                                                                                  Filing ID #20030544
+
+                           P                               T                                             R
+               Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F          I
+Name:                 Hon. Pete Sessions
+Status:               Member
+State/District: TX17
+
+
+T
+ID         Owner Asset                                            Transaction Date                 Notification Amount                     Cap.
+                                                                  Type                             Date                                    Gains >
+                                                                                                                                           $200?
+
+           SP          Danaher Corporation Common Stock           S                 06/12/2025 06/21/2025             $50,001 -
+                       (DHR) [ST]                                                                                     $100,000
+                       F      S      : New
+                       S            O : Trust One
+
+
+           SP          Johnson & Johnson Common Stock             S                 06/12/2025 06/21/2025             $15,001 -
+                       (JNJ) [ST]                                                                                     $50,000
+                       F      S      : New
+                       S            O : Trust One
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                      V               D
+
+     Trust One (100% Interest) (Owner: SP)
+
+
+
+I               P           O
+     Yes        No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Pete Sessions , 06/21/2025
+

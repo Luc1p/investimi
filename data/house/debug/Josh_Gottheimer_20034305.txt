@@ -1,0 +1,155 @@
+                                                                                                                   Filing ID #20034305
+
+                          P                              T                                     R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Josh Gottheimer
+Status:              Member
+State/District: NJ05
+
+
+T
+ID        Owner Asset                                        Transaction Date             Notification Amount                Cap.
+                                                             Type                         Date                               Gains >
+                                                                                                                             $200?
+
+          JT          Air Products and Chemicals, Inc.       P              03/05/2026 04/07/2026        $1,001 - $15,000
+                      Common Stock (APD) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Alcon Inc. Ordinary Shares (ALC)       S              03/12/2026 04/07/2026        $1,001 - $15,000
+                      [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          CBIZ, Inc. Common Stock (CBZ) [ST] S                  03/05/2026 04/07/2026        $1,001 - $15,000
+
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Columbia Banking System, Inc. -        S              03/05/2026 04/07/2026        $1,001 - $15,000
+                      Common Stock (COLB) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Crown Castle Inc. Common Stock         S (partial)    03/24/2026 04/07/2026        $1,001 - $15,000
+                      (CCI) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          EEN ENERGY HLDGS UNSP/ADR              S (partial)    03/24/2026 04/07/2026        $1,001 - $15,000
+                      (XNGSY) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                  Transaction Date              Notification Amount           Cap.
+                                                  Type                          Date                          Gains >
+                                                                                                              $200?
+     JT    Fabrinet Ordinary Shares (FN) [ST]     P               03/24/2026 04/07/2026    $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    First Watch Restaurant Group, Inc. -   S               03/05/2026 04/07/2026    $1,001 - $15,000
+           Common Stock (FWRG) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    HDFC Bank Limited Common Stock         S (partial)     03/12/2026 04/07/2026    $1,001 - $15,000
+           (HDB) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Infineon Technologies AG (IFNNY)       S               03/12/2026 04/07/2026    $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Intapp, Inc. - Common Stock (INTA)     S               03/12/2026 04/07/2026    $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    La-Z-Boy Incorporated Common           S               03/12/2026 04/07/2026    $1,001 - $15,000
+           Stock (LZB) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Microsoft Corporation - Common         P               03/25/2026 04/07/2026    $50,001 -
+           Stock (MSFT) [OP]                                                               $100,000
+           F       S     : New
+           S            O : Morgan Stanley - Portfolio Management Active Assets Account
+           D           : Call options; Strike price $325; Expires 06/18/2026
+
+
+     JT    Microsoft Corporation - Common         P               03/25/2026 04/07/2026    $500,001 -
+           Stock (MSFT) [OP]                                                               $1,000,000
+           F       S     : New
+           S            O : Morgan Stanley - Portfolio Management Active Assets Account
+           D           : Call options; Strike price $320; Expires 06/18/2026
+
+
+     JT    NetEase, Inc. - American Depositary    S (partial)     03/05/2026 04/07/2026    $1,001 - $15,000
+           Shares, each representing 5 ordinary
+           shares (NTES) [ST]
+           F       S    : New
+ID         Owner Asset                                            Transaction Date                 Notification Amount                   Cap.
+                                                                  Type                             Date                                  Gains >
+                                                                                                                                         $200?
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Phreesia, Inc. Common Stock (PHR)           S                 03/05/2026 04/07/2026             $1,001 - $15,000
+                      [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Sea Limited American Depositary       P                       03/10/2026 04/07/2026             $1,001 - $15,000
+                      Shares, each representing one Class A
+                      Ordinary Share (SE) [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         ServiceNow, Inc. Common Stock               P                 03/06/2026 04/07/2026             $1,001 - $15,000
+                      (NOW) [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V                D
+
+     Morgan Stanley - Portfolio Management Active Assets Account (Owner: JT)
+     L       : US
+
+     Morgan Stanley - Select UMA Account # 1 (Owner: JT)
+     L       : US
+
+
+
+I            P             O
+     Yes     No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Josh Gottheimer , 04/08/2026
+

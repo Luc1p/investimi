@@ -1,0 +1,135 @@
+                                                                                                                   Filing ID #20034130
+
+                          P                             T                                      R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Josh Gottheimer
+Status:              Member
+State/District: NJ05
+
+
+T
+ID        Owner Asset                                       Transaction Date              Notification Amount                Cap.
+                                                            Type                          Date                               Gains >
+                                                                                                                             $200?
+
+          JT          Carvana Co. Class A Common Stock      S (partial)     02/18/2026 03/05/2026         $1,001 - $15,000
+                      (CVNA) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Cloudflare, Inc. Class A Common       S               02/04/2026 03/05/2026         $1,001 - $15,000
+                      Stock (NET) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Cummins Inc. Common Stock (CMI)       P               02/05/2026 03/05/2026         $1,001 - $15,000
+                      [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Exxon Mobil Corporation Common        P               02/04/2026 03/05/2026         $1,001 - $15,000
+                      Stock (XOM) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Exxon Mobil Corporation Common        P               02/02/2026 03/05/2026         $1,001 - $15,000
+                      Stock (XOM) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Fair Isaac Corporation Common         S               02/04/2026 03/05/2026         $1,001 - $15,000
+                      Stock (FICO) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                 Transaction Date           Notification Amount             Cap.
+                                                 Type                       Date                            Gains >
+                                                                                                            $200?
+
+     JT    Federal Signal Corporation Common     P               02/26/2026 03/05/2026   $1,001 - $15,000
+           Stock (FSS) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    GE Vernova Inc. Common Stock          P               02/05/2026 03/05/2026   $1,001 - $15,000
+           (GEV) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Infineon Technologies AG (IFNNY)      P               02/27/2026 03/05/2026   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Intuit Inc. - Common Stock (INTU)     S (partial)     02/20/2026 03/05/2026   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Merck & Company, Inc. Common          P               02/04/2026 03/05/2026   $1,001 - $15,000
+           Stock (MRK) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Microsoft Corporation - Common        S (partial)     02/02/2026 03/05/2026   $1,001 - $15,000
+           Stock (MSFT) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Monster Beverage Corporation -        P               02/02/2026 03/05/2026   $1,001 - $15,000
+           Common Stock (MNST) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Palo Alto Networks, Inc. (PANW)       S               02/27/2026 03/05/2026   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    UnitedHealth Group Incorporated       P               02/05/2026 03/05/2026   $1,001 - $15,000
+           Common Stock (UNH) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+ID         Owner Asset                                            Transaction Date                  Notification Amount                  Cap.
+                                                                  Type                              Date                                 Gains >
+                                                                                                                                         $200?
+           JT         Visa Inc. (V) [ST]                          S (partial)       02/18/2026 03/05/2026             $1,001 - $15,000
+
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V                D
+
+     Morgan Stanley - Select UMA Account # 1 (Owner: JT)
+     L       : US
+
+
+
+I            P             O
+     Yes     No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Josh Gottheimer , 03/16/2026
+

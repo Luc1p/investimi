@@ -1,0 +1,50 @@
+                                                                                                                              Filing ID #20025588
+
+                           P                               T                                             R
+               Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F          I
+Name:                 Hon. Virginia Foxx
+Status:               Member
+State/District: NC05
+
+
+T
+ID         Owner Asset                                            Transaction Date                 Notification Amount                   Cap.
+                                                                  Type                             Date                                  Gains >
+                                                                                                                                         $200?
+
+                       Ardmore Shipping Corporation               P                 07/08/2024 08/05/2024             $1,001 - $15,000
+                       Common Stock (ASC) [ST]
+                       F      S      : New
+
+
+                       Ardmore Shipping Corporation               P                 07/09/2024 08/05/2024             $1,001 - $15,000
+                       Common Stock (ASC) [ST]
+                       F      S      : New
+
+
+                       Ardmore Shipping Corporation               P                 07/11/2024 08/05/2024             $1,001 - $15,000
+                       Common Stock (ASC) [ST]
+                       F      S      : New
+
+
+                       Ellington Financial Inc. 7.00% Series      P                 07/01/2024 08/05/2024             $1,001 - $15,000
+                       D Cumulative Perpetual Redeemable
+                       Preferred Stock (EFC$D) [ST]
+                       F      S      : New
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I               P           O
+     Yes        No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Virginia Foxx , 08/06/2024
+

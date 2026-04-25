@@ -1,0 +1,104 @@
+                                                                                                                   Filing ID #20026597
+
+                          P                              T                                      R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Kevin Hern
+Status:              Member
+State/District: OK01
+
+
+T
+ID        Owner Asset                                           Transaction Date            Notification Amount              Cap.
+                                                                Type                        Date                             Gains >
+                                                                                                                             $200?
+
+          JT          AGCO Corporation Common Stock             S                12/31/2024 01/02/2025   $50,001 -
+                      (AGCO) [ST]                                                                        $100,000
+                      F      S      : New
+                      S            O : Hern Family Revocable Trust > Brokerage Investment Account
+                      D           : sell to close
+
+
+          JT          Citigroup MTN 9/1/2026 [CS]               S                12/03/2024 12/04/2024   $500,001 -
+                                                                                                         $1,000,000
+                      F      S      : New
+                      S            O : Hern Family Foundation
+                      D           : Note Called by the issuer. position closed
+
+
+          JT          Devon Energy Corporation Common           S (partial)      12/31/2024 01/02/2025   $250,001 -
+                      Stock (DVN) [ST]                                                                   $500,000
+                      F      S      : New
+                      S            O : Hern Family Revocable Trust > Brokerage Investment Account
+                      D           : Rebalance position toward original allocation
+
+
+          JT          DexCom, Inc. - Common Stock               S                12/31/2024 01/02/2025   $50,001 -
+                      (DXCM) [ST]                                                                        $100,000
+                      F      S      : New
+                      S            O : Hern Family Revocable Trust > Brokerage Investment Account
+                      D           : sell to close
+
+
+          JT          Estee Lauder Companies, Inc. (EL)         S                12/31/2024 01/02/2025   $15,001 - $50,000
+                      [ST]
+                      F      S      : New
+                      S            O : Hern Family Revocable Trust > Brokerage Investment Account
+                      D           : sell to close
+ID         Owner Asset                                            Transaction Date                 Notification Amount                  Cap.
+                                                                  Type                             Date                                 Gains >
+                                                                                                                                        $200?
+           JT         Exxon Mobil Corporation Common              P                 12/10/2024 12/11/2024            $1,001 - $15,000
+                      Stock (XOM) [ST]
+                     F       S       : New
+                     S              O : Hern Family Foundation
+                     D             : Dividend Reinvestment
+
+
+           JT         Home Depot, Inc. (HD) [ST]                  P                 12/12/2024 12/13/2024            $1,001 - $15,000
+
+                     F       S       : New
+                     S              O : Hern Family Foundation
+                     D             : Dividend Reinvestment
+
+
+           JT         Intel Corporation - Common Stock            S                 12/31/2024 01/02/2025            $50,001 -
+                      (INTC) [ST]                                                                                    $100,000
+                     F       S       : New
+                     S              O : Hern Family Revocable Trust > Brokerage Investment Account
+                     D             : sell to close
+
+
+           JT         Johnson & Johnson Common Stock              S                 12/31/2024 01/02/2025            $100,001 -
+                      (JNJ) [ST]                                                                                     $250,000
+                     F       S       : New
+                     S              O : Hern Family Revocable Trust > Brokerage Investment Account
+                     D             : sell to close
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V                D
+     Hern Family Foundation (100% Interest) (Owner: JT)
+
+     Hern Family Revocable Trust (100% Interest) (Owner: JT)
+     D          : Family Revocable Trust
+     Hern Family Revocable Trust ⇒ Brokerage Investment Account (100% Interest) (Owner: JT)
+     L       : US
+     D          : Stock, Bonds, EFTs, & Mutual funds
+
+
+
+I            P             O
+     Yes     No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Kevin Hern , 01/15/2025
+

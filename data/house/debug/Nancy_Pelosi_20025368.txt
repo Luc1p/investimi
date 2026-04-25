@@ -1,0 +1,52 @@
+                                                                                                                              Filing ID #20025368
+
+                           P                               T                                             R
+               Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F          I
+Name:                 Hon. Nancy Pelosi
+Status:               Member
+State/District: CA11
+
+
+T
+ID         Owner Asset                                            Transaction Date                 Notification Amount                 Cap.
+                                                                  Type                             Date                                Gains >
+                                                                                                                                       $200?
+
+           SP          Broadcom Inc. - Common Stock               P                 06/24/2024 06/24/2024            $1,000,001 -
+                       (AVGO) [OP]                                                                                   $5,000,000
+                       F      S      : New
+                       D           : Purchased 20 call options with a strike price of $800 and an expiration date of 6/20/25.
+
+
+           SP          NVIDIA Corporation - Common                P                 06/26/2024 06/26/2024            $1,000,001 -
+                       Stock (NVDA) [ST]                                                                             $5,000,000
+                       F      S      : New
+                       D           : Purchased 10,000 shares.
+
+
+           SP          Tesla, Inc. - Common Stock (TSLA)          S                 06/24/2024 06/24/2024            $250,001 -
+                       [ST]                                                                                          $500,000
+                       F      S      : New
+                       D           : Sold 2,500 shares.
+
+
+           SP          Visa Inc. (V) [ST]                         S (partial)       07/01/2024 07/01/2024            $500,001 -
+                                                                                                                     $1,000,000
+                       F      S      : New
+                       D           : Sold 2,000 shares.
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I               P           O
+     Yes        No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+Digitally Signed: Hon. Nancy Pelosi , 07/02/2024
+

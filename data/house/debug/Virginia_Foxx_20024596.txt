@@ -1,0 +1,120 @@
+                                                                                                                   Filing ID #20024596
+
+                          P                           T                                        R
+              Clerk of the House of Representatives • Legislative Resource Center • 135 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Virginia Foxx
+Status:              Member
+State/District: NC05
+
+
+T
+ID        Owner Asset                                       Transaction Date              Notification Amount                Cap.
+                                                            Type                          Date                               Gains >
+                                                                                                                             $200?
+
+          JT          Alliance Resource Partners, L.P. - P                  02/23/2024 03/02/2024         $1,001 - $15,000
+                      Common Units Representing Limited
+                      Partnership Interests (ARLP) [ST]
+                      F     S      : New
+
+
+          JT          Alliance Resource Partners, L.P. - P                  02/26/2024 03/02/2024         $1,001 - $15,000
+                      Common Units Representing Limited
+                      Partnership Interests (ARLP) [ST]
+                      F     S      : New
+
+
+          JT          Alliance Resource Partners, L.P. - P                  02/15/2024 03/02/2024         $1,001 - $15,000
+                      Common Units Representing Limited
+                      Partnership Interests (ARLP) [ST]
+                      F     S      : New
+
+
+          JT          Ardmore Shipping Corporation          P               02/05/2024 03/02/2024         $1,001 - $15,000
+                      Common Stock (ASC) [ST]
+                      F     S      : New
+
+
+          JT          Ardmore Shipping Corporation          P               02/15/2024 03/02/2024         $1,001 - $15,000
+                      Common Stock (ASC) [ST]
+                      F     S      : New
+
+
+          JT          Ardmore Shipping Corporation          P               02/23/2024 03/02/2024         $1,001 - $15,000
+                      Common Stock (ASC) [ST]
+                      F     S      : New
+
+
+          JT          Ardmore Shipping Corporation          P               02/27/2024 03/02/2024         $1,001 - $15,000
+                      Common Stock (ASC) [ST]
+                      F     S      : New
+ID         Owner Asset                                            Transaction Date                  Notification Amount                  Cap.
+                                                                  Type                              Date                                 Gains >
+                                                                                                                                         $200?
+
+
+           JT         AT&T Inc. Depositary Shares, each           P                 02/02/2024 03/02/2024             $1,001 - $15,000
+                      representing a 1/1,000th interest in a
+                      share of 5.000% Perpetual Preferred
+                      Stock, Series A (T$A) [ST]
+                     F       S       : New
+
+
+           JT         Duke Energy Corporation Depositary S                          02/28/2024 03/02/2024             $50,001 -
+                      Shares, each representing a 1/1,000th                                                           $100,000
+                      interest in a share of 5.75% Series A
+                      Cumulative Redeemable Perpetual
+                      Preferred Stock (DUK$A) [ST]
+                     F       S       : New
+
+
+           JT         Energy Transfer LP Common Units             P                 02/21/2024 03/02/2024             $1,001 - $15,000
+                      (ET) [ST]
+                     F       S       : New
+
+
+           JT         FLEX LNG Ltd. Ordinary Shares               P                 02/02/2024 03/02/2024             $1,001 - $15,000
+                      (FLNG) [ST]
+                     F       S       : New
+
+
+           JT         FLEX LNG Ltd. Ordinary Shares               P                 02/07/2024 02/07/2024             $1,001 - $15,000
+                      (FLNG) [ST]
+                     F       S       : New
+
+
+           JT         FLEX LNG Ltd. Ordinary Shares               P                 02/09/2024 03/02/2024             $1,001 - $15,000
+                      (FLNG) [ST]
+                     F       S       : New
+
+
+           JT         FLEX LNG Ltd. Ordinary Shares               P                 02/23/2024 03/02/2024             $1,001 - $15,000
+                      (FLNG) [ST]
+                     F       S       : New
+
+
+           JT         FLEX LNG Ltd. Ordinary Shares               P                 02/26/2024 03/02/2024             $1,001 - $15,000
+                      (FLNG) [ST]
+                     F       S       : New
+
+
+           JT         Hercules Capital, Inc. Common Stock P                         02/01/2024 03/02/2024             $1,001 - $15,000
+                      (HTGC) [ST]
+                     F       S       : New
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I            P             O
+    Yes     No
+
+
+C                               S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Virginia Foxx , 03/07/2024
+

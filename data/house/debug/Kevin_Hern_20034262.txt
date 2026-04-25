@@ -1,0 +1,140 @@
+                                                                                                                   Filing ID #20034262
+
+                          P                            T                                       R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Kevin Hern
+Status:              Member
+State/District: OK01
+
+
+T
+ID        Owner Asset                                        Transaction Date             Notification Amount                Cap.
+                                                             Type                         Date                               Gains >
+                                                                                                                             $200?
+
+          JT          Accenture plc Class A Ordinary         S              03/16/2026 03/31/2026        $250,001 -
+                      Shares (ACN) [ST]                                                                  $500,000
+                      F      S     : New
+                      S           O : Hern Family Revocable Trust
+
+
+          JT          Becton, Dickinson and Company          S              03/17/2026 03/31/2026        $15,001 - $50,000
+                      Common Stock (BDX) [ST]
+                      F      S     : New
+                      S           O : Hern Family Revocable Trust
+
+
+          JT          Blackrock MuniAssets Fund, Inc         S              03/17/2026 03/31/2026        $50,001 -
+                      Common Stock (MUA) [ST]                                                            $100,000
+                      F      S     : New
+                      S           O : Hern Family Revocable Trust
+
+
+          JT          Cognizant Technology Solutions     S                  03/17/2026 03/31/2026        $15,001 - $50,000
+                      Corporation - Class A Common Stock
+                      (CTSH) [ST]
+                      F      S     : New
+                      S           O : Hern Family Revocable Trust
+
+
+          JT          Comcast Corporation - Class A          S              03/17/2026 03/31/2026        $15,001 - $50,000
+                      Common Stock (CMCSA) [ST]
+                      F      S     : New
+                      S           O : Hern Family Revocable Trust
+
+
+          DC          Exact Sciences Corporation -           S              03/24/2026 03/31/2026        $1,001 - $15,000
+                      Common Stock (EXAS) [ST]
+                      F      S     : New
+                      S           O : Gabrielle Ashtyn Hern Trust
+ID   Owner Asset                                 Transaction Date      Notification Amount              Cap.
+                                                 Type                  Date                             Gains >
+                                                                                                        $200?
+
+
+     JT    ICON plc - Ordinary Shares (ICLR)     S          03/05/2026 03/31/2026   $100,001 -
+           [ST]                                                                     $250,000
+           F       S    : New
+           S           O : Hern Family Revocable Trust
+
+
+     JT    Invesco Ltd Common Stock (IVZ)        S          03/17/2026 03/31/2026   $15,001 - $50,000
+           [ST]
+           F       S    : New
+           S           O : Hern Family Revocable Trust
+
+
+     JT    IQVIA Holdings, Inc. Common Stock     S          03/16/2026 03/31/2026   $50,001 -
+           (IQV) [ST]                                                               $100,000
+           F       S    : New
+           S           O : Hern Family Revocable Trust
+
+
+     JT    Kenvue Inc. Common Stock (KVUE)       S          03/17/2026 03/31/2026   $15,001 - $50,000
+           [ST]
+           F       S    : New
+           S           O : Hern Family Revocable Trust
+
+
+     JT    Medtronic plc. Ordinary Shares        S          03/20/2026 03/31/2026   $15,001 - $50,000
+           (MDT) [ST]
+           F       S    : New
+           S           O : Hern Family Revocable Trust
+
+
+     JT    Progress Software Corporation -       S          03/16/2026 03/31/2026   $50,001 -
+           Common Stock (PRGS) [ST]                                                 $100,000
+           F       S    : New
+           S           O : Hern Family Revocable Trust
+
+
+     JT    Prologis, Inc. Common Stock (PLD)     S          03/20/2026 03/31/2026   $50,001 -
+           [ST]                                                                     $100,000
+           F       S    : New
+           S           O : Hern Family Revocable Trust
+
+
+     JT    SmartStop Self Storage REIT, Inc.     S          03/18/2026 03/31/2026   $500,001 -
+           Common Stock (SMA) [ST]                                                  $1,000,000
+           F       S    : New
+           S           O : Hern Family Revocable Trust
+
+
+     JT    T. Rowe Price Group, Inc. - Common    S          03/20/2026 03/31/2026   $15,001 - $50,000
+           Stock (TROW) [ST]
+           F       S    : New
+           S           O : Hern Family Revocable Trust
+ID         Owner Asset                                            Transaction Date                 Notification Amount             Cap.
+                                                                  Type                             Date                            Gains >
+                                                                                                                                   $200?
+
+           JT         Texas Instruments Incorporated -            S                 03/18/2026 03/31/2026             $500,001 -
+                      Common Stock (TXN) [ST]                                                                         $1,000,000
+                     F       S       : New
+                     S              O : Hern Family Revocable Trust
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V                D
+
+     Gabrielle Ashtyn Hern Trust (100% Interest) (Owner: DC)
+     D            : Revocable Trust Account fbo Gabrielle Ashtyn Hern
+     Hern Family Revocable Trust (100% Interest) (Owner: JT)
+     D          : Family Revocable Trust
+
+
+
+I            P             O
+     Yes     No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Kevin Hern , 04/03/2026
+

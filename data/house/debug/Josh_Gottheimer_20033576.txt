@@ -1,0 +1,87 @@
+                                                                                                                     Filing ID #20033576
+
+                          P                           T                                        R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Josh Gottheimer
+Status:              Member
+State/District: NJ05
+
+
+T
+ID        Owner Asset                                        Transaction Date             Notification Amount                 Cap.
+                                                             Type                         Date                                Gains >
+                                                                                                                              $200?
+
+          JT          BHP Group Limited American             S              11/19/2025    12/04/2025     $1,001 - $15,000
+                      Depositary Shares (BHP) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          CSW Industrials, Inc. Common Stock     P              11/17/2025    12/04/2025     $1,001 - $15,000
+                      (CSW) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          DASSAULT SYSTEMES SA ADR               S (partial)    11/21/2025    12/04/2025     $1,001 - $15,000
+                      (DASTY) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Edwards Lifesciences Corporation       S              11/19/2025    12/04/2025     $1,001 - $15,000
+                      Common Stock (EW) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Fidelity National Information          S              11/19/2025    12/04/2025     $15,001 -
+                      Services, Inc. Common Stock (FIS)                                                  $50,000
+                      [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Home Depot, Inc. (HD) [ST]             S              11/19/2025    12/04/2025     $1,001 - $15,000
+
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+ID         Owner Asset                                            Transaction Date                 Notification Amount                   Cap.
+                                                                  Type                             Date                                  Gains >
+                                                                                                                                         $200?
+
+           JT         HubSpot, Inc. Common Stock                  S                 11/19/2025     12/04/2025         $1,001 - $15,000
+                      (HUBS) [ST]
+                      F      S       : New
+                      S             O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         KKR & Co. Inc. Common Stock (KKR) S                           11/19/2025     12/04/2025         $1,001 - $15,000
+                      [ST]
+                      F      S       : New
+                      S             O : Morgan Stanley - Select UMA Account # 1
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V                D
+
+     Morgan Stanley - Select UMA Account # 1 (Owner: JT)
+     L       : US
+
+
+
+I            P             O
+     Yes     No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Josh Gottheimer , 12/29/2025
+

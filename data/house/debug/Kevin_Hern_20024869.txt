@@ -1,0 +1,148 @@
+                                                                                                                     Filing ID #20024869
+
+                          P                           T                                        R
+              Clerk of the House of Representatives • Legislative Resource Center • 135 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Kevin Hern
+Status:              Member
+State/District: OK01
+
+
+T
+ID        Owner Asset                                        Transaction Date             Notification Amount                 Cap.
+                                                             Type                         Date                                Gains >
+                                                                                                                              $200?
+
+          JT          Devon Energy Corporation Common        P               03/28/2024 03/29/2024       $15,001 -
+                      Stock (DVN) [ST]                                                                   $50,000
+                      F     S       : New
+                      S            O : Hern Family Revocable Trust > Brokerage Investment Account
+                      D           : Dividend Reinvestment
+
+
+          JT          Devon Energy Corporation Common        P               03/28/2024 03/29/2024       $1,001 - $15,000
+                      Stock (DVN) [ST]
+                      F     S       : New
+                      S            O : Hern Family Foundation
+                      D           : Dividend Reinvestment
+
+
+          JT          Emerson Electric Company Common        P               03/11/2024 03/12/2024       $1,001 - $15,000
+                      Stock (EMR) [ST]
+                      F     S       : New
+                      S            O : Hern Family Revocable Trust > Brokerage Investment Account
+                      D           : Dividend Reinvestment
+
+
+          JT          Exxon Mobil Corporation Common         P               03/11/2024 03/12/2024       $1,001 - $15,000
+                      Stock (XOM) [ST]
+                      F     S       : New
+                      S            O : Hern Family Revocable Trust > Brokerage Investment Account
+                      D           : Dividend Reinvestment
+
+
+          JT          Home Depot, Inc. (HD) [ST]             P               03/21/2024 03/22/2024       $1,001 - $15,000
+
+                      F     S       : New
+                      S            O : Hern Family Revocable Trust > Brokerage Investment Account
+                      D           : Dividend Reinvestment
+ID   Owner Asset                                  Transaction Date             Notification Amount           Cap.
+                                                  Type                         Date                          Gains >
+                                                                                                             $200?
+     JT    Home Depot, Inc. (HD) [ST]             P               03/21/2024 03/22/2024   $1,001 - $15,000
+
+           F       S     : New
+           S            O : Hern Family Foundation
+           D           : Dividend Reinvestment
+
+
+     JT    Johnson & Johnson Common Stock         P               03/05/2024 03/06/2024   $1,001 - $15,000
+           (JNJ) [ST]
+           F       S     : New
+           S            O : Hern Family Revocable Trust > Brokerage Investment Account
+           D           : Dividend Reinvestment
+
+
+     JT    Linde plc - Ordinary Shares (LIN)      P               03/28/2024 03/29/2024   $1,001 - $15,000
+           [ST]
+           F       S     : New
+           S            O : Hern Family Revocable Trust > Brokerage Investment Account
+           D           : Dividend Reinvestment
+
+
+     JT    Lockheed Martin Corporation            P               03/29/2024 04/01/2024   $1,001 - $15,000
+           Common Stock (LMT) [ST]
+           F       S     : New
+           S            O : Hern Family Revocable Trust > Brokerage Investment Account
+           D           : Dividend Reinvestment
+
+
+     JT    NextEra Energy, Inc. Common Stock      P               03/15/2024 03/18/2024   $1,001 - $15,000
+           (NEE) [ST]
+           F       S     : New
+           S            O : Hern Family Revocable Trust > Brokerage Investment Account
+           D           : Dividend Reinvestment
+
+
+     JT    Pioneer Natural Resources Company      P               03/22/2024 03/25/2024   $1,001 - $15,000
+           Common Stock (PXD) [ST]
+           F       S     : New
+           S            O : Hern Family Foundation
+           D           : Dividend Reinvestment
+
+
+     JT    Rockwell Automation, Inc. Common       P               03/11/2024 03/12/2024   $1,001 - $15,000
+           Stock (ROK) [ST]
+           F       S     : New
+           S            O : Hern Family Revocable Trust > Brokerage Investment Account
+           D           : Dividend Reinvestment
+
+
+     JT    RTX Corporation Common Stock           P               03/21/2024 03/22/2024   $1,001 - $15,000
+           (RTX) [ST]
+           F       S    : New
+           S           O : Hern Family Revocable Trust > Brokerage Investment Account
+ID         Owner Asset                                            Transaction Date                 Notification Amount                   Cap.
+                                                                  Type                             Date                                  Gains >
+                                                                                                                                         $200?
+                     D             : Dividend Reinvestment
+
+
+           JT         UnitedHealth Group Incorporated             P                 03/19/2024 03/20/2024             $1,001 - $15,000
+                      Common Stock (UNH) [ST]
+                     F       S       : New
+                     S              O : Hern Family Revocable Trust > Brokerage Investment Account
+                     D             : Dividend Reinvestment
+
+
+           JT         Williams Companies, Inc. (WMB)              P                 03/25/2024 03/26/2024             $1,001 - $15,000
+                      [ST]
+                     F       S       : New
+                     S              O : Hern Family Revocable Trust > Brokerage Investment Account
+                     D             : Dividend Reinvestment
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V                D
+     Hern Family Foundation (100% Interest) (Owner: JT)
+     Hern Family Revocable Trust (100% Interest) (Owner: JT)
+     D          : Family Revocable Trust
+     Hern Family Revocable Trust ⇒ Brokerage Investment Account (100% Interest) (Owner: JT)
+     L       : US
+     D          : Stock, Bonds, EFTs, & Mutual funds
+
+
+
+I            P             O
+     Yes     No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Kevin Hern , 04/12/2024
+

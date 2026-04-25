@@ -1,0 +1,112 @@
+                                                                                                                     Filing ID #20026516
+
+                          P                            T                                       R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Virginia Foxx
+Status:              Member
+State/District: NC05
+
+
+T
+ID        Owner Asset                                          Transaction Date           Notification Amount                 Cap.
+                                                               Type                       Date                                Gains >
+                                                                                                                              $200?
+
+                      AbbVie Inc. Common Stock (ABBV)          P             12/06/2024 01/06/2025       $1,001 - $15,000
+                      [ST]
+                      F      S     : New
+
+
+                      Alliance Resource Partners, L.P. -       S (partial)   12/06/2024 01/06/2025       $15,001 -
+                      Common Units Representing Limited                                                  $50,000
+                      Partnership Interests (ARLP) [ST]
+                      F      S     : New
+
+
+                      American Electric Power Company,         P             12/06/2024 01/06/2025       $1,001 - $15,000
+                      Inc. (AEP) [ST]
+                      F      S     : New
+
+
+                      Amgen Inc. - Common Stock (AMGN) P                     12/06/2024 01/06/2025       $1,001 - $15,000
+                      [ST]
+                      F      S     : New
+
+
+                      Ardmore Shipping Corporation             S (partial)   12/06/2024 01/06/2025       $15,001 -
+                      Common Stock (ASC) [ST]                                                            $50,000
+                      F      S     : New
+
+
+                      AT&T Inc. Depositary Shares, each        S             12/06/2024 01/06/2025       $50,001 -
+                      representing a 1/1,000th interest in a                                             $100,000
+                      share of 5.000% Perpetual Preferred
+                      Stock, Series A (T$A) [ST]
+                      F      S     : New
+
+
+                      Bristol-Myers Squibb Company             P             12/06/2024 01/06/2025       $1,001 - $15,000
+                      Common Stock (BMY) [ST]
+                      F      S     : New
+ID         Owner Asset                                            Transaction Date                 Notification Amount                   Cap.
+                                                                  Type                             Date                                  Gains >
+                                                                                                                                         $200?
+
+
+                      Duke Energy Corporation (DUK) [ST] P                          12/06/2024 01/06/2025             $1,001 - $15,000
+
+                     F       S       : New
+
+
+                      Ellington Financial Inc. 7.00% Series       P                 12/30/2024 01/06/2025             $1,001 - $15,000
+                      D Cumulative Perpetual Redeemable
+                      Preferred Stock (EFC$D) [ST]
+                     F       S       : New
+
+
+                      Energy Transfer LP Common Units             S (partial)       12/06/2024 01/06/2025             $15,001 -
+                      (ET) [ST]                                                                                       $50,000
+                     F       S       : New
+
+
+                      FLEX LNG Ltd. Ordinary Shares               S (partial)       12/06/2024 01/06/2025             $15,001 -
+                      (FLNG) [ST]                                                                                     $50,000
+                     F       S       : New
+
+
+                      Johnson & Johnson Common Stock              P                 12/06/2024 01/06/2025             $1,001 - $15,000
+                      (JNJ) [ST]
+                     F       S       : New
+
+
+                      Pembina Pipeline Corp. Ordinary             S (partial)       12/06/2024 01/06/2025             $50,001 -
+                      Shares (PBA) [ST]                                                                               $100,000
+                     F       S       : New
+
+
+                      Public Storage Common Stock (PSA)           P                 12/06/2024 01/06/2025             $1,001 - $15,000
+                      [ST]
+                     F       S       : New
+
+
+                      Via Renewables, Inc. - 8.75% Series A       S                 12/06/2024 01/06/2025             $50,001 -
+                      Fixed-to-Floating Rate Cumulative                                                               $100,000
+                      Redeemable Perpetual Preferred
+                      Stock (VIASP) [ST]
+                     F       S       : New
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I            P             O
+     Yes     No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+Digitally Signed: Hon. Virginia Foxx , 01/06/2025
+

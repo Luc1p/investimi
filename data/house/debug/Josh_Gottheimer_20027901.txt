@@ -1,0 +1,427 @@
+                                                                                                                   Filing ID #20027901
+
+                          P                           T                                        R
+              Clerk of the House of Representatives • Legislative Resource Center • B81 Cannon Building • Washington, DC 20515
+
+
+F         I
+Name:                Hon. Josh Gottheimer
+Status:              Member
+State/District: NJ05
+
+
+T
+ID        Owner Asset                                       Transaction Date             Notification Amount                 Cap.
+                                                            Type                         Date                                Gains >
+                                                                                                                             $200?
+
+          JT          Abbott Laboratories Common Stock      P               02/13/2025 03/05/2025        $1,001 - $15,000
+                      (ABT) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Alibaba Group Holding Limited         P               02/12/2025 03/05/2025        $1,001 - $15,000
+                      American Depositary Shares each
+                      representing eight Ordinary share
+                      (BABA) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Ambev S.A. American Depositary        S               02/07/2025 03/05/2025        $1,001 - $15,000
+                      Shares (ABEV) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Ambev S.A. American Depositary        S (partial)     02/06/2025 03/05/2025        $1,001 - $15,000
+                      Shares (ABEV) [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Apple Inc. - Common Stock (AAPL)      S (partial)     02/03/2025 03/05/2025        $1,001 - $15,000
+                      [ST]
+                      F      S     : New
+                      S           O : Morgan Stanley - Select UMA Account # 1
+
+
+          JT          Apple Inc. - Common Stock (AAPL)      S (partial)     02/24/2025 03/05/2025        $1,001 - $15,000
+                      [ST]
+                      F      S     : New
+ID   Owner Asset                                 Transaction Date           Notification Amount             Cap.
+                                                 Type                       Date                            Gains >
+                                                                                                            $200?
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Apple Inc. - Common Stock (AAPL)      S (partial)     02/21/2025 03/05/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Berkshire Hathaway Inc. New           S (partial)     02/21/2025 03/05/2025   $1,001 - $15,000
+           Common Stock (BRK.B) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Blackstone Inc. Common Stock (BX)     S (partial)     02/27/2025 03/05/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Blackstone Inc. Common Stock (BX)     S (partial)     02/26/2025 03/05/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Block, Inc. Class A Common Stock,     S               02/27/2025 03/05/2025   $1,001 - $15,000
+           (XYZ) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Block, Inc. Class A Common Stock,     P               02/03/2025 03/05/2025   $1,001 - $15,000
+           (XYZ) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Broadcom Inc. - Common Stock          P               02/06/2025 03/05/2025   $1,001 - $15,000
+           (AVGO) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Charles Schwab Corporation (SCHW) S (partial)         02/21/2025 03/05/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Cisco Systems, Inc. - Common Stock    S (partial)     02/21/2025 03/05/2025   $1,001 - $15,000
+           (CSCO) [ST]
+           F       S   : New
+ID   Owner Asset                                 Transaction Date           Notification Amount             Cap.
+                                                 Type                       Date                            Gains >
+                                                                                                            $200?
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    D.R. Horton, Inc. Common Stock        S (partial)     02/13/2025 03/05/2025   $1,001 - $15,000
+           (DHI) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    DASSAULT SYSTEMES SA ADR              S (partial)     02/21/2025 03/05/2025   $1,001 - $15,000
+           (DASTY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    DISCO CORP UNSP /ADR (DSCSY)          P               02/10/2025 03/05/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    DISCO CORP UNSP /ADR (DSCSY)          P               02/07/2025 03/05/2025   $1,001 - $15,000
+           [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    EEN ENERGY HLDGS UNSP/ADR             S (partial)     02/07/2025 03/05/2025   $1,001 - $15,000
+           (XNGSY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    EEN ENERGY HLDGS UNSP/ADR             S (partial)     02/10/2025 03/05/2025   $1,001 - $15,000
+           (XNGSY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Eli Lilly and Company Common Stock S (partial)        02/19/2025 03/05/2025   $1,001 - $15,000
+           (LLY) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Fiserv, Inc. Common Stock (FI) [ST]   P               02/26/2025 03/05/2025   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Fiserv, Inc. Common Stock (FI) [ST]   P               02/21/2025 03/05/2025   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+ID   Owner Asset                                    Transaction Date              Notification Amount           Cap.
+                                                    Type                          Date                          Gains >
+                                                                                                                $200?
+
+     JT    Goldman Sachs Group, Inc. (GS) [ST] S (partial)          02/28/2025 03/05/2025    $1,001 - $15,000
+
+           F       S      : New
+           S             O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Home Depot, Inc. (HD) [ST]               S (partial)     02/24/2025 03/05/2025    $1,001 - $15,000
+
+           F       S      : New
+           S             O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    ICF International, Inc. - Common         S               02/19/2025 03/05/2025    $1,001 - $15,000
+           Stock (ICFI) [ST]
+           F       S      : New
+           S             O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Infineon Technologies AG (IFNNY)         S (partial)     02/21/2025 03/05/2025    $1,001 - $15,000
+           [ST]
+           F       S      : New
+           S             O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    KKR & Co. Inc. Common Stock (KKR) S (partial)            02/27/2025 03/05/2025    $1,001 - $15,000
+           [ST]
+           F       S      : New
+           S             O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    KKR & Co. Inc. Common Stock (KKR) S (partial)            02/26/2025 03/05/2025    $1,001 - $15,000
+           [ST]
+           F       S      : New
+           S             O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Microsoft Corporation - Common           S (partial)     02/24/2025 03/05/2025    $1,001 - $15,000
+           Stock (MSFT) [ST]
+           F       S      : New
+           S             O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Microsoft Corporation - Common           S (partial)     02/21/2025 03/05/2025    $1,001 - $15,000
+           Stock (MSFT) [ST]
+           F       S      : New
+           S             O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Microsoft Corporation - Common           P               02/14/2025 03/05/2025    $1,000,001 -
+           Stock (MSFT) [OP]                                                                 $5,000,000
+           F       S       : New
+           S              O : Morgan Stanley - Portfolio Management Active Assets Account
+           D             : Call options; Strike price $240; Expires 12/19/2025
+           C           : Ref: 045S899L
+ID   Owner Asset                                    Transaction Date              Notification Amount       Cap.
+                                                    Type                          Date                      Gains >
+                                                                                                            $200?
+
+
+     JT    Microsoft Corporation - Common           P               02/14/2025 03/05/2025    $500,001 -
+           Stock (MSFT) [OP]                                                                 $1,000,000
+           F       S       : New
+           S              O : Morgan Stanley - Portfolio Management Active Assets Account
+           D             : Call options; Strike price $240; Expires 12/19/2025
+           C           : Ref: 045S891L
+
+
+     JT    Microsoft Corporation - Common           P               02/14/2025 03/05/2025    $1,000,001 -
+           Stock (MSFT) [OP]                                                                 $5,000,000
+           F       S      : New
+           S             O : Morgan Stanley - Portfolio Management Active Assets Account
+           D            : Call options; Strike price $235; Expires 1/16/2026
+
+
+     JT    Microsoft Corporation - Common           P               02/14/2025 03/05/2025    $1,000,001 -
+           Stock (MSFT) [OP]                                                                 $5,000,000
+           F       S      : New
+           S             O : Morgan Stanley - Portfolio Management Active Assets Account
+           D            : Call options; Strike price $230; Expires 1/16/2026
+
+
+     JT    Microsoft Corporation - Common           S               02/14/2025 03/05/2025    $500,001 -
+           Stock (MSFT) [OP]                                                                 $1,000,000
+           F       S       : New
+           S              O : Morgan Stanley - Portfolio Management Active Assets Account
+           D             : Call options; Strike price $325; Expires 6/18/2026
+           C           : Ref: 045S893L
+
+
+     JT    Microsoft Corporation - Common           S               02/14/2025 03/05/2025    $250,001 -
+           Stock (MSFT) [OP]                                                                 $500,000
+           F       S       : New
+           S              O : Morgan Stanley - Portfolio Management Active Assets Account
+           D             : Call options; Strike price $325; Expires 6/18/2026
+           C           : Ref: 045S890L
+
+
+     JT    Microsoft Corporation - Common           S               02/14/2025 03/05/2025    $1,000,001 -
+           Stock (MSFT) [OP]                                                                 $5,000,000
+           F       S      : New
+           S             O : Morgan Stanley - Portfolio Management Active Assets Account
+           D            : Call options; Strike price $320; Expires 6/18/2026
+
+
+     JT    Microsoft Corporation - Common           S (partial)     02/14/2025 03/05/2025    $1,000,001 -
+           Stock (MSFT) [ST]                                                                 $5,000,000
+           F       S      : New
+           S             O : Morgan Stanley - Portfolio Management Active Assets Account
+ID   Owner Asset                                 Transaction Date           Notification Amount             Cap.
+                                                 Type                       Date                            Gains >
+                                                                                                            $200?
+     JT    Nintendo Co Ltd ADR (NTDOY) [ST]      S (partial)     02/21/2025 03/05/2025   $1,001 - $15,000
+
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Paragon 28, Inc. Common Stock         S               02/27/2025 03/05/2025   $1,001 - $15,000
+           (FNA) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Paychex, Inc. - Common Stock          S (partial)     02/21/2025 03/05/2025   $1,001 - $15,000
+           (PAYX) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    PayPal Holdings, Inc. - Common        S (partial)     02/13/2025 03/05/2025   $1,001 - $15,000
+           Stock (PYPL) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    PayPal Holdings, Inc. - Common        S (partial)     02/06/2025 03/05/2025   $1,001 - $15,000
+           Stock (PYPL) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Shopify Inc. Class A Subordinate      P               02/12/2025 03/05/2025   $1,001 - $15,000
+           Voting Shares (SHOP) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Shopify Inc. Class A Subordinate      P               02/03/2025 03/05/2025   $1,001 - $15,000
+           Voting Shares (SHOP) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Snowflake Inc. Class A Common         P               02/21/2025 03/05/2025   $1,001 - $15,000
+           Stock (SNOW) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Spotify Technology S.A. Ordinary      S (partial)     02/21/2025 03/05/2025   $1,001 - $15,000
+           Shares (SPOT) [ST]
+           F       S    : New
+           S           O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Starbucks Corporation - Common        P               02/03/2025 03/05/2025   $1,001 - $15,000
+ID   Owner Asset                                  Transaction Date           Notification Amount             Cap.
+                                                  Type                       Date                            Gains >
+                                                                                                             $200?
+           Stock (SBUX) [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Tesla, Inc. - Common Stock (TSLA)      P               02/05/2025 03/05/2025   $1,001 - $15,000
+           [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Tesla, Inc. - Common Stock (TSLA)      S (partial)     02/14/2025 03/05/2025   $1,001 - $15,000
+           [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Tesla, Inc. - Common Stock (TSLA)      S (partial)     02/13/2025 03/05/2025   $1,001 - $15,000
+           [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Transdigm Group Incorporated           S (partial)     02/04/2025 03/05/2025   $1,001 - $15,000
+           Common Stock (TDG) [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Twilio Inc. Class A Common Stock       P               02/06/2025 03/05/2025   $1,001 - $15,000
+           (TWLO) [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Union Pacific Corporation Common       P               02/03/2025 03/05/2025   $1,001 - $15,000
+           Stock (UNP) [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Vertiv Holdings, LLC Class A           S               02/25/2025 03/05/2025   $1,001 - $15,000
+           Common Stock (VRT) [ST]
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Visa Inc. (V) [ST]                     P               02/28/2025 03/05/2025   $1,001 - $15,000
+
+           F       S     : New
+           S            O : Morgan Stanley - Select UMA Account # 1
+
+
+     JT    Visa Inc. (V) [ST]                     P               02/13/2025 03/05/2025   $1,001 - $15,000
+ID         Owner Asset                                            Transaction Date                 Notification Amount                  Cap.
+                                                                  Type                             Date                                 Gains >
+                                                                                                                                        $200?
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+
+           JT         Walmart Inc. Common Stock (WMT)             P                 02/03/2025 03/05/2025            $1,001 - $15,000
+                      [ST]
+                     F       S       : New
+                     S              O : Morgan Stanley - Select UMA Account # 1
+
+* For the complete list of asset type abbreviations, please visit https://fd.house.gov/reference/asset-type-codes.aspx.
+
+
+I                     V                D
+     Morgan Stanley - Portfolio Management Active Assets Account (Owner: JT)
+     L       : US
+     Morgan Stanley - Select UMA Account # 1 (Owner: JT)
+     L       : US
+
+
+
+I            P             O
+     Yes     No
+
+
+C                                  S
+    I CERTIFY that the statements I have made on the attached Periodic Transaction Report are true, complete, and correct to the best of
+my knowledge and belief. Further, I CERTIFY that I have disclosed all transactions as required by the STOCK Act.
+
+Digitally Signed: Hon. Josh Gottheimer , 03/06/2025
+
