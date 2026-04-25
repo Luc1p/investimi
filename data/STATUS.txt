@@ -1,5 +1,6 @@
-updated_utc=2026-04-24T08:41:00.882230Z
-house_status=missing
+updated_utc=2026-04-25T16:13:17.260600Z
+house_status=ok_scrape
+house_scrape_transactions=1
 senate_status=missing_s3_try_efd
 senate_efd_status=error:HTTPError
 senate_efd_error=senate_efd_data_http_503:<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
