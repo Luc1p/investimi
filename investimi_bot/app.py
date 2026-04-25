@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import asyncio
+import io
+import json
 from pathlib import Path
 from typing import Any
 
@@ -33,6 +35,27 @@ from investimi_bot.providers.twelve_data import TwelveDataClient
 from investimi_bot.rules import RuleEngine
 from investimi_bot.settings import load_settings
 from investimi_bot.state import StateStore
+
+
+def _json_bytes(obj: Any) -> bytes:
+    return (json.dumps(obj, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
+
+
+def _chunk_text(s: str, *, max_len: int = 3500) -> list[str]:
+    s = (s or "").strip()
+    if not s:
+        return [""]
+    out: list[str] = []
+    cur = ""
+    for line in s.splitlines():
+        add = line + "\n"
+        if cur and (len(cur) + len(add) > max_len):
+            out.append(cur.rstrip())
+            cur = ""
+        cur += add
+    if cur.strip():
+        out.append(cur.rstrip())
+    return out
 
 
 def _render_template(text: str, ctx: dict[str, Any]) -> str:
@@ -241,6 +264,7 @@ def _main_reply_keyboard() -> ReplyKeyboardMarkup:
                 KeyboardButton("🗓️ Top mese"),
             ],
             [KeyboardButton("🗓️ Politici 45g")],
+            [KeyboardButton("📦 Dati (testo)")],
             [KeyboardButton("📌 Stato"), KeyboardButton("📜 Regole")],
         ],
         resize_keyboard=True,
@@ -444,6 +468,8 @@ def main() -> int:
             BotCommand("insider7", "Top insider settimana (valore)"),
             BotCommand("insider30", "Top insider mese (valore)"),
             BotCommand("insider45", "Top insider 45 giorni (valore)"),
+            BotCommand("dumpcongress", "Mostra dati grezzi STOCK Act (testo)"),
+            BotCommand("dumpcongressjson", "Scarica dati grezzi STOCK Act (file JSON)"),
             BotCommand("status", "Stato bot / errori"),
             BotCommand("rules", "Lista regole attive"),
             BotCommand("run", "Esegui subito una regola: /run <rule_id>"),
@@ -712,10 +738,88 @@ def main() -> int:
             await insider_30d(update, context)
         elif txt == "🗓️ Politici 45g":
             await insider_45d(update, context)
+        elif txt == "📦 Dati (testo)":
+            await dumpcongress(update, context)
         elif txt == "📌 Stato":
             await status(update, context)
         elif txt == "📜 Regole":
             await rules_cmd(update, context)
+
+    async def dumpcongress(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        """
+        Show the raw extracted congressional trades as text messages.
+
+        Usage:
+          /dumpcongress [house|senate|all]
+        """
+        if not await _is_allowed(update):
+            return
+        if not update.message:
+            return
+        if not engine._congress:  # noqa: SLF001
+            await update.message.reply_text("❌ provider congress non configurato (CONGRESS_TRADES_USER_AGENT).")
+            return
+        args = [a.strip().lower() for a in (context.args or []) if a.strip()]
+        which = args[0] if args else "all"
+        if which not in ("house", "senate", "all"):
+            which = "all"
+
+        trades = []
+        if which in ("house", "all"):
+            trades.extend(engine._congress.fetch("house"))  # type: ignore[arg-type]  # noqa: SLF001
+        if which in ("senate", "all"):
+            trades.extend(engine._congress.fetch("senate"))  # type: ignore[arg-type]  # noqa: SLF001
+
+        def _dt_key(t: Any) -> Any:
+            return _parse_date_mm_dd_yyyy(getattr(t, "transaction_date", None)) or _parse_date_mm_dd_yyyy(
+                getattr(t, "disclosure_date", None)
+            )
+
+        trades_sorted = sorted(trades, key=lambda t: _dt_key(t) or 0, reverse=True)
+        max_items = 80
+        shown = trades_sorted[:max_items]
+
+        lines: list[str] = [f"📦 Dati politici grezzi ({which}) — tot={len(trades_sorted)} (mostro {len(shown)})"]
+        for t in shown:
+            d = t.transaction_date or t.disclosure_date or "—"
+            lines.append(
+                f"- 🗓️ {d} | 🏛️ {t.chamber} | 👤 {t.politician or '—'} | 📌 {t.ticker or '—'} | "
+                f"{t.side or '—'} | 💸 {t.amount_raw or '—'}"
+            )
+
+        for chunk in _chunk_text("\n".join(lines)):
+            await update.message.reply_text(chunk)
+
+    async def dumpcongressjson(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        """
+        Download the raw extracted congressional trades and send them as JSON files.
+
+        Usage:
+          /dumpcongressjson [house|senate|all]
+        """
+        if not await _is_allowed(update):
+            return
+        if not update.message:
+            return
+        if not engine._congress:  # noqa: SLF001
+            await update.message.reply_text("❌ provider congress non configurato (CONGRESS_TRADES_USER_AGENT).")
+            return
+        args = [a.strip().lower() for a in (context.args or []) if a.strip()]
+        which = args[0] if args else "all"
+        if which not in ("house", "senate", "all"):
+            which = "all"
+
+        docs: list[tuple[str, bytes]] = []
+        if which in ("house", "all"):
+            house = [t.__dict__ for t in engine._congress.fetch("house")]  # type: ignore[arg-type]  # noqa: SLF001
+            docs.append(("congress_house_all_transactions.json", _json_bytes(house)))
+        if which in ("senate", "all"):
+            senate = [t.__dict__ for t in engine._congress.fetch("senate")]  # type: ignore[arg-type]  # noqa: SLF001
+            docs.append(("congress_senate_all_transactions.json", _json_bytes(senate)))
+
+        await update.message.reply_text(f"📦 Download JSON pronto ({which}).")
+        for name, b in docs:
+            await update.message.reply_document(document=io.BytesIO(b), filename=name)
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("stop", stop))
@@ -729,6 +833,8 @@ def main() -> int:
     application.add_handler(CommandHandler("insider7", insider_7d))
     application.add_handler(CommandHandler("insider30", insider_30d))
     application.add_handler(CommandHandler("insider45", insider_45d))
+    application.add_handler(CommandHandler("dumpcongress", dumpcongress))
+    application.add_handler(CommandHandler("dumpcongressjson", dumpcongressjson))
     application.add_handler(CommandHandler("kbtest", kbtest))
     application.add_handler(CommandHandler("panel", panel))
     application.add_handler(CallbackQueryHandler(_insider_callback, pattern=r"^insider:"))
