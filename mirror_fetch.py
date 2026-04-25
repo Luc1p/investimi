@@ -194,6 +194,15 @@ def fetch_house_ptr_transactions(
                 text = open(txt_path, "r", encoding="utf-8", errors="ignore").read()
             except Exception:
                 continue
+            # save debug text excerpt (artifact-friendly)
+            try:
+                os.makedirs("data/house/debug", exist_ok=True)
+                docid = url.rstrip("/").split("/")[-1].replace(".pdf", "")
+                dbg_path = os.path.join("data/house/debug", f"{rep.replace(' ', '_')}_{docid}.txt")
+                with open(dbg_path, "w", encoding="utf-8") as df:
+                    df.write(text[:20000])
+            except Exception:
+                pass
             txs = _parse_house_ptr_pdf_text(text, representative=rep)
             for t in txs:
                 t["ptr_link"] = url

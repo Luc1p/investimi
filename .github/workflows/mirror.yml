@@ -46,6 +46,13 @@ jobs:
           name: mirror-status
           path: data/STATUS.txt
 
+      - name: Upload House debug texts (if any)
+        uses: actions/upload-artifact@v4
+        with:
+          name: house-ptr-debug
+          path: data/house/debug/
+          if-no-files-found: ignore
+
       - name: Validate JSON
         run: |
           python - <<'PY'
