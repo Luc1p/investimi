@@ -122,8 +122,12 @@ def _parse_house_ptr_pdf_text(text: str, *, representative: str) -> list[dict[st
     # collapse excessive whitespace but keep structure
     lines = [re.sub(r"\s+", " ", ln).strip() for ln in raw_lines if re.sub(r"\s+", " ", ln).strip()]
 
-    # example: "$250,001 - $500,000"
-    amt_re = re.compile(r"\$[\d,]+\s*-\s*\$[\d,]+", re.IGNORECASE)
+    # examples:
+    # - "$250,001 - $500,000"
+    # - split across lines: "$250,001 -" then next line "$500,000"
+    amt_full_re = re.compile(r"\$[\d,]+\s*-\s*\$[\d,]+", re.IGNORECASE)
+    amt_start_re = re.compile(r"(\$[\d,]+)\s*-\s*$", re.IGNORECASE)
+    amt_end_re = re.compile(r"^\s*(\$[\d,]+)\s*$", re.IGNORECASE)
     date_re = re.compile(r"\b\d{2}/\d{2}/\d{4}\b")
     # ticker appears in parentheses: "(AAPL)"
     ticker_re = re.compile(r"\(([A-Z][A-Z0-9.\-]{0,7})\)")
@@ -143,13 +147,15 @@ def _parse_house_ptr_pdf_text(text: str, *, representative: str) -> list[dict[st
 
     cur_asset_lines: list[str] = []
     cur_ticker: str | None = None
+    pending_amount_start: str | None = None
+    pending_type_line: str | None = None
 
     def flush_if_complete(type_line: str) -> None:
         nonlocal cur_asset_lines, cur_ticker
         # extract tx type + date + amount from the "type line"
         m_type = tx_type_re.search(type_line)
         m_date = date_re.search(type_line)
-        m_amt = amt_re.search(type_line)
+        m_amt = amt_full_re.search(type_line)
         if not (m_type and m_date and m_amt):
             return
         tx_type = m_type.group(1).strip()
@@ -190,10 +196,28 @@ def _parse_house_ptr_pdf_text(text: str, *, representative: str) -> list[dict[st
                     cur_asset_lines.append(ln)
                     continue
 
-        # When we see a line with tx type + date + amount, close a record.
-        if amt_re.search(ln) and date_re.search(ln) and tx_type_re.search(ln):
+        # Amount can be split across lines. If we saw a type+date line with "$X -", complete on next "$Y".
+        if pending_amount_start and pending_type_line:
+            mend = amt_end_re.match(ln)
+            if mend:
+                full = f"{pending_amount_start} - {mend.group(1)}"
+                flush_if_complete(pending_type_line + " " + full)
+                pending_amount_start = None
+                pending_type_line = None
+                continue
+
+        # When we see a line with tx type + date + full amount, close a record.
+        if amt_full_re.search(ln) and date_re.search(ln) and tx_type_re.search(ln):
             flush_if_complete(ln)
             continue
+
+        # When we see a line with tx type + date + amount START (split case), remember and wait for next line.
+        if date_re.search(ln) and tx_type_re.search(ln):
+            mstart = amt_start_re.search(ln)
+            if mstart:
+                pending_amount_start = mstart.group(1)
+                pending_type_line = ln
+                continue
 
     return txs
 
