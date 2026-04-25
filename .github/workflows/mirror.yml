@@ -24,6 +24,8 @@ jobs:
 
       - name: Install scraper deps
         run: |
+          sudo apt-get update -y
+          sudo apt-get install -y poppler-utils
           python -m pip install --upgrade pip
           pip install requests beautifulsoup4
 
@@ -32,6 +34,17 @@ jobs:
           MIRROR_UA: "CongressTradesMirror/0.2 (public-interest)"
         run: |
           python mirror_fetch.py
+
+      - name: Show STATUS.txt
+        run: |
+          echo "---- data/STATUS.txt ----"
+          cat data/STATUS.txt || true
+
+      - name: Upload STATUS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mirror-status
+          path: data/STATUS.txt
 
       - name: Validate JSON
         run: |

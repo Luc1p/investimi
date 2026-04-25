@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import subprocess
 import sys
 from dataclasses import asdict, dataclass
 from datetime import date, datetime
@@ -59,6 +60,146 @@ def fetch_house_from_s3(s: requests.Session) -> list[dict[str, Any]] | None:
     if r.status_code != 200:
         return None
     return r.json()
+
+
+def _pdftotext_available() -> bool:
+    try:
+        r = subprocess.run(["pdftotext", "-v"], capture_output=True, text=True)
+        return r.returncode == 0 or "pdftotext" in (r.stderr or r.stdout or "")
+    except Exception:
+        return False
+
+
+def _download_bytes(s: requests.Session, url: str) -> bytes | None:
+    r = s.get(url, timeout=60)
+    if r.status_code != 200:
+        return None
+    return r.content
+
+
+def _extract_house_ptr_links(s: requests.Session, last_name: str, year: int) -> list[str]:
+    """
+    Uses the official House Clerk search result HTML to find PTR PDF links.
+    """
+    search_url = "https://disclosures-clerk.house.gov/FinancialDisclosure/ViewMemberSearchResult"
+    payload = {"LastName": last_name, "FilingYear": str(year), "Office": "", "State": "", "District": ""}
+    r = s.post(
+        search_url,
+        data=payload,
+        timeout=45,
+        headers={"Referer": "https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch"},
+    )
+    if r.status_code != 200:
+        return []
+    hrefs = re.findall(r'href="([^"]+)"', r.text)
+    out: list[str] = []
+    for h in hrefs:
+        if "ptr-pdfs" not in h:
+            continue
+        if h.startswith("http"):
+            out.append(h)
+        else:
+            out.append("https://disclosures-clerk.house.gov/" + h.lstrip("/"))
+    # de-dup
+    seen: set[str] = set()
+    uniq: list[str] = []
+    for u in out:
+        if u in seen:
+            continue
+        seen.add(u)
+        uniq.append(u)
+    return uniq
+
+
+def _parse_house_ptr_pdf_text(text: str, *, representative: str) -> list[dict[str, Any]]:
+    """
+    Very best-effort PTR PDF parser.
+    Extracts lines containing a date + an amount range, and guesses ticker/type.
+    """
+    # normalize
+    t = text.replace("\r", "\n")
+    lines = [ln.strip() for ln in t.split("\n") if ln.strip()]
+
+    # common amount range patterns
+    amt_re = re.compile(r"\$[\d,]+\s*-\s*\$[\d,]+|\$[\d,]+\s*to\s*\$[\d,]+", re.IGNORECASE)
+    date_re = re.compile(r"\b\d{2}/\d{2}/\d{4}\b")
+
+    txs: list[dict[str, Any]] = []
+    for ln in lines:
+        if not amt_re.search(ln):
+            continue
+        d = date_re.search(ln)
+        if not d:
+            continue
+        amount = amt_re.search(ln).group(0)
+        # guess ticker: first uppercase token 1-6 chars not common words
+        tokens = re.findall(r"\b[A-Z][A-Z0-9.\-]{0,7}\b", ln)
+        ticker = None
+        for tok in tokens:
+            if tok in {"USD", "LLC", "INC", "ETF"}:
+                continue
+            if 1 <= len(tok) <= 6:
+                ticker = tok
+                break
+        typ = None
+        lnl = ln.lower()
+        if "purchase" in lnl or "buy" in lnl:
+            typ = "Purchase"
+        if "sale" in lnl or "sell" in lnl:
+            typ = "Sale"
+        txs.append(
+            {
+                "transaction_date": d.group(0),
+                "owner": None,
+                "ticker": ticker or "--",
+                "asset_description": None,
+                "asset_type": None,
+                "type": typ,
+                "amount": amount,
+                "comment": None,
+                "representative": representative,
+            }
+        )
+    return txs
+
+
+def fetch_house_ptr_transactions(
+    s: requests.Session, *, names: list[str], years: list[int] | None = None, max_pdfs_per_name: int = 15
+) -> list[dict[str, Any]]:
+    """
+    Scrape House PTR PDFs for a short list of known names.
+    """
+    if not _pdftotext_available():
+        return []
+    years = years or [date.today().year, date.today().year - 1]
+    out: list[dict[str, Any]] = []
+    for full in names:
+        last = full.strip().split()[-1]
+        rep = full.strip()
+        links: list[str] = []
+        for y in years:
+            links.extend(_extract_house_ptr_links(s, last, y))
+        for url in links[:max_pdfs_per_name]:
+            b = _download_bytes(s, url)
+            if not b:
+                continue
+            # write temp file
+            os.makedirs(".tmp", exist_ok=True)
+            pdf_path = os.path.join(".tmp", "ptr.pdf")
+            txt_path = os.path.join(".tmp", "ptr.txt")
+            with open(pdf_path, "wb") as f:
+                f.write(b)
+            try:
+                subprocess.run(["pdftotext", "-layout", pdf_path, txt_path], check=False)
+                text = open(txt_path, "r", encoding="utf-8", errors="ignore").read()
+            except Exception:
+                continue
+            txs = _parse_house_ptr_pdf_text(text, representative=rep)
+            for t in txs:
+                t["ptr_link"] = url
+                t["disclosure_date"] = None
+                out.append(t)
+    return out
 
 
 def fetch_senate_from_s3(s: requests.Session) -> list[dict[str, Any]] | None:
@@ -283,10 +424,23 @@ def main() -> int:
 
     house = fetch_house_from_s3(s)
     if house is None:
-        status += _status_line("house_status", "missing")
-        # Keep last known good file if present; otherwise write empty list.
-        if not os.path.exists("data/house/all_transactions.json"):
-            _write_json("data/house/all_transactions.json", [])
+        # fallback: scrape a small set of known names from official House search + PTR PDFs
+        names = [x.strip() for x in os.getenv("HOUSE_KNOWN_NAMES", "Nancy Pelosi").split(",") if x.strip()]
+        try:
+            txs = fetch_house_ptr_transactions(s, names=names)
+            if txs:
+                status += _status_line("house_status", "ok_scrape")
+                status += _status_line("house_scrape_transactions", str(len(txs)))
+                _write_json("data/house/all_transactions.json", txs)
+            else:
+                status += _status_line("house_status", "missing")
+                if not os.path.exists("data/house/all_transactions.json"):
+                    _write_json("data/house/all_transactions.json", [])
+        except Exception as e:
+            status += _status_line("house_status", "missing")
+            status += _status_line("house_scrape_error", (str(e) or "")[:180])
+            if not os.path.exists("data/house/all_transactions.json"):
+                _write_json("data/house/all_transactions.json", [])
     else:
         status += _status_line("house_status", "ok")
         _write_json("data/house/all_transactions.json", house)
