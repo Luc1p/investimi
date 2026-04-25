@@ -192,7 +192,7 @@ def _parse_house_ptr_pdf_text(text: str, *, representative: str) -> list[dict[st
             # Avoid grabbing the header row.
             if "transaction date" not in ln.lower() and "amount" not in ln.lower():
                 # Keep the asset line only until we see a transaction type line
-                if not (amt_re.search(ln) and date_re.search(ln) and tx_type_re.search(ln)):
+                if not (amt_full_re.search(ln) and date_re.search(ln) and tx_type_re.search(ln)):
                     cur_asset_lines.append(ln)
                     continue
 
