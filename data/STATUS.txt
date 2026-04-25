@@ -1,4 +1,4 @@
-updated_utc=2026-04-25T18:35:38.404150Z
+updated_utc=2026-04-25T18:43:04.241911Z
 house_members=436
 house_member_limit=60
 house_new_ptr_links=15
@@ -9,6 +9,4 @@ house_scrape_new_transactions=0
 senate_status=missing_s3_try_efd
 senate_efd_status=error:HTTPError
 senate_efd_error=senate_efd_data_http_503:<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"
-senate_mirror_status=ok
-senate_mirror_url=https://raw.githubusercontent.com/timothycarambat/senate-stock-watcher-data/master/aggregate/all_transactions.json
-senate_mirror_transactions=8350
+senate_mirror_status=missing
