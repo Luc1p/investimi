@@ -77,12 +77,25 @@ def _download_bytes(s: requests.Session, url: str) -> bytes | None:
     return r.content
 
 
-def _extract_house_ptr_links(s: requests.Session, last_name: str, year: int) -> list[str]:
+def _extract_house_ptr_links(
+    s: requests.Session,
+    last_name: str,
+    year: int,
+    *,
+    state: str | None = None,
+    district: str | None = None,
+) -> list[str]:
     """
     Uses the official House Clerk search result HTML to find PTR PDF links.
     """
     search_url = "https://disclosures-clerk.house.gov/FinancialDisclosure/ViewMemberSearchResult"
-    payload = {"LastName": last_name, "FilingYear": str(year), "Office": "", "State": "", "District": ""}
+    payload = {
+        "LastName": last_name,
+        "FilingYear": str(year),
+        "Office": "",
+        "State": (state or ""),
+        "District": (district or ""),
+    }
     r = s.post(
         search_url,
         data=payload,
@@ -109,6 +122,51 @@ def _extract_house_ptr_links(s: requests.Session, last_name: str, year: int) -> 
         seen.add(u)
         uniq.append(u)
     return uniq
+
+
+def fetch_house_members(s: requests.Session) -> list[dict[str, str]]:
+    """
+    Fetch the official House member list from the Clerk and return:
+      { "name": "...", "state": "TX", "district": "2", "last_name": "Crenshaw" }
+
+    District is normalized to:
+      - digits as string (e.g. "12")
+      - "At Large" kept as "At Large"
+    """
+    url = "https://clerk.house.gov/Members/ViewMemberList"
+    r = s.get(url, timeout=45, headers={"Accept": "text/html,*/*"})
+    if r.status_code != 200:
+        return []
+    soup = BeautifulSoup(r.text, "html.parser")
+    table = soup.find("table")
+    if not table:
+        # Fallback: try parse markdown-ish table from text (rare)
+        return []
+
+    out: list[dict[str, str]] = []
+    for tr in table.find_all("tr"):
+        tds = tr.find_all("td")
+        if len(tds) < 4:
+            continue
+        rep_cell, _party, state_cell, dist_cell = tds[0], tds[1], tds[2], tds[3]
+        a = rep_cell.find("a")
+        name = (a.get_text(" ", strip=True) if a else rep_cell.get_text(" ", strip=True)).strip()
+        name = re.sub(r"\s+", " ", name).strip()
+        # Some rows include a trailing uppercase alias like "ADAMS,ALMA" — strip it.
+        name = re.sub(r"\s+[A-Z.\-']+,[A-Z.\-']+$", "", name).strip()
+        state_txt = state_cell.get_text(" ", strip=True).strip()
+        # extract state abbreviation from "Texas (TX)"
+        m = re.search(r"\(([A-Z]{2})\)", state_txt)
+        state = m.group(1) if m else state_txt[:2].upper()
+        dist_txt = dist_cell.get_text(" ", strip=True).strip()
+        # Keep the district *as shown* for search filtering (e.g. "12th", "At Large")
+        district = dist_txt.strip()
+        # last name: Clerk list is "Last, First ..." so split on comma first
+        last = name.split(",", 1)[0].strip() if "," in name else name.split()[-1].strip()
+        if not name or not last or not state:
+            continue
+        out.append({"name": name, "last_name": last, "state": state, "district": district})
+    return out
 
 
 def _parse_house_ptr_pdf_text(text: str, *, representative: str) -> list[dict[str, Any]]:
@@ -227,7 +285,14 @@ def _parse_house_ptr_pdf_text(text: str, *, representative: str) -> list[dict[st
 
 
 def fetch_house_ptr_transactions(
-    s: requests.Session, *, names: list[str], years: list[int] | None = None, max_pdfs_per_name: int = 15
+    s: requests.Session,
+    *,
+    names: list[str],
+    years: list[int] | None = None,
+    max_pdfs_per_name: int = 15,
+    cutoff_date: date | None = None,
+    already_seen_ptr_links: set[str] | None = None,
+    pdf_budget: int | None = None,
 ) -> list[dict[str, Any]]:
     """
     Scrape House PTR PDFs for a short list of known names.
@@ -236,6 +301,9 @@ def fetch_house_ptr_transactions(
         return []
     years = years or [date.today().year, date.today().year - 1]
     out: list[dict[str, Any]] = []
+    already_seen_ptr_links = already_seen_ptr_links or set()
+    pdf_budget = int(pdf_budget) if pdf_budget is not None else None
+    cutoff_date = cutoff_date or date(2026, 3, 1)
     for full in names:
         last = full.strip().split()[-1]
         rep = full.strip()
@@ -243,9 +311,16 @@ def fetch_house_ptr_transactions(
         for y in years:
             links.extend(_extract_house_ptr_links(s, last, y))
         for url in links[:max_pdfs_per_name]:
+            if url in already_seen_ptr_links:
+                continue
+            if pdf_budget is not None and pdf_budget <= 0:
+                return out
             b = _download_bytes(s, url)
             if not b:
                 continue
+            already_seen_ptr_links.add(url)
+            if pdf_budget is not None:
+                pdf_budget -= 1
             # write temp file
             os.makedirs(".tmp", exist_ok=True)
             pdf_path = os.path.join(".tmp", "ptr.pdf")
@@ -269,8 +344,60 @@ def fetch_house_ptr_transactions(
             txs = _parse_house_ptr_pdf_text(text, representative=rep)
             for t in txs:
                 t["ptr_link"] = url
-                t["disclosure_date"] = None
+                # keep parser's disclosure_date if present
+                # Filter by transaction_date cutoff (best-effort)
+                try:
+                    dt = datetime.strptime(str(t.get("transaction_date") or ""), "%m/%d/%Y").date()
+                except Exception:
+                    dt = None
+                if dt and dt < cutoff_date:
+                    continue
                 out.append(t)
+    return out
+
+
+def _parse_house_ptr_pdf_url(
+    s: requests.Session,
+    *,
+    url: str,
+    representative: str,
+    cutoff_date: date,
+) -> list[dict[str, Any]]:
+    if not _pdftotext_available():
+        return []
+    b = _download_bytes(s, url)
+    if not b:
+        return []
+    os.makedirs(".tmp", exist_ok=True)
+    docid = url.rstrip("/").split("/")[-1].replace(".pdf", "")
+    pdf_path = os.path.join(".tmp", f"ptr_{docid}.pdf")
+    txt_path = os.path.join(".tmp", f"ptr_{docid}.txt")
+    with open(pdf_path, "wb") as f:
+        f.write(b)
+    try:
+        subprocess.run(["pdftotext", "-layout", pdf_path, txt_path], check=False)
+        text = open(txt_path, "r", encoding="utf-8", errors="ignore").read()
+    except Exception:
+        return []
+    # artifact-friendly debug excerpt
+    try:
+        os.makedirs("data/house/debug", exist_ok=True)
+        dbg_path = os.path.join("data/house/debug", f"{representative.replace(' ', '_')}_{docid}.txt")
+        with open(dbg_path, "w", encoding="utf-8") as df:
+            df.write(text[:20000])
+    except Exception:
+        pass
+    txs = _parse_house_ptr_pdf_text(text, representative=representative)
+    out: list[dict[str, Any]] = []
+    for t in txs:
+        t["ptr_link"] = url
+        try:
+            dt = datetime.strptime(str(t.get("transaction_date") or ""), "%m/%d/%Y").date()
+        except Exception:
+            dt = None
+        if dt and dt < cutoff_date:
+            continue
+        out.append(t)
     return out
 
 
@@ -496,34 +623,120 @@ def main() -> int:
 
     house = fetch_house_from_s3(s)
     if house is None:
-        # fallback: scrape a small set of known names from official House search + PTR PDFs
-        default_names = ",".join(
-            [
-                "Nancy Pelosi",
-                "Dan Crenshaw",
-                "Josh Gottheimer",
-                "Brian Mast",
-                "Ro Khanna",
-                "Pat Fallon",
-                "Michael McCaul",
-                "Tommy Tuberville",
-                "Markwayne Mullin",
-                "John Curtis",
-                "Virginia Foxx",
-                "Kevin Hern",
-                "David Rouzer",
-                "Pete Sessions",
-                "Garry Palmer",
-            ]
-        )
-        names = [x.strip() for x in os.getenv("HOUSE_KNOWN_NAMES", default_names).split(",") if x.strip()]
+        # fallback: enumerate the full House member list and pull *new* PTR PDFs incrementally
+        # Defaults aim to capture recent useful data without scraping the full historical backlog.
+        start_date_s = os.getenv("HOUSE_START_DATE", "2026-03-01").strip()
         try:
-            y = date.today().year
-            txs = fetch_house_ptr_transactions(s, names=names, years=[y, y - 1, y - 2], max_pdfs_per_name=25)
-            if txs:
+            cutoff_date = datetime.strptime(start_date_s, "%Y-%m-%d").date()
+        except Exception:
+            cutoff_date = date(2026, 3, 1)
+        pdf_budget = int(os.getenv("HOUSE_PDF_BUDGET", "150"))
+        years_s = os.getenv("HOUSE_YEARS", str(date.today().year)).strip()
+        years: list[int] = []
+        for part in [p.strip() for p in years_s.split(",") if p.strip()]:
+            try:
+                years.append(int(part))
+            except Exception:
+                continue
+        if not years:
+            years = [date.today().year]
+
+        # Load last known good House transactions to avoid re-downloading PDFs we already parsed.
+        existing_house: list[dict[str, Any]] = []
+        seen_ptr: set[str] = set()
+        try:
+            if os.path.exists("data/house/all_transactions.json"):
+                existing_house = json.loads(open("data/house/all_transactions.json", "r", encoding="utf-8").read()) or []
+                for it in existing_house:
+                    u = str((it or {}).get("ptr_link") or "").strip()
+                    if u:
+                        seen_ptr.add(u)
+        except Exception:
+            existing_house = []
+            seen_ptr = set()
+
+        members = fetch_house_members(s)
+        status += _status_line("house_members", str(len(members)))
+        # Use a deterministic order but allow spreading load via offset
+        offset = int(os.getenv("HOUSE_MEMBER_OFFSET", "0"))
+        if members and offset:
+            offset = offset % len(members)
+            members = members[offset:] + members[:offset]
+        member_limit = int(os.getenv("HOUSE_MEMBER_LIMIT", "60"))
+        if member_limit > 0 and len(members) > member_limit:
+            members = members[:member_limit]
+        status += _status_line("house_member_limit", str(len(members)))
+
+        # Discover PTR links per member with State/District filter to reduce last-name collisions.
+        new_links: list[tuple[str, str]] = []  # (member_name, pdf_url)
+        for m in members:
+            last = m.get("last_name") or ""
+            st = m.get("state") or ""
+            dist = m.get("district") or ""
+            name = m.get("name") or last
+            for y in years:
+                links = _extract_house_ptr_links(s, last, y, state=st, district=dist)
+                # If the District/State format doesn't match the search backend, fall back to last-name only.
+                if not links:
+                    links = _extract_house_ptr_links(s, last, y)
+                for u in links:
+                    if u in seen_ptr:
+                        continue
+                    new_links.append((name, u))
+                # stop discovery early once we have enough candidates for this run
+                if len(new_links) >= max(50, pdf_budget * 3):
+                    break
+            if len(new_links) >= max(50, pdf_budget * 3):
+                break
+
+        # de-dup new links
+        uniq_links: list[tuple[str, str]] = []
+        seen_u: set[str] = set()
+        for name, u in new_links:
+            if u in seen_u:
+                continue
+            seen_u.add(u)
+            uniq_links.append((name, u))
+        status += _status_line("house_new_ptr_links", str(len(uniq_links)))
+
+        # Download+parse up to budget, filtering by cutoff_date.
+        try:
+            txs: list[dict[str, Any]] = []
+            downloaded = 0
+            for rep_name, u in uniq_links:
+                if downloaded >= pdf_budget:
+                    break
+                if u in seen_ptr:
+                    continue
+                seen_ptr.add(u)
+                downloaded += 1
+                txs.extend(_parse_house_ptr_pdf_url(s, url=u, representative=rep_name, cutoff_date=cutoff_date))
+            status += _status_line("house_pdf_budget", str(pdf_budget))
+            status += _status_line("house_pdfs_downloaded", str(downloaded))
+            if txs or existing_house:
                 status += _status_line("house_status", "ok_scrape")
-                status += _status_line("house_scrape_transactions", str(len(txs)))
-                _write_json("data/house/all_transactions.json", txs)
+                status += _status_line("house_scrape_new_transactions", str(len(txs)))
+                # merge + de-dup (by ptr_link + transaction_date + ticker + amount)
+                merged = list(existing_house) + txs
+                seen_sig: set[str] = set()
+                uniq: list[dict[str, Any]] = []
+                for it in merged:
+                    if not isinstance(it, dict):
+                        continue
+                    sig = "|".join(
+                        [
+                            str(it.get("ptr_link") or ""),
+                            str(it.get("transaction_date") or ""),
+                            str(it.get("ticker") or ""),
+                            str(it.get("amount") or ""),
+                            str(it.get("transaction_type") or ""),
+                        ]
+                    )
+                    if sig in seen_sig:
+                        continue
+                    seen_sig.add(sig)
+                    uniq.append(it)
+                _write_json("data/house/all_transactions.json", uniq)
             else:
                 status += _status_line("house_status", "missing")
                 if not os.path.exists("data/house/all_transactions.json"):
