@@ -500,13 +500,49 @@ def fetch_senate_from_mirrors(s: requests.Session) -> tuple[str | None, list[dic
     Fallback: pull Senate transactions from one of several public JSON mirrors.
     Provide SENATE_MIRROR_URLS as comma-separated URLs (raw GitHub recommended).
     """
+    # Only accept mirrors that are "recent enough", otherwise they are noise.
+    # Default: require latest date >= 2026-01-01.
+    min_date_s = os.getenv("SENATE_MIN_DATE", "2026-01-01").strip()
+    try:
+        min_date = datetime.strptime(min_date_s, "%Y-%m-%d").date()
+    except Exception:
+        min_date = date(2026, 1, 1)
+
     default_urls = [
-        # Actively updated community mirror of Senate EFD PTR trades
+        # NOTE: Some public mirrors are stale (historical-only). We validate freshness before using.
         "https://raw.githubusercontent.com/timothycarambat/senate-stock-watcher-data/master/aggregate/all_transactions.json",
     ]
     urls = [u.strip() for u in os.getenv("SENATE_MIRROR_URLS", "").split(",") if u.strip()] or default_urls
     if not urls:
         return (None, None)
+
+    def _parse_any_date(v: Any) -> date | None:
+        if v is None:
+            return None
+        s = str(v).strip()
+        if not s:
+            return None
+        for fmt in ("%m/%d/%Y", "%Y-%m-%d"):
+            try:
+                return datetime.strptime(s, fmt).date()
+            except Exception:
+                continue
+        return None
+
+    def _latest_date(items: list[dict[str, Any]]) -> date | None:
+        latest: date | None = None
+        for it in items:
+            if not isinstance(it, dict):
+                continue
+            dt = (
+                _parse_any_date(it.get("transaction_date"))
+                or _parse_any_date(it.get("date"))
+                or _parse_any_date(it.get("disclosure_date"))
+            )
+            if dt and (latest is None or dt > latest):
+                latest = dt
+        return latest
+
     for u in urls:
         try:
             r = s.get(u, timeout=60)
@@ -514,7 +550,12 @@ def fetch_senate_from_mirrors(s: requests.Session) -> tuple[str | None, list[dic
                 continue
             data = r.json()
             if isinstance(data, list):
-                return (u, data)
+                items = [x for x in data if isinstance(x, dict)]
+                latest = _latest_date(items)
+                if latest is None or latest < min_date:
+                    # stale mirror: skip it
+                    continue
+                return (u, items)
         except Exception:
             continue
     return (None, None)
