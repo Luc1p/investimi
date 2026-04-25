@@ -113,53 +113,88 @@ def _extract_house_ptr_links(s: requests.Session, last_name: str, year: int) -> 
 
 def _parse_house_ptr_pdf_text(text: str, *, representative: str) -> list[dict[str, Any]]:
     """
-    Very best-effort PTR PDF parser.
-    Extracts lines containing a date + an amount range, and guesses ticker/type.
+    Best-effort PTR PDF parser for the House Clerk format.
+    Extracts per-transaction rows by tracking asset lines and a subsequent
+    line containing transaction type + dates + amount range.
     """
-    # normalize
     t = text.replace("\r", "\n")
-    lines = [ln.strip() for ln in t.split("\n") if ln.strip()]
+    raw_lines = [ln.rstrip() for ln in t.split("\n")]
+    # collapse excessive whitespace but keep structure
+    lines = [re.sub(r"\s+", " ", ln).strip() for ln in raw_lines if re.sub(r"\s+", " ", ln).strip()]
 
-    # common amount range patterns
-    amt_re = re.compile(r"\$[\d,]+\s*-\s*\$[\d,]+|\$[\d,]+\s*to\s*\$[\d,]+", re.IGNORECASE)
+    # example: "$250,001 - $500,000"
+    amt_re = re.compile(r"\$[\d,]+\s*-\s*\$[\d,]+", re.IGNORECASE)
     date_re = re.compile(r"\b\d{2}/\d{2}/\d{4}\b")
+    # ticker appears in parentheses: "(AAPL)"
+    ticker_re = re.compile(r"\(([A-Z][A-Z0-9.\-]{0,7})\)")
+    # transaction type column commonly: "P" or "S (partial)"
+    tx_type_re = re.compile(r"\b(P|S(?:\s*\([^)]*\))?)\b", re.IGNORECASE)
+
+    # disclosure/signature date: "Digitally Signed: ... , 01/17/2025"
+    disclosure_date: str | None = None
+    for ln in reversed(lines[-60:]):
+        if "digitally signed" in ln.lower():
+            m = date_re.search(ln)
+            if m:
+                disclosure_date = m.group(0)
+            break
 
     txs: list[dict[str, Any]] = []
-    for ln in lines:
-        if not amt_re.search(ln):
-            continue
-        d = date_re.search(ln)
-        if not d:
-            continue
-        amount = amt_re.search(ln).group(0)
-        # guess ticker: first uppercase token 1-6 chars not common words
-        tokens = re.findall(r"\b[A-Z][A-Z0-9.\-]{0,7}\b", ln)
-        ticker = None
-        for tok in tokens:
-            if tok in {"USD", "LLC", "INC", "ETF"}:
-                continue
-            if 1 <= len(tok) <= 6:
-                ticker = tok
-                break
-        typ = None
-        lnl = ln.lower()
-        if "purchase" in lnl or "buy" in lnl:
-            typ = "Purchase"
-        if "sale" in lnl or "sell" in lnl:
-            typ = "Sale"
+
+    cur_asset_lines: list[str] = []
+    cur_ticker: str | None = None
+
+    def flush_if_complete(type_line: str) -> None:
+        nonlocal cur_asset_lines, cur_ticker
+        # extract tx type + date + amount from the "type line"
+        m_type = tx_type_re.search(type_line)
+        m_date = date_re.search(type_line)
+        m_amt = amt_re.search(type_line)
+        if not (m_type and m_date and m_amt):
+            return
+        tx_type = m_type.group(1).strip()
+        tx_date = m_date.group(0)
+        amount = m_amt.group(0)
+        asset_desc = " ".join(cur_asset_lines).strip() if cur_asset_lines else None
+        # derive buy/sell words for compatibility with existing side inference
+        side_word = "Purchase" if tx_type.upper().startswith("P") else "Sale" if tx_type.upper().startswith("S") else None
         txs.append(
             {
-                "transaction_date": d.group(0),
+                "transaction_date": tx_date,
+                "disclosure_date": disclosure_date,
                 "owner": None,
-                "ticker": ticker or "--",
-                "asset_description": None,
+                "ticker": cur_ticker or "--",
+                "asset_description": asset_desc,
                 "asset_type": None,
-                "type": typ,
+                "type": side_word or tx_type,
+                "transaction_type": tx_type,
                 "amount": amount,
                 "comment": None,
                 "representative": representative,
             }
         )
+        cur_asset_lines = []
+        cur_ticker = None
+
+    for ln in lines:
+        # capture asset/ticker lines (these often start with "SP" owner column then description)
+        mt = ticker_re.search(ln)
+        if mt:
+            cur_ticker = mt.group(1)
+        # Heuristic: asset lines contain "Stock" or have "(TICKER)".
+        if (" stock" in ln.lower()) or ("common" in ln.lower()) or ("(" in ln and ")" in ln):
+            # Avoid grabbing the header row.
+            if "transaction date" not in ln.lower() and "amount" not in ln.lower():
+                # Keep the asset line only until we see a transaction type line
+                if not (amt_re.search(ln) and date_re.search(ln) and tx_type_re.search(ln)):
+                    cur_asset_lines.append(ln)
+                    continue
+
+        # When we see a line with tx type + date + amount, close a record.
+        if amt_re.search(ln) and date_re.search(ln) and tx_type_re.search(ln):
+            flush_if_complete(ln)
+            continue
+
     return txs
 
 

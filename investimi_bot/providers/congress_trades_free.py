@@ -331,6 +331,11 @@ def _to_trade(chamber: Chamber, item: dict[str, Any], *, source: str) -> Congres
 
 def _infer_side(tx_type: str | None) -> Side:
     s = (tx_type or "").lower()
+    # House PTR PDFs often use single-letter codes.
+    if s == "p" or s.startswith("p "):
+        return "buy"
+    if s == "s" or s.startswith("s "):
+        return "sell"
     if "purchase" in s or "buy" in s:
         return "buy"
     if "sale" in s or "sell" in s:
