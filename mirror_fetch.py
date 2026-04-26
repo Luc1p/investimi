@@ -418,17 +418,77 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
     """
     base = "https://efdsearch.senate.gov"
     home = f"{base}/search/"
-    r = s.get(home, timeout=45, headers={"Accept": "text/html,*/*"})
-    if r.status_code != 200:
-        raise requests.HTTPError(f"senate_efd_home_http_{r.status_code}")
-    soup = BeautifulSoup(r.text, "html.parser")
-    csrf = soup.find("input", {"name": "csrfmiddlewaretoken"})
-    token = csrf.get("value") if csrf else None
-    # Sometimes token is only in cookie.
-    if not token:
-        token = s.cookies.get("csrftoken")
-    if not token:
-        raise RuntimeError("Missing csrf token on senate efd home")
+
+    def _ensure_efd_session() -> str:
+        """
+        The EFD site sometimes shows a disclaimer/confirmation page before the search UI.
+        This helper best-effort "accepts" it to establish cookies + CSRF token.
+        Returns csrf token.
+        """
+        r0 = s.get(home, timeout=45, headers={"Accept": "text/html,*/*"})
+        if r0.status_code != 200:
+            raise requests.HTTPError(f"senate_efd_home_http_{r0.status_code}")
+        soup0 = BeautifulSoup(r0.text, "html.parser")
+        csrf0 = soup0.find("input", {"name": "csrfmiddlewaretoken"})
+        token0 = (csrf0.get("value") if csrf0 else None) or s.cookies.get("csrftoken")
+
+        # If search page is available, we're done.
+        if token0 and ("report/data" in r0.text or "efdsearch" in r0.text):
+            return token0
+
+        # Detect disclaimer by presence of an "agree/accept" form/button.
+        page_txt = soup0.get_text(" ", strip=True).lower()
+        if "agree" not in page_txt and "accept" not in page_txt and "disclaimer" not in page_txt:
+            if token0:
+                return token0
+            raise RuntimeError("Missing csrf token on senate efd home")
+
+        form = soup0.find("form")
+        if not form:
+            if token0:
+                return token0
+            raise RuntimeError("EFD disclaimer page without form")
+        action = (form.get("action") or "").strip() or home
+        if not action.startswith("http"):
+            action = base + action if action.startswith("/") else home
+
+        payload: dict[str, str] = {}
+        for inp in form.find_all("input"):
+            name = (inp.get("name") or "").strip()
+            if not name:
+                continue
+            val = (inp.get("value") or "").strip()
+            payload[name] = val
+
+        # Try to set a submit/agree field if present.
+        for inp in form.find_all("input"):
+            t = (inp.get("type") or "").lower()
+            if t in ("submit", "button"):
+                name = (inp.get("name") or "").strip()
+                val = (inp.get("value") or "").strip()
+                if name:
+                    payload[name] = val or payload.get(name, "")
+        # Some forms use <button>
+        btn = form.find("button")
+        if btn and btn.get("name"):
+            payload[str(btn.get("name"))] = str(btn.get("value") or "Agree")
+
+        r1 = s.post(action, data=payload, timeout=45, headers={"Referer": home})
+        if r1.status_code not in (200, 302):
+            raise requests.HTTPError(f"senate_efd_disclaimer_http_{r1.status_code}")
+
+        # After acceptance, reload search to get CSRF token.
+        r2 = s.get(home, timeout=45, headers={"Accept": "text/html,*/*"})
+        if r2.status_code != 200:
+            raise requests.HTTPError(f"senate_efd_home_after_disclaimer_http_{r2.status_code}")
+        soup2 = BeautifulSoup(r2.text, "html.parser")
+        csrf2 = soup2.find("input", {"name": "csrfmiddlewaretoken"})
+        token2 = (csrf2.get("value") if csrf2 else None) or s.cookies.get("csrftoken")
+        if not token2:
+            raise RuntimeError("Missing csrf token after senate efd disclaimer")
+        return token2
+
+    token = _ensure_efd_session()
 
     # DataTables endpoint used by the site
     data_url = f"{base}/search/report/data/"
