@@ -3,7 +3,11 @@ name: Mirror Congress trades (House+Senate)
 on:
   workflow_dispatch:
   schedule:
+    # Try multiple small Senate EFD pulls per day
+    - cron: "20 0 * * *" # daily 00:20 UTC
     - cron: "20 6 * * *" # daily 06:20 UTC
+    - cron: "20 12 * * *" # daily 12:20 UTC
+    - cron: "20 18 * * *" # daily 18:20 UTC
 
 concurrency:
   group: congress-trades-mirror
@@ -34,10 +38,11 @@ jobs:
           MIRROR_UA: "CongressTradesMirror/0.2 (public-interest)"
           # Senate EFD is sometimes unstable; mirrors are used as fallback.
           # You can override with SENATE_MIRROR_URLS in repo/workflow env.
-          SENATE_EFD_DAYS: "60"
-          SENATE_EFD_MAX_REPORTS: "120"
-          SENATE_EFD_MAX_PAGES: "6"
-          SENATE_EFD_PAGE_SIZE: "100"
+          # Light mode to reduce 503 likelihood
+          SENATE_EFD_DAYS: "7"
+          SENATE_EFD_MAX_REPORTS: "40"
+          SENATE_EFD_MAX_PAGES: "1"
+          SENATE_EFD_PAGE_SIZE: "25"
           # Do not accept stale Senate mirrors.
           SENATE_MIN_DATE: "2026-01-01"
         run: |
