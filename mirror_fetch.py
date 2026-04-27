@@ -490,7 +490,7 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
 
     token = _ensure_efd_session()
 
-    # DataTables endpoint used by the site
+    # DataTables endpoint used by the site (often unstable, 503).
     data_url = f"{base}/search/report/data/"
     # last N days by submission date
     end = date.today()
@@ -510,6 +510,91 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
         "Accept": "application/json,text/plain,*/*",
         "Accept-Language": "en-US,en;q=0.9",
     }
+    def _parse_filed_reports_table(html: str) -> list[dict[str, Any]]:
+        """
+        Parse the HTML results page which contains a table like:
+          <table id="filedReports"> ... <a href="/search/view/ptr/<uuid>/">...</a> ...
+        Returns a list of dicts compatible with the rest of the pipeline:
+          { "raw": [<cells...>] }
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        table = soup.find("table", {"id": "filedReports"})
+        if not table:
+            return []
+        out: list[dict[str, Any]] = []
+        for tr in table.find_all("tr"):
+            tds = tr.find_all("td")
+            if len(tds) < 5:
+                continue
+            # Build a "raw" list that includes the report link as HTML (so _extract_first_href works).
+            raw_cells: list[Any] = []
+            raw_cells.append(tds[0].get_text(" ", strip=True))
+            raw_cells.append(tds[1].get_text(" ", strip=True))
+            raw_cells.append(tds[2].get_text(" ", strip=True))
+            raw_cells.append(tds[3].decode_contents().strip())
+            raw_cells.append(tds[4].get_text(" ", strip=True))
+            out.append({"raw": raw_cells})
+        return out
+
+    def _fetch_efd_html_results() -> list[dict[str, Any]]:
+        """
+        Fallback when DataTables endpoint is down: submit the search form and parse the HTML table.
+        This is best-effort because field names can change, but it's often more stable than report/data.
+        """
+        # Start from the search page we already can GET (after disclaimer acceptance).
+        r = s.get(home, timeout=45, headers={"Accept": "text/html,*/*"})
+        if r.status_code != 200:
+            raise requests.HTTPError(f"senate_efd_home_http_{r.status_code}")
+        soup = BeautifulSoup(r.text, "html.parser")
+        form = soup.find("form")
+        if not form:
+            return []
+        action = (form.get("action") or "").strip() or home
+        if not action.startswith("http"):
+            action = base + action if action.startswith("/") else home
+
+        payload: dict[str, Any] = {}
+        for inp in form.find_all(["input", "select"]):
+            name = (inp.get("name") or "").strip()
+            if not name:
+                continue
+            if inp.name == "select":
+                opt = inp.find("option", selected=True) or inp.find("option")
+                payload[name] = (opt.get("value") if opt else "") or ""
+            else:
+                payload[name] = (inp.get("value") or "").strip()
+
+        # Override with our desired filters (best-effort: set if keys exist).
+        for k in ("submitted_start_date", "submitted_start_date__gte"):
+            if k in payload:
+                payload[k] = base_payload["submitted_start_date"]
+        for k in ("submitted_end_date", "submitted_end_date__lte", "submitted_end_date"):
+            if k in payload:
+                payload[k] = base_payload["submitted_end_date"]
+
+        # Many forms accept report_types and filer_types; try common variants.
+        for k in ("report_types", "report_types[]"):
+            if k in payload:
+                payload[k] = "11"
+        for k in ("filer_types", "filer_types[]"):
+            if k in payload:
+                payload[k] = "1"
+
+        # Submit search
+        r2 = s.post(action, data=payload, timeout=45, headers={"Referer": home})
+        if r2.status_code != 200:
+            return []
+        rows = _parse_filed_reports_table(r2.text)
+        # Some implementations return results only after a redirect; follow once.
+        if not rows and r2.url and r2.url != action:
+            try:
+                r3 = s.get(r2.url, timeout=45, headers={"Referer": home})
+                if r3.status_code == 200:
+                    rows = _parse_filed_reports_table(r3.text)
+            except Exception:
+                pass
+        return rows
+
     # DataTables pagination: keep fetching until empty or SENATE_EFD_MAX_PAGES reached.
     out: list[dict[str, Any]] = []
     max_pages = int(os.getenv("SENATE_EFD_MAX_PAGES", "6"))
@@ -533,6 +618,10 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
                 continue
             raise requests.HTTPError(last_err)
         else:
+            # If DataTables is down, try HTML table parsing as fallback.
+            html_rows = _fetch_efd_html_results()
+            if html_rows:
+                return html_rows
             raise requests.HTTPError(last_err or "senate_efd_data_http_unknown")
 
         data = r2.json()
