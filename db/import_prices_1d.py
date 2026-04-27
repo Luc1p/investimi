@@ -133,6 +133,10 @@ def _tickers_from_universes(universes: list[str]) -> list[str]:
         elif uu == "ftsemib":
             out.extend(_tickers_ftsemib())
 
+    # Always include benchmark for US alpha computations
+    if "SPY" not in out:
+        out.append("SPY")
+
     seen: set[str] = set()
     dedup: list[str] = []
     for t in out:
@@ -408,7 +412,7 @@ def main() -> int:
     max_tickers_i = int(max_tickers) if max_tickers else None
 
     tickers = _tickers_from_universes(universes)
-    if max_tickers_i is not None:
+    if max_tickers_i is not None and max_tickers_i > 0:
         tickers = tickers[: max_tickers_i]
     if not tickers:
         raise SystemExit("No tickers resolved from PRICE_UNIVERSES")

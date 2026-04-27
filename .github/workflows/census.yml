@@ -1,0 +1,89 @@
+name: census-congress-reports
+
+on:
+  workflow_dispatch:
+    inputs:
+      house_start_year:
+        description: "House start year"
+        required: false
+        default: "2020"
+      house_end_year:
+        description: "House end year"
+        required: false
+        default: ""
+      house_member_limit:
+        description: "Limit House members (0 = all)"
+        required: false
+        default: "0"
+      senate_start_date:
+        description: "Senate start date (YYYY-MM-DD)"
+        required: false
+        default: "2020-01-01"
+  schedule:
+    - cron: "15 5 * * 1" # Mondays 05:15 UTC
+
+concurrency:
+  group: census-congress-reports
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: investimi
+          POSTGRES_USER: investimi
+          POSTGRES_PASSWORD: investimi
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U investimi -d investimi"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      INVESTIMI_DB_DSN: postgresql://investimi:investimi@localhost:5432/investimi
+      CENSUS_OUT_DIR: artifacts/census
+      CENSUS_HOUSE_START_YEAR: ${{ inputs.house_start_year || '2020' }}
+      CENSUS_HOUSE_END_YEAR: ${{ inputs.house_end_year || '' }}
+      CENSUS_HOUSE_MEMBER_LIMIT: ${{ inputs.house_member_limit || '0' }}
+      CENSUS_SENATE_START_DATE: ${{ inputs.senate_start_date || '2020-01-01' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-db.txt
+
+      - name: Apply DB schema
+        run: |
+          python - <<'PY'
+          import psycopg, pathlib
+          sql = pathlib.Path("db/schema.sql").read_text(encoding="utf-8")
+          with psycopg.connect("postgresql://investimi:investimi@localhost:5432/investimi") as conn:
+            with conn.cursor() as cur:
+              cur.execute(sql)
+          print("ok")
+          PY
+
+      - name: Run census (index only)
+        run: |
+          python -m db.census_congress_reports
+
+      - name: Upload artifact (census)
+        uses: actions/upload-artifact@v4
+        with:
+          name: census-congress-reports
+          path: artifacts/census/
+          if-no-files-found: error
+          retention-days: 14
+

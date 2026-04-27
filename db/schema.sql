@@ -115,6 +115,25 @@ create table if not exists core.price_bars_manifest (
 create index if not exists price_bars_manifest_instr_idx on core.price_bars_manifest (instrument_id);
 create index if not exists price_bars_manifest_updated_idx on core.price_bars_manifest (updated_at);
 
+-- Congress disclosure reports index (Step 1 census)
+create table if not exists core.disclosure_reports (
+  id bigserial primary key,
+  chamber text not null, -- house|senate
+  report_type text not null, -- ptr
+  filer text, -- name as shown on source
+  submitted_date date, -- senate: submitted date; house: best-effort / null
+  filing_year int, -- house filing year
+  external_id text not null, -- stable id if known (uuid/docid) else hashable key
+  report_url text not null,
+  source_key text not null, -- clerk_house|senate_efd
+  raw jsonb,
+  indexed_at timestamptz not null default now(),
+  unique (source_key, external_id)
+);
+
+create index if not exists disclosure_reports_chamber_idx on core.disclosure_reports (chamber, submitted_date);
+create index if not exists disclosure_reports_url_idx on core.disclosure_reports (report_url);
+
 -- --------
 -- ops
 -- --------
