@@ -38,8 +38,8 @@ jobs:
         env:
           MIRROR_UA: "CongressTradesMirror/0.2 (public-interest)"
           # Light mode to reduce 503 likelihood
-          SENATE_EFD_DAYS: "14"
-          SENATE_EFD_MAX_REPORTS: "60"
+          SENATE_EFD_DAYS: "30"
+          SENATE_EFD_MAX_REPORTS: "120"
         run: |
           python senate_efd_playwright.py || true
 
