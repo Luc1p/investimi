@@ -128,7 +128,8 @@ def main() -> int:
     dsn = os.getenv("INVESTIMI_DB_DSN", "postgresql://investimi:investimi@localhost:5433/investimi")
 
     house_start_year = int(os.getenv("CENSUS_HOUSE_START_YEAR", "2020"))
-    house_end_year = int(os.getenv("CENSUS_HOUSE_END_YEAR", str(date.today().year)))
+    house_end_raw = (os.getenv("CENSUS_HOUSE_END_YEAR") or "").strip()
+    house_end_year = int(house_end_raw) if house_end_raw else date.today().year
     house_member_limit = int(os.getenv("CENSUS_HOUSE_MEMBER_LIMIT", "0"))  # 0 = all
 
     senate_start = os.getenv("CENSUS_SENATE_START_DATE", "2020-01-01").strip()
