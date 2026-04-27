@@ -253,6 +253,15 @@ def main() -> int:
 
     _write_json("data/senate/all_transactions.json", tx_out)
     _write_json("data/senate/ptr_links.json", {"count": len(links), "ok_pages": ok_pages, "links": links})
+    # Write a small status file so the main workflow can surface Senate stats.
+    os.makedirs("data/senate", exist_ok=True)
+    with open("data/senate/STATUS.txt", "w", encoding="utf-8") as f:
+        f.write(f"updated_utc={datetime.utcnow().isoformat()}Z\n")
+        f.write(f"senate_pw_days={days}\n")
+        f.write(f"senate_pw_max_reports={max_reports}\n")
+        f.write(f"senate_pw_ptr_links={len(links)}\n")
+        f.write(f"senate_pw_ok_pages={ok_pages}\n")
+        f.write(f"senate_pw_transactions={len(tx_out)}\n")
     return 0
 
 

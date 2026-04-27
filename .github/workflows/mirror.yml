@@ -64,12 +64,16 @@ jobs:
         run: |
           echo "---- data/STATUS.txt ----"
           cat data/STATUS.txt || true
+          echo "---- data/senate/STATUS.txt ----"
+          cat data/senate/STATUS.txt || true
 
       - name: Upload STATUS artifact
         uses: actions/upload-artifact@v4
         with:
           name: mirror-status
-          path: data/STATUS.txt
+          path: |
+            data/STATUS.txt
+            data/senate/STATUS.txt
 
       - name: Upload Senate ptr links (if any)
         uses: actions/upload-artifact@v4
