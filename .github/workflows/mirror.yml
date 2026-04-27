@@ -31,11 +31,23 @@ jobs:
           sudo apt-get update -y
           sudo apt-get install -y poppler-utils
           python -m pip install --upgrade pip
-          pip install requests beautifulsoup4
+          pip install requests beautifulsoup4 playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Senate EFD via browser (Playwright)
+        env:
+          MIRROR_UA: "CongressTradesMirror/0.2 (public-interest)"
+          # Light mode to reduce 503 likelihood
+          SENATE_EFD_DAYS: "7"
+          SENATE_EFD_MAX_REPORTS: "40"
+        run: |
+          python senate_efd_playwright.py || true
 
       - name: Fetch/mirror (S3 + official fallbacks)
         env:
           MIRROR_UA: "CongressTradesMirror/0.2 (public-interest)"
+          # If Playwright already produced senate JSON, don't overwrite it here.
+          SENATE_SKIP: "1"
           # Senate EFD is sometimes unstable; mirrors are used as fallback.
           # You can override with SENATE_MIRROR_URLS in repo/workflow env.
           # Light mode to reduce 503 likelihood
@@ -58,6 +70,13 @@ jobs:
         with:
           name: mirror-status
           path: data/STATUS.txt
+
+      - name: Upload Senate ptr links (if any)
+        uses: actions/upload-artifact@v4
+        with:
+          name: senate-ptr-links
+          path: data/senate/ptr_links.json
+          if-no-files-found: ignore
 
       - name: Upload House debug texts (if any)
         uses: actions/upload-artifact@v4

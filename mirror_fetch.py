@@ -1002,9 +1002,14 @@ def main() -> int:
         status += _status_line("house_status", "ok")
         _write_json("data/house/all_transactions.json", house)
 
-    senate = fetch_senate_from_s3(s)
+    if os.getenv("SENATE_SKIP", "").strip() == "1":
+        status += _status_line("senate_status", "skipped")
+        senate = None
+    else:
+        senate = fetch_senate_from_s3(s)
     if senate is None:
-        status += _status_line("senate_status", "missing_s3_try_efd")
+        if os.getenv("SENATE_SKIP", "").strip() != "1":
+            status += _status_line("senate_status", "missing_s3_try_efd")
         try:
             efd_days = int(os.getenv("SENATE_EFD_DAYS", "60"))
             max_reports = int(os.getenv("SENATE_EFD_MAX_REPORTS", "120"))
