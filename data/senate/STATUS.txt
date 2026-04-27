@@ -1,6 +1,7 @@
-updated_utc=2026-04-27T09:54:08.210541Z
+updated_utc=2026-04-27T10:07:23.129199Z
 senate_pw_days=7
 senate_pw_max_reports=40
 senate_pw_ptr_links=1
 senate_pw_ok_pages=1
+senate_pw_parsed_pages=0
 senate_pw_transactions=0

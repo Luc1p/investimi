@@ -1,0 +1,270 @@
+<!DOCTYPE html><html lang="en" class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase no-indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head>
+            <title>eFD: Home</title>
+            <meta name="robots" content="noindex">
+            <meta charset="utf-8">
+            <meta content="IE=edge" http-equiv="X-UA-Compatible">
+            <meta content="width=device-width, initial-scale=1" name="viewport">
+
+            
+
+            
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+
+
+<link type="text/css" rel="stylesheet" media="all" href="/static/bootstrap-custom/theme-starter-site.css">
+<link type="text/css" rel="stylesheet" media="all" href="/static/fontawesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css">
+
+<link type="text/css" rel="stylesheet" media="all" href="/static/css/main.css">
+<link type="text/css" rel="stylesheet" media="all" href="/static/css/carousel.css">
+<link type="text/css" rel="stylesheet" media="print" href="/static/css/print.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js" integrity="sha256-lSjKY0/srUM9BE3dPm+c4fBo1dky2v27Gdjm2uoZaL0=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js" integrity="sha384-NHtbx1Hf6ctHNdZmU28YfhGjB63gcU1YU64ttM+c0RxMKNBj67j+N/axpqTfdffo" crossorigin="anonymous"></script>
+
+<script src="/static/scripts/popper.min.js" type="text/javascript"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+
+
+
+<script src="/static/scripts/jquery/jquery.placeholder.js"></script>
+<script src="/static/scripts/jquery/jquery.dPassword.js"></script>
+<script src="/static/scripts/jquery/modernizr.js"></script>
+<script src="/static/scripts/jquery/jquery.cooke.js"></script>
+<script src="/static/browser-detect.js"></script>
+
+<!-- PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.js" integrity="sha512-X6sgTijRHjRCltheFlgnf5Lm4NzCXVgfSNAHjHq4G8R03SBUTUVqFllStaiZflC4mEOtaPGRSWvcd3zFSl7eYg==" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+        if (!Modernizr.input.placeholder) {
+            $('[placeholder]').focus(function () {
+                var input = $(this);
+                if (input.val() == input.attr('placeholder')) {
+                    input.val('');
+                    input.removeClass('placeholder');
+                }
+            }).blur(function () {
+                var input = $(this);
+                if (input.val() == '' || input.val() == input.attr('placeholder')) {
+                    input.addClass('placeholder');
+                    input.val(input.attr('placeholder'));
+                }
+            }).blur();
+            $('[placeholder]').parents('form').submit(function () {
+                $(this).find('[placeholder]').each(function () {
+                    var input = $(this);
+                    if (input.val() == input.attr('placeholder')) {
+                        input.val('');
+                    }
+                })
+            });
+        }
+
+
+        //Popovers
+
+        //Initializes popovers and provides target containers
+        var i = 0;
+        $(document).find('[data-toggle="popover"]').each(function () {
+            ;
+            var popoverCount = 'popover' + i;
+            i++;
+            $(this).parent().addClass(popoverCount);
+            var popoverContainer = '.' + popoverCount;
+            $(this).popover({ container: popoverContainer });
+        });
+
+        //Hides popover if you click/touch away from it
+        $(document).on('click touchstart', function (e) {
+            $('[data-toggle="popover"],[data-original-title]').each(function () {
+                if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                    (($(this).popover('hide').data('bs.popover') || {}).inState || {}).click = false;
+                }
+            });
+        });
+
+        //Hides popover if press Esc
+        $(document).keydown(function (e) {
+            if (e.which === 27 && $(this).has('.popover')) {
+                $('.popover').popover('hide');
+            }
+        });
+
+        //Hides popover if you press close
+        $(document).click(function () {
+            $('button.close').click(function () {
+                $('.popover').popover('hide');
+            });
+        });
+    });
+
+
+</script>
+
+<script>
+    if (window.location.pathname != '/incompatible-browser/') {
+        if (BrowserDetect.browser == "Explorer" && parseInt(BrowserDetect.version, 10) < 11 ||
+            BrowserDetect.browser == "Chrome" && parseInt(BrowserDetect.version, 10) < 36 ||
+            BrowserDetect.browser == "Safari" && parseInt(BrowserDetect.version, 10) < 7 ||
+            BrowserDetect.browser == "Firefox" && parseInt(BrowserDetect.version, 10) < 31) {
+            window.location.replace("/incompatible-browser/");
+        }
+    }
+</script>
+
+            
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#agree_statement').click(function() {
+                if(this.checked) {//Just this.checked will say whether it's checked or not
+                    //Now trigger the form submit event
+                    $("#agreement_form").submit();
+                }
+            });
+        });
+    </script>
+
+
+        </head>
+
+        <body>
+            <div class="container-wrap" id="top">
+                <header class="container-fluid d-print-block txtLogo ">
+                    <small>United States Senate</small><br>
+                    Financial Disclosures
+                </header>
+                <nav class="navbar navbar-expand-lg navbar-light fixed-top d-print-none">
+                    <a href="#content" class="sr-only sr-only-focusable" tabindex="0">Skip to main content</a>
+
+                    <div class="navbar-brand" id="x"><img src="/static/images/logo.svg" alt="U.S. Senate Financial Disclosure logo"></div>
+                    <button class="navbar-toggler mr-2" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+                        
+                        <ul class="navbar-nav justify-content-end accountNav" role="navigation">
+                            
+                        </ul>
+                    </div>
+                </nav>
+                <main class="container-fluid pgContent" id="content">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!--Message Block-->
+                            
+    
+    
+        
+            <div class="alert alert-error" id="errorMessage" role="alert" aria-live="assertive" aria-relevant="all">
+               <i class="fa fa-warning" title="warning"></i> You must agree to the prohibitions on obtaining and use of financial disclosure reports.
+            </div>
+        
+    
+    <div class="alert alert-danger" id="genericErrorMessageDiv" role="alert" aria-live="assertive" aria-relevant="all" style="display:none;">
+       <i class="fa fa-warning" title="Warning" aria-label="Warning"></i> <span id="genericErrorMessage"></span>
+    </div>
+
+                            <!--End Message Block-->
+
+                            
+    <h1>United States Senate Financial Disclosures (eFD)</h1>
+    <div class="row">
+        <div class="col-sm-6">
+            <p>
+                Public disclosure of a government official's personal financial interests is a key component to an effective code of conduct.
+                For more information on filing, including who files, and the types of reports filed, see the
+                <a href="http://www.ethics.senate.gov/public/index.cfm/financialdisclosure" target="_blank">United States Senate's Select Committee on Ethics website</a>.
+            </p>
+            <h2 class="h4">Select Reports are Available</h2>
+            <p>
+                This site includes financial disclosure reports for
+	            Senators, former Senators and Senate candidates filed from 2012 to present. Senator reports are available for six years from the date a Senator ceases to be a Member of Congress. Candidate reports are available for one year after the individual is no longer a candidate.
+            </p>
+
+            <h2 class="h4">Additional Reports</h2>
+            <p>
+                All financial disclosure reports  are available through the Office of the
+                Secretary of the Senate kiosk:
+            </p>
+            <ul class="list-unstyled">
+                <li><strong>Office of Public Records</strong></li>
+                <li>144 Hart Senate Office Building</li>
+                <li>Washington, D.C. 20510-7116</li>
+                <li>phone (202) 224-0322 </li>
+            </ul>
+        </div>
+        <div class="col-sm-6">
+            <div class="card card__info">
+                <div class="card-body">
+                    <h4><i class="fa fa-search mr-sm-1" aria-hidden="true" title="search icon"></i>Get Access</h4>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+                    <p>
+                        <em>You must agree to the following to be able to search reports.</em>
+                    </p>
+                    <hr>
+                    <p>
+                         Title 1 of the Ethics in Government Act of 1978, as amended, 5 U.S.C. app. § 105(c), states that:
+                    </p>
+
+                    <ol class="card__list">
+                        <li>It shall be unlawful for any person to obtain or use a report:
+                            <ol>
+                                <li>for any unlawful purpose;</li>
+                                <li>for any commercial purpose, other than by news and communications media for dissemination to the general public;</li>
+                                <li>for determining or establishing the credit rating of any individual; or</li>
+                                <li>for use, directly or indirectly, in the solicitation of money for any political, charitable, or other purpose.</li>
+                            </ol>
+                        </li>
+                        <li>
+                            The Attorney General may bring a civil action against any person who obtains or uses a report for any purpose
+                            prohibited in paragraph (1) of this subsection. The court in which such action is brought may assess against
+                            such person a penalty in any amount not to exceed $10,000. Such remedy shall be in addition to any other remedy
+                            available under statutory or common law.
+                        </li>
+                    </ol>
+                    <hr>
+                    <form action="" method="POST" id="agreement_form">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" id="agree_statement" value="1" name="prohibition_agreement"> I understand the prohibitions on obtaining and use of financial disclosure reports.
+                            </label>
+                        </div>
+                        <input type="hidden" name="csrfmiddlewaretoken" value="cmN0ey9lTLvhOWsz9QCWTVctRHOEf9qpmO8dxOqvTPAf2FnzGCOVk7MkAdvbEeVD">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+                        </div>
+                    </div>
+                </main>
+
+               <footer id="footer" class="footer d-print-none">
+
+                </footer>
+            </div><!-- end #wrap -->
+        
+    
+</body></html>
