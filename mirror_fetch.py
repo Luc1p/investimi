@@ -1002,45 +1002,44 @@ def main() -> int:
         status += _status_line("house_status", "ok")
         _write_json("data/house/all_transactions.json", house)
 
-    if os.getenv("SENATE_SKIP", "").strip() == "1":
+    senate_skip = os.getenv("SENATE_SKIP", "").strip() == "1"
+    if senate_skip:
         status += _status_line("senate_status", "skipped")
-        senate = None
     else:
         senate = fetch_senate_from_s3(s)
-    if senate is None:
-        if os.getenv("SENATE_SKIP", "").strip() != "1":
+        if senate is None:
             status += _status_line("senate_status", "missing_s3_try_efd")
-        try:
-            efd_days = int(os.getenv("SENATE_EFD_DAYS", "60"))
-            max_reports = int(os.getenv("SENATE_EFD_MAX_REPORTS", "120"))
-            txs, meta = build_senate_transactions_from_efd(s, days=efd_days, max_reports=max_reports)
-            status += _status_line("senate_efd_status", "ok")
-            status += _status_line("senate_efd_transactions", str(len(txs)))
-            status += _status_line("senate_efd_filings", str(int(meta.get("filings_count") or 0)))
-            status += _status_line("senate_efd_ptr_links", str(int(meta.get("ptr_links_count") or 0)))
-            if meta.get("filings_source"):
-                status += _status_line("senate_efd_source", str(meta.get("filings_source")))
-            # Only overwrite if we actually got something.
-            if txs:
-                _write_json("data/senate/all_transactions.json", txs)
-        except Exception as e:
-            status += _status_line("senate_efd_status", f"error:{type(e).__name__}")
-            status += _status_line("senate_efd_error", (str(e) or "")[:180])
-            # Fallback: try mirrors, then keep last known good file.
-            src, mirrored = fetch_senate_from_mirrors(s)
-            if mirrored:
-                status += _status_line("senate_mirror_status", "ok")
-                status += _status_line("senate_mirror_url", (src or "")[:180])
-                status += _status_line("senate_mirror_transactions", str(len(mirrored)))
-                _write_json("data/senate/all_transactions.json", mirrored)
-            else:
-                status += _status_line("senate_mirror_status", "missing")
-                # Keep last known good file if present; otherwise write empty list.
-                if not os.path.exists("data/senate/all_transactions.json"):
-                    _write_json("data/senate/all_transactions.json", [])
-    else:
-        status += _status_line("senate_status", "ok")
-        _write_json("data/senate/all_transactions.json", senate)
+            try:
+                efd_days = int(os.getenv("SENATE_EFD_DAYS", "60"))
+                max_reports = int(os.getenv("SENATE_EFD_MAX_REPORTS", "120"))
+                txs, meta = build_senate_transactions_from_efd(s, days=efd_days, max_reports=max_reports)
+                status += _status_line("senate_efd_status", "ok")
+                status += _status_line("senate_efd_transactions", str(len(txs)))
+                status += _status_line("senate_efd_filings", str(int(meta.get("filings_count") or 0)))
+                status += _status_line("senate_efd_ptr_links", str(int(meta.get("ptr_links_count") or 0)))
+                if meta.get("filings_source"):
+                    status += _status_line("senate_efd_source", str(meta.get("filings_source")))
+                # Only overwrite if we actually got something.
+                if txs:
+                    _write_json("data/senate/all_transactions.json", txs)
+            except Exception as e:
+                status += _status_line("senate_efd_status", f"error:{type(e).__name__}")
+                status += _status_line("senate_efd_error", (str(e) or "")[:180])
+                # Fallback: try mirrors, then keep last known good file.
+                src, mirrored = fetch_senate_from_mirrors(s)
+                if mirrored:
+                    status += _status_line("senate_mirror_status", "ok")
+                    status += _status_line("senate_mirror_url", (src or "")[:180])
+                    status += _status_line("senate_mirror_transactions", str(len(mirrored)))
+                    _write_json("data/senate/all_transactions.json", mirrored)
+                else:
+                    status += _status_line("senate_mirror_status", "missing")
+                    # Keep last known good file if present; otherwise write empty list.
+                    if not os.path.exists("data/senate/all_transactions.json"):
+                        _write_json("data/senate/all_transactions.json", [])
+        else:
+            status += _status_line("senate_status", "ok")
+            _write_json("data/senate/all_transactions.json", senate)
 
     with open("data/STATUS.txt", "w", encoding="utf-8") as f:
         f.write(status)
