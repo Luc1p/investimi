@@ -580,8 +580,21 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
             if k in payload:
                 payload[k] = "1"
 
+        for inp in form.find_all(["input", "select"]):
+            name = (inp.get("name") or "").strip()
+            if not name:
+                continue
+            ln = name.lower()
+            if "submitted" in ln and ("start" in ln or "gte" in ln or ln.endswith("_from")):
+                payload[name] = base_payload["submitted_start_date"]
+            elif "submitted" in ln and ("end" in ln or "lte" in ln or ln.endswith("_to")):
+                payload[name] = base_payload["submitted_end_date"]
+
+        post_headers: dict[str, str] = {"Referer": home}
+        if token:
+            post_headers["X-CSRFToken"] = token
         # Submit search
-        r2 = s.post(action, data=payload, timeout=45, headers={"Referer": home})
+        r2 = s.post(action, data=payload, timeout=45, headers=post_headers)
         if r2.status_code != 200:
             return []
         rows = _parse_filed_reports_table(r2.text)
@@ -726,7 +739,7 @@ def fetch_senate_efd_range(s: requests.Session, *, start: date, end: date) -> li
             raise RuntimeError("Missing csrf token after senate efd disclaimer")
         return token2
 
-    _ensure_efd_session()
+    token = _ensure_efd_session()
 
     base_payload = {
         "submitted_start_date": start.strftime("%m/%d/%Y"),
@@ -789,7 +802,21 @@ def fetch_senate_efd_range(s: requests.Session, *, start: date, end: date) -> li
             if k in payload:
                 payload[k] = "1"
 
-        r2 = s.post(action, data=payload, timeout=45, headers={"Referer": home})
+        # If the site renames date fields, fixed-key overrides never run — match by name pattern.
+        for inp in form.find_all(["input", "select"]):
+            name = (inp.get("name") or "").strip()
+            if not name:
+                continue
+            ln = name.lower()
+            if "submitted" in ln and ("start" in ln or "gte" in ln or ln.endswith("_from")):
+                payload[name] = base_payload["submitted_start_date"]
+            elif "submitted" in ln and ("end" in ln or "lte" in ln or ln.endswith("_to")):
+                payload[name] = base_payload["submitted_end_date"]
+
+        post_headers: dict[str, str] = {"Referer": home}
+        if token:
+            post_headers["X-CSRFToken"] = token
+        r2 = s.post(action, data=payload, timeout=45, headers=post_headers)
         if r2.status_code != 200:
             return []
         rows = _parse_filed_reports_table(r2.text)
@@ -802,10 +829,71 @@ def fetch_senate_efd_range(s: requests.Session, *, start: date, end: date) -> li
                 pass
         return rows
 
+    def _datatables_fallback() -> list[dict[str, Any]]:
+        """Same JSON path as fetch_senate_efd when HTML search returns no rows."""
+        data_url = f"{base}/search/report/data/"
+        base_payload_dt: dict[str, Any] = {
+            "draw": "1",
+            "length": os.getenv("SENATE_EFD_PAGE_SIZE", "100"),
+            "report_types[]": ["11"],
+            "filer_types[]": ["1"],
+            "submitted_start_date": base_payload["submitted_start_date"],
+            "submitted_end_date": base_payload["submitted_end_date"],
+        }
+        headers = {
+            "Referer": home,
+            "X-CSRFToken": token,
+            "X-Requested-With": "XMLHttpRequest",
+            "Accept": "application/json,text/plain,*/*",
+            "Accept-Language": "en-US,en;q=0.9",
+        }
+        out: list[dict[str, Any]] = []
+        max_pages = int(os.getenv("SENATE_EFD_MAX_PAGES", "6"))
+        start_idx = 0
+        page = 0
+        page_size = int(str(base_payload_dt["length"]))
+
+        while page < max_pages:
+            payload = dict(base_payload_dt)
+            payload["start"] = str(start_idx)
+            last_err: str | None = None
+            for attempt in range(7):
+                r2 = s.post(data_url, data=payload, headers=headers, timeout=45)
+                if r2.status_code == 200:
+                    break
+                last_err = f"senate_efd_data_http_{r2.status_code}:{r2.text[:120]}"
+                if r2.status_code in (429, 500, 502, 503, 504):
+                    time.sleep(min(30, (2**attempt) + random.random()))
+                    continue
+                raise requests.HTTPError(last_err)
+            else:
+                raise requests.HTTPError(last_err or "senate_efd_data_http_unknown")
+
+            data = r2.json()
+            chunk = data.get("data") or []
+            if not chunk:
+                break
+            for row in chunk:
+                if isinstance(row, dict):
+                    row["_efd_source"] = "datatables"
+                    out.append(row)
+                    continue
+                if not isinstance(row, list):
+                    out.append({"raw": row, "_efd_source": "datatables"})
+                    continue
+                out.append({"raw": row, "_efd_source": "datatables"})
+
+            page += 1
+            start_idx += page_size
+
+        return out
+
     rows = _fetch_efd_html_results()
+    if not rows:
+        rows = _datatables_fallback()
     for r in rows:
         if isinstance(r, dict):
-            r["_efd_source"] = "html"
+            r["_efd_source"] = r.get("_efd_source") or "html"
     return rows
 
 
