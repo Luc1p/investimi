@@ -6,7 +6,6 @@ import re
 from datetime import date, datetime, timedelta
 from typing import Any
 
-import requests
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 from playwright.sync_api import sync_playwright
 
@@ -230,26 +229,58 @@ def main() -> int:
     max_reports = int(os.getenv("SENATE_EFD_MAX_REPORTS", "40"))
     links = _collect_ptr_links_via_browser(days=days)[:max_reports]
 
-    # Parse each report page via requests (faster than keeping browser open)
-    s = requests.Session()
-    s.headers.update({"User-Agent": os.getenv("MIRROR_UA", "CongressTradesMirror/0.2 (public-interest)")})
-
+    # Parse each report page inside the browser session to avoid Akamai 403.
     tx_out: list[dict[str, Any]] = []
     ok_pages = 0
-    for url in links:
+    parsed_pages = 0
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page()
+        page.goto("https://efdsearch.senate.gov/search/", wait_until="domcontentloaded", timeout=60000)
+
+        # Re-accept disclaimer if shown (best-effort)
         try:
-            r = s.get(url, timeout=60, headers={"Referer": "https://efdsearch.senate.gov/search/"})
-            if r.status_code != 200:
-                continue
-            ok_pages += 1
-            who, rows = _parse_senate_ptr_transactions_page(r.text)
-            for row in rows:
-                row["senator"] = who
-                row["ptr_link"] = url
-                row["disclosure_date"] = None
-                tx_out.append(row)
+            for label in ("I Agree", "Agree", "Accept", "Continue", "OK"):
+                try:
+                    page.get_by_role("button", name=label).click(timeout=1500)
+                    break
+                except Exception:
+                    pass
         except Exception:
-            continue
+            pass
+
+        for url in links:
+            try:
+                resp = page.goto(url, wait_until="domcontentloaded", timeout=60000)
+                if not resp or resp.status != 200:
+                    continue
+                ok_pages += 1
+                try:
+                    # Give client-side rendering a moment if needed
+                    page.wait_for_timeout(1500)
+                except Exception:
+                    pass
+                html = page.content()
+                who, rows = _parse_senate_ptr_transactions_page(html)
+                if rows:
+                    parsed_pages += 1
+                else:
+                    # Save one sample page for debugging when parsing yields 0 rows.
+                    try:
+                        os.makedirs("data/senate/debug", exist_ok=True)
+                        with open("data/senate/debug/ptr_page_sample.html", "w", encoding="utf-8") as f:
+                            f.write(html[:500000])
+                    except Exception:
+                        pass
+                for row in rows:
+                    row["senator"] = who
+                    row["ptr_link"] = url
+                    row["disclosure_date"] = None
+                    tx_out.append(row)
+            except Exception:
+                continue
+
+        browser.close()
 
     _write_json("data/senate/all_transactions.json", tx_out)
     _write_json("data/senate/ptr_links.json", {"count": len(links), "ok_pages": ok_pages, "links": links})
@@ -261,6 +292,7 @@ def main() -> int:
         f.write(f"senate_pw_max_reports={max_reports}\n")
         f.write(f"senate_pw_ptr_links={len(links)}\n")
         f.write(f"senate_pw_ok_pages={ok_pages}\n")
+        f.write(f"senate_pw_parsed_pages={parsed_pages}\n")
         f.write(f"senate_pw_transactions={len(tx_out)}\n")
     return 0
 
