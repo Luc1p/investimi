@@ -43,11 +43,34 @@ def _collect_ptr_links_via_browser(*, days: int) -> list[str]:
         page = browser.new_page()
         page.goto(url, wait_until="domcontentloaded", timeout=60000)
 
-        # Best-effort disclaimer acceptance (button text varies)
+        debug: dict[str, Any] = {"disclaimer_clicked": False, "datatable_resp": None}
+
+        # Capture DataTables response directly (more reliable than DOM inspection).
+        def on_response(resp):  # type: ignore[no-untyped-def]
+            try:
+                if "/search/report/data/" in (resp.url or ""):
+                    debug["datatable_resp"] = {"url": resp.url, "status": resp.status}
+                    if resp.status == 200:
+                        debug["datatable_json"] = resp.json()
+            except Exception:
+                pass
+
+        page.on("response", on_response)
+
+        # Best-effort disclaimer acceptance (button/input text varies)
         for label in ("I Agree", "Agree", "Accept", "Continue"):
             try:
                 page.get_by_role("button", name=label).click(timeout=2000)
+                debug["disclaimer_clicked"] = True
                 break
+            except Exception:
+                pass
+        # Some versions use an input/checkbox + submit
+        if not debug["disclaimer_clicked"]:
+            try:
+                # click any submit with agree-ish text
+                page.locator('input[type="submit"]').filter(has_text=re.compile("agree|accept|continue", re.I)).first.click(timeout=2000)
+                debug["disclaimer_clicked"] = True
             except Exception:
                 pass
 
@@ -91,25 +114,57 @@ def _collect_ptr_links_via_browser(*, days: int) -> list[str]:
             except Exception:
                 pass
 
-        # Wait for DataTables table to appear and have links
+        # Prefer extracting PTR links from the DataTables JSON response, if we got it.
         try:
-            page.wait_for_selector("table#filedReports", timeout=60000)
-            page.wait_for_selector('table#filedReports a[href*="/search/view/ptr/"]', timeout=60000)
-        except PlaywrightTimeoutError:
-            browser.close()
-            return []
+            page.wait_for_timeout(3000)
+        except Exception:
+            pass
 
-        hrefs = page.eval_on_selector_all(
-            'table#filedReports a[href*="/search/view/ptr/"]',
-            "els => els.map(e => e.getAttribute('href')).filter(Boolean)",
-        )
-        for h in hrefs:
-            if not isinstance(h, str):
-                continue
-            if h.startswith("http"):
-                ptr_links.append(h)
-            else:
-                ptr_links.append(base + h)
+        dt = debug.get("datatable_json")
+        if isinstance(dt, dict) and isinstance(dt.get("data"), list):
+            for row in dt.get("data") or []:
+                if not isinstance(row, list):
+                    continue
+                for cell in row:
+                    if isinstance(cell, str) and "/search/view/ptr/" in cell:
+                        m = re.search(r'href\\s*=\\s*["\\\']([^"\\\']+)["\\\']', cell, flags=re.I)
+                        if m:
+                            href = m.group(1)
+                            if href.startswith("http"):
+                                ptr_links.append(href)
+                            else:
+                                ptr_links.append(base + href)
+                        break
+
+        # Fallback: DOM inspection (if JSON wasn't captured)
+        if not ptr_links:
+            try:
+                page.wait_for_selector("table#filedReports", timeout=60000)
+                page.wait_for_selector('table#filedReports a[href*="/search/view/ptr/"]', timeout=30000)
+                hrefs = page.eval_on_selector_all(
+                    'table#filedReports a[href*="/search/view/ptr/"]',
+                    "els => els.map(e => e.getAttribute('href')).filter(Boolean)",
+                )
+                for h in hrefs:
+                    if not isinstance(h, str):
+                        continue
+                    if h.startswith("http"):
+                        ptr_links.append(h)
+                    else:
+                        ptr_links.append(base + h)
+            except PlaywrightTimeoutError:
+                pass
+
+        # Write lightweight debug artifacts
+        try:
+            os.makedirs("data/senate/debug", exist_ok=True)
+            with open("data/senate/debug/playwright_state.json", "w", encoding="utf-8") as f:
+                json.dump(debug, f, ensure_ascii=False)
+            with open("data/senate/debug/playwright_page.html", "w", encoding="utf-8") as f:
+                f.write(page.content()[:500000])
+            page.screenshot(path="data/senate/debug/playwright.png", full_page=True)
+        except Exception:
+            pass
         browser.close()
 
     # de-dup preserve order

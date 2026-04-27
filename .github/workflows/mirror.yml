@@ -78,6 +78,13 @@ jobs:
           path: data/senate/ptr_links.json
           if-no-files-found: ignore
 
+      - name: Upload Senate playwright debug (if any)
+        uses: actions/upload-artifact@v4
+        with:
+          name: senate-playwright-debug
+          path: data/senate/debug/
+          if-no-files-found: ignore
+
       - name: Upload House debug texts (if any)
         uses: actions/upload-artifact@v4
         with:
