@@ -249,70 +249,77 @@ def main() -> int:
         # Start from the home gate so the agreement checkbox is present.
         page.goto("https://efdsearch.senate.gov/search/home/", wait_until="domcontentloaded", timeout=60000)
 
-        # Accept disclaimer gate (checkbox auto-submits).
-        try:
-            cb = page.locator("#agree_statement")
-            if cb.count() > 0:
-                cb.check(timeout=5000)
-                try:
-                    page.wait_for_load_state("domcontentloaded", timeout=20000)
-                except Exception:
-                    pass
-        except Exception:
-            pass
-        # Ensure we are on /search/ after the gate.
-        try:
-            if "/search/" not in (page.url or ""):
-                page.goto("https://efdsearch.senate.gov/search/", wait_until="domcontentloaded", timeout=60000)
+        def _ensure_gate_accepted() -> None:
+            # Accept disclaimer gate (checkbox auto-submits).
+            try:
+                cb = page.locator("#agree_statement")
+                if cb.count() > 0:
+                    cb.check(timeout=8000)
+            except Exception:
+                pass
             # Wait until we actually leave the home gate.
-            page.wait_for_url(re.compile(r".*/search/.*"), timeout=20000)
-        except Exception:
-            pass
+            try:
+                page.wait_for_url(re.compile(r".*/search/(?!home/).*"), timeout=20000)
+            except Exception:
+                pass
+            # If still on home, try loading /search/ (sometimes the gate posts then redirects).
+            try:
+                if "/search/home/" in (page.url or ""):
+                    page.goto("https://efdsearch.senate.gov/search/", wait_until="domcontentloaded", timeout=60000)
+                    page.wait_for_url(re.compile(r".*/search/(?!home/).*"), timeout=20000)
+            except Exception:
+                pass
+
+        _ensure_gate_accepted()
 
         for url in links:
-            try:
-                resp = page.goto(url, wait_until="domcontentloaded", timeout=60000)
-                # If redirected back to the gate, accept and retry once.
-                if (page.url or "").endswith("/search/home/") or "/search/home/" in (page.url or ""):
-                    try:
-                        cb2 = page.locator("#agree_statement")
-                        if cb2.count() > 0:
-                            cb2.check(timeout=5000)
-                            page.wait_for_load_state("domcontentloaded", timeout=20000)
-                            resp = page.goto(url, wait_until="domcontentloaded", timeout=60000)
-                    except Exception:
-                        pass
-                status = resp.status if resp else None
-                if status in (200, 302, 303):
-                    ok_pages += 1
-                else:
-                    failures.append({"url": url, "status": status, "page_url": page.url})
-                    continue
+            got = False
+            last_err: str | None = None
+            for attempt in range(2):
                 try:
-                    # Give client-side rendering a moment if needed
-                    page.wait_for_timeout(1500)
+                    resp = page.goto(url, wait_until="domcontentloaded", timeout=60000)
+                    status = resp.status if resp else None
+                    if "/search/home/" in (page.url or ""):
+                        _ensure_gate_accepted()
+                        continue
+                    if status not in (200, 302, 303):
+                        failures.append({"url": url, "status": status, "page_url": page.url})
+                        break
+                    ok_pages += 1
+                    got = True
+                    break
+                except Exception as e:
+                    last_err = str(e)[:180]
+                    if "/search/home/" in (page.url or ""):
+                        _ensure_gate_accepted()
+                        continue
+                    break
+
+            if not got:
+                failures.append({"url": url, "error": "goto_failed", "detail": last_err, "page_url": page.url})
+                continue
+
+            try:
+                page.wait_for_timeout(1500)
+            except Exception:
+                pass
+            html = page.content()
+            who, rows = _parse_senate_ptr_transactions_page(html)
+            if rows:
+                parsed_pages += 1
+            else:
+                # Save one sample page for debugging when parsing yields 0 rows.
+                try:
+                    os.makedirs("data/senate/debug", exist_ok=True)
+                    with open("data/senate/debug/ptr_page_sample.html", "w", encoding="utf-8") as f:
+                        f.write(html[:500000])
                 except Exception:
                     pass
-                html = page.content()
-                who, rows = _parse_senate_ptr_transactions_page(html)
-                if rows:
-                    parsed_pages += 1
-                else:
-                    # Save one sample page for debugging when parsing yields 0 rows.
-                    try:
-                        os.makedirs("data/senate/debug", exist_ok=True)
-                        with open("data/senate/debug/ptr_page_sample.html", "w", encoding="utf-8") as f:
-                            f.write(html[:500000])
-                    except Exception:
-                        pass
-                for row in rows:
-                    row["senator"] = who
-                    row["ptr_link"] = url
-                    row["disclosure_date"] = None
-                    tx_out.append(row)
-            except Exception as e:
-                failures.append({"url": url, "error": type(e).__name__, "page_url": page.url})
-                continue
+            for row in rows:
+                row["senator"] = who
+                row["ptr_link"] = url
+                row["disclosure_date"] = None
+                tx_out.append(row)
 
         browser.close()
 
