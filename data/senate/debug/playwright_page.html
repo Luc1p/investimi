@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="en" class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase no-indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths"><head>
-            <title>eFD: Home</title>
+            <title>eFD: Find Reports</title>
             <meta name="robots" content="noindex">
             <meta charset="utf-8">
             <meta content="IE=edge" http-equiv="X-UA-Compatible">
@@ -121,13 +121,154 @@
 </script>
 
             
-    <script type="text/javascript">
+    <script>
         $(document).ready(function(){
-            $('#agree_statement').click(function() {
-                if(this.checked) {//Just this.checked will say whether it's checked or not
-                    //Now trigger the form submit event
-                    $("#agreement_form").submit();
+            $('#check_all').click(function() {
+                if ($(this).is(':checked')) {
+                    $('#userList').find('input[id=id_report_filer_uuid]').attr('checked','checked');
+                } else {
+                    $('#userList').find('input[id=id_report_filer_uuid]:checked').removeAttr('checked');
+                };
+            });
+
+            function csrfSafeMethod(method) {
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+
+            $.ajaxSetup({
+                crossDomain: false,
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type)) {
+                        xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'))
+                        //xhr.setRequestHeader("Authentication", '')
+                    }
                 }
+            });
+            
+                $('#filedReports').dataTable({
+                    "dom": '<"top"<"float-left"f><"float-right"i><"clear">>rt<"bottom"<"float-left"l><"float-right"p><"clear">>',
+                    "paging": true,
+                    "pageLength": 25,
+                    "columns": [
+                        {"width": "15%"},
+                        {"width": "15%"},
+                        {"className": "noWrap", "width": "15%"},
+                        {"width": "25%"},
+                        {"width": "15%"}
+                    ],
+                    "language": {
+                        "search": "Filter list by",
+                        "emptyTable": "There are no matching filed reports."
+                    },
+                    "lengthMenu": [[25, 50, 75, 100], [25, 50, 75, 100]],
+                    "lengthChange": true,
+                    "info": true,
+                    "order":[[1,'asc'],[0,'asc']],
+                    "orderClasses": false,
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": {
+                        "dataType": 'json',
+                        "type": "POST",
+                        "url": "/search/report/data/",
+                        "data": function (d) {
+                            d.report_types = "[]",
+                            d.filer_types = "[]",
+                            d.submitted_start_date = "04/20/2026 00:00:00",
+                            d.submitted_end_date = "04/27/2026 23:59:59",
+                            d.candidate_state = "",
+                            d.senator_state = "",
+                            d.office_id = "",
+                            d.first_name = "",
+                            d.last_name = ""
+                        }
+                    }
+                });
+                $('.dataTables_filter input').attr("placeholder", "name, office, report type, date");
+                $('.dataTables_filter').addClass('form-inline');
+                $('.dataTables_filter input').addClass('form-control table__search ml-2');
+				$('.dataTables_processing').prepend('<div class="animation"></div>');
+                $('.dataTables_length').addClass('form-inline');
+                $('.dataTables_length select').addClass('form-control ml-1 mr-1');
+                $('.dataTables_paginate ul').addClass('pagination');
+            
+
+             $(".datepicker").datepicker({
+                 changeMonth: true,
+                 changeYear: true,
+                 minDate: "1/1/2012"
+            });
+
+            $(document).on("click", "i.fa-calendar" , function() {
+                $(this).closest('div,.input-group').find('input.datepicker:enabled').datepicker('show');
+            });
+
+            $('input.datepicker').click(function() {
+                $('select.ui-datepicker-month').attr('aria-label', 'Month');
+                $('select.ui-datepicker-year').attr('aria-label', 'Year');
+            });
+
+            $('#searchForm').submit(function() {
+                $('button[type="submit"]').attr('disabled', 'disabled');
+                $('button[type="submit"] i').removeClass('fa-search').addClass('fa-spinner fa-spin');
+            });
+
+            
+                $('#candidateFilerState').prop('disabled',true);
+            
+
+            
+                $('#senatorFilerState').prop('disabled',true);
+            
+
+            
+                $('#id_office').prop('disabled',true);
+            
+
+            
+                $('#reportTypesAnnualYears').prop('disabled',true);
+            
+
+            
+                $('#search_options_retrieve').show();
+                $('#search_options').hide();
+            
+
+            $('#re-search').click(function() {
+                $('#search_options').show();
+                $('#search_options_retrieve').hide();
+            });
+
+            $('.senator_filer').click(function() {
+               if ($(this).is(':checked')) {
+                   $('#senatorFilerState').prop('disabled',false);
+               } else {
+                   $('#senatorFilerState').prop('disabled',true).val('');
+               }
+            });
+
+            $('.candidate_filer').click(function() {
+               if ($(this).is(':checked')) {
+                   $('#candidateFilerState').prop('disabled',false);
+               } else {
+                   $('#candidateFilerState').prop('disabled',true).val('');
+               }
+            });
+
+            $('.commission_filer').click(function() {
+               if ($(this).is(':checked')) {
+                   $('#id_office').prop('disabled',false);
+               } else {
+                   $('#id_office').prop('disabled',true).val('0');
+               }
+            });
+
+            $('.report_types_annual').click(function() {
+               if ($(this).is(':checked')) {
+                   $('#reportTypesAnnualYears').prop('disabled',false);
+               } else {
+                   $('#reportTypesAnnualYears').prop('disabled',true).val('');
+               }
             });
         });
     </script>
@@ -151,6 +292,16 @@
 
                     <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
                         
+                            <ul class="navbar-nav" role="navigation">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="/search/">
+                                        <i class="fa fa-search fa-fw fa-lg" aria-hidden="true"></i>
+                                        Find Reports
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        
                         <ul class="navbar-nav justify-content-end accountNav" role="navigation">
                             
                         </ul>
@@ -170,85 +321,669 @@
                             <!--End Message Block-->
 
                             
-    <h1>United States Senate Financial Disclosures (eFD)</h1>
+	<style>
+	.dataTables_filter:after {
+		top: 0;
+	}
+	@media (max-width: 768px) {
+		.dataTables_filter:after {
+  		top: 8px;
+			}
+	}
+
+	</style>
+    <div class="page-header">
+		<h1>
+        	<i class="fa fa-search mr-2" aria-hidden="true" title="Search icon"></i>Find Reports
+    	</h1>
+	</div>
+
     <div class="row">
-        <div class="col-sm-6">
-            <p>
-                Public disclosure of a government official's personal financial interests is a key component to an effective code of conduct.
-                For more information on filing, including who files, and the types of reports filed, see the
-                <a href="http://www.ethics.senate.gov/public/index.cfm/financialdisclosure" target="_blank">United States Senate's Select Committee on Ethics website</a>.
+        <div class="col-sm-12">
+            <p class="lead">
+                Senator, former Senator, and candidate financial disclosure reports received since January 1, 2012 are available online, pursuant to the Ethics in Government Act (EIGA), as amended. Senator reports are available until six years after the individual ceases to be a Member. Candidate reports are available for one year after the individual is no longer a candidate.
             </p>
-            <h2 class="h4">Select Reports are Available</h2>
-            <p>
-                This site includes financial disclosure reports for
-	            Senators, former Senators and Senate candidates filed from 2012 to present. Senator reports are available for six years from the date a Senator ceases to be a Member of Congress. Candidate reports are available for one year after the individual is no longer a candidate.
-            </p>
-
-            <h2 class="h4">Additional Reports</h2>
-            <p>
-                All financial disclosure reports  are available through the Office of the
-                Secretary of the Senate kiosk:
-            </p>
-            <ul class="list-unstyled">
-                <li><strong>Office of Public Records</strong></li>
-                <li>144 Hart Senate Office Building</li>
-                <li>Washington, D.C. 20510-7116</li>
-                <li>phone (202) 224-0322 </li>
-            </ul>
         </div>
-        <div class="col-sm-6">
-            <div class="card card__info">
-                <div class="card-body">
-                    <h4><i class="fa fa-search mr-sm-1" aria-hidden="true" title="search icon"></i>Get Access</h4>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-                    <p>
-                        <em>You must agree to the following to be able to search reports.</em>
-                    </p>
-                    <hr>
-                    <p>
-                         Title 1 of the Ethics in Government Act of 1978, as amended, 5 U.S.C. app. § 105(c), states that:
-                    </p>
 
-                    <ol class="card__list">
-                        <li>It shall be unlawful for any person to obtain or use a report:
-                            <ol>
-                                <li>for any unlawful purpose;</li>
-                                <li>for any commercial purpose, other than by news and communications media for dissemination to the general public;</li>
-                                <li>for determining or establishing the credit rating of any individual; or</li>
-                                <li>for use, directly or indirectly, in the solicitation of money for any political, charitable, or other purpose.</li>
-                            </ol>
-                        </li>
-                        <li>
-                            The Attorney General may bring a civil action against any person who obtains or uses a report for any purpose
-                            prohibited in paragraph (1) of this subsection. The court in which such action is brought may assess against
-                            such person a penalty in any amount not to exceed $10,000. Such remedy shall be in addition to any other remedy
-                            available under statutory or common law.
-                        </li>
-                    </ol>
-                    <hr>
-                    <form action="" method="POST" id="agreement_form">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" id="agree_statement" value="1" name="prohibition_agreement"> I understand the prohibitions on obtaining and use of financial disclosure reports.
-                            </label>
+        <div class="col-sm-12">
+            <p>
+                All financial disclosure reports filed under the EIGA, as amended, are available for viewing in the Senate Office of Public Records, 144 Senate Hart Building Washington, DC 20510, including reports for Senate and Commission  employees.  As required by the EIGA, as amended, employee reports are retained for a period of six years after the date of receipt.
+            </p>
+
+            <p class="text-muted small">
+                <strong><i class="fa fa-exclamation-circle mr-1" title="Important" aria-hidden="true"></i>Note</strong>
+                Reports will display in the format they were filed: either electronically (text) or on paper (images).
+            </p>
+        </div>
+    </div>
+
+    <div class="card card__info mb-3" id="search_options_retrieve">
+        <div class="card-body">
+            <button class="btn btn-link" type="button" id="re-search"><i class="fa fa-search mr-1" aria-hidden="true"></i>Search Again</button>
+        </div>
+    </div>
+
+    <div class="card card__info mb-3" id="search_options" style="display: none;">
+        <div class="card-body">
+            <form action="" method="POST" id="searchForm">
+                <h2 class="h3">Search Options</h2>
+                    <fieldset class="form-group">
+                        <div class="form-row">
+                            <legend class="col-lg-2 col-form-legend popover0">Filer Name
+                                <button data-toggle="popover" type="button" rel="popover" aria-haspopup="true" data-html="true" data-title="Tips for Searching by Name &lt;button type='button' tabindex='0' id='jsPopoverClose' aria-label='close' class='close'&gt;&lt;i class='fa fa-times' aria-hidden='true'&gt;&lt;span class='sr-only'&gt;Close&lt;/span&gt;&lt;/i&gt;&lt;/button&gt;" data-template="&lt;div class=&quot;popover popover__fixMedium&quot; role=&quot;tooltip&quot;&gt;&lt;div class=&quot;arrow&quot;&gt;&lt;/div&gt;&lt;h3 class=&quot;popover-header&quot;&gt;&lt;/h3&gt;&lt;div class=&quot;popover-body&quot;&gt;&lt;/div&gt;&lt;/div&gt;" class="btn btn-link popover--iconButton" data-placement="auto" data-content="&lt;ul&gt;
+                                        &lt;li&gt;Enter as much of the name as you know, whole name or just some letters.&lt;/li&gt;
+                                        &lt;li&gt;Search by first name, last name, or both.&lt;/li&gt;
+                                        &lt;li&gt;If you are only searching by last name, leave first name blank. Conversely, if you search
+                                            by first name only, leave the last name blank.&lt;/li&gt;
+                                    &lt;/ul&gt;" data-original-title="" title=""><i class="fa fa-question-circle"></i><span class="sr-only">Help</span>
+                                </button>
+                            </legend>
+                            <div class="col-lg-10">
+                                <div class="form-row">
+                                    <div class="col-md-3 mb-2 mb-md-0">
+                                        <label class="sr-only" for="firstName">First name</label>
+                                        <input id="firstName" name="first_name" type="text" class="form-control" placeholder="First name (starts with)" title="First name" value="">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="sr-only" for="lastName">Last name</label>
+                                        <input id="lastName" name="last_name" type="text" class="form-control" placeholder="Last name (starts with)" title="Last name" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div></fieldset>
+                    <fieldset class="form-group">
+                        <div class="form-row">
+                            <legend class="col-lg-2 col-form-legend">Filer Type</legend>
+                            <div class="col-lg-10">
+                                <div id="filerTypesDiv" class="form-row">
+                                    <div class="col-md-3">
+                                        <div class="form-check form-check-inline">
+                                            <label id="filerTypeLabelSenator" class="form-check-label">
+                                                <input id="filerTypes" class="form-check-input senator_filer" name="filer_type" value="1" type="checkbox"> Senator
+                                            </label>
+                                            <div class="d-inline-flex ml-1">
+                                                <label for="senatorFilerState" class="sr-only">Senator State</label>
+                                                <select id="senatorFilerState" class="form-control" name="senator_state" disabled="">
+                                                    <option value="" selected="selected">All States</option>
+                                                    
+                                                        
+                                                            <option value="AL">Alabama</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="AK">Alaska</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="AZ">Arizona</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="AR">Arkansas</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="CA">California</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="CO">Colorado</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="CT">Connecticut</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="DE">Delaware</option>
+                                                       
+                                                    
+                                                        
+                                                    
+                                                        
+                                                            <option value="FL">Florida</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="GA">Georgia</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="HI">Hawaii</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="ID">Idaho</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="IL">Illinois</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="IN">Indiana</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="IA">Iowa</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="KS">Kansas</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="KY">Kentucky</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="LA">Louisiana</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="ME">Maine</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="MD">Maryland</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="MA">Massachusetts</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="MI">Michigan</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="MN">Minnesota</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="MS">Mississippi</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="MO">Missouri</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="MT">Montana</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="NE">Nebraska</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="NV">Nevada</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="NH">New Hampshire</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="NJ">New Jersey</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="NM">New Mexico</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="NY">New York</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="NC">North Carolina</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="ND">North Dakota</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="OH">Ohio</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="OK">Oklahoma</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="OR">Oregon</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="PA">Pennsylvania</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="RI">Rhode Island</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="SC">South Carolina</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="SD">South Dakota</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="TN">Tennessee</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="TX">Texas</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="UT">Utah</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="VT">Vermont</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="VA">Virginia</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="WA">Washington</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="WV">West Virginia</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="WI">Wisconsin</option>
+                                                       
+                                                    
+                                                        
+                                                            <option value="WY">Wyoming</option>
+                                                       
+                                                    
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check form-check-inline">
+                                            <label id="filerTypeLabelCandidate" class="form-check-label">
+                                                <input id="filerTypes" name="filer_type" value="4" type="checkbox" class="form-check-input candidate_filer"> Candidate
+                                            </label>
+                                            <div class="d-inline-flex ml-1">
+                                                <label for="candidateFilerState" class="sr-only">Select Candidate State</label>
+                                                <select id="candidateFilerState" name="candidate_state" class="form-control" title="Candidate State" disabled="">
+                                                    <option value="" selected="selected">All States</option>
+                                                    
+                                                       
+                                                            <option value="AL">Alabama</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="AK">Alaska</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="AZ">Arizona</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="AR">Arkansas</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="CA">California</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="CO">Colorado</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="CT">Connecticut</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="DE">Delaware</option>
+                                                       
+                                                    
+                                                       
+                                                    
+                                                       
+                                                            <option value="FL">Florida</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="GA">Georgia</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="HI">Hawaii</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="ID">Idaho</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="IL">Illinois</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="IN">Indiana</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="IA">Iowa</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="KS">Kansas</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="KY">Kentucky</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="LA">Louisiana</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="ME">Maine</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="MD">Maryland</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="MA">Massachusetts</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="MI">Michigan</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="MN">Minnesota</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="MS">Mississippi</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="MO">Missouri</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="MT">Montana</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="NE">Nebraska</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="NV">Nevada</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="NH">New Hampshire</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="NJ">New Jersey</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="NM">New Mexico</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="NY">New York</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="NC">North Carolina</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="ND">North Dakota</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="OH">Ohio</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="OK">Oklahoma</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="OR">Oregon</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="PA">Pennsylvania</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="RI">Rhode Island</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="SC">South Carolina</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="SD">South Dakota</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="TN">Tennessee</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="TX">Texas</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="UT">Utah</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="VT">Vermont</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="VA">Virginia</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="WA">Washington</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="WV">West Virginia</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="WI">Wisconsin</option>
+                                                       
+                                                    
+                                                       
+                                                            <option value="WY">Wyoming</option>
+                                                       
+                                                    
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-check form-check-inline">
+                                            <label id="filerTypeLabelFormerSenator" class="form-check-label">
+                                                <input id="filerTypes" class="form-check-input" name="filer_type" value="5" type="checkbox"> Former Senator
+                                            </label>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <input type="hidden" name="csrfmiddlewaretoken" value="rGEMiWWf7mtMUYWVstxH3zMdjbnp58YrtuKQ9DrrCLgT2NdViB4ok8ecHsx2EJ7a">
-                    </form>
-                </div>
+                    </fieldset>
+
+                    <fieldset class="form-group">
+                        <div class="form-row">
+                            <legend class="col-lg-2 col-form-legend popover1">
+                                Report Types
+                                <button data-toggle="popover" type="button" rel="popover" aria-haspopup="true" data-html="true" data-title="What is Included in Reports &lt;button type='button' tabindex='0' id='jsPopoverClose' aria-label='close' class='close'&gt;&lt;i class='fa fa-times' aria-hidden='true'&gt;&lt;span class='sr-only'&gt;Close&lt;/span&gt;&lt;/i&gt;&lt;/button&gt;" data-template="&lt;div class=&quot;popover popover__fixMedium&quot; role=&quot;tooltip&quot;&gt;&lt;div class=&quot;arrow&quot;&gt;&lt;/div&gt;&lt;h3 class=&quot;popover-header&quot;&gt;&lt;/h3&gt;&lt;div class=&quot;popover-body&quot;&gt;&lt;/div&gt;&lt;/div&gt;" class="btn btn-link popover--iconButton" data-placement="auto" data-content="&lt;ul&gt;
+                                    &lt;li&gt;Each type includes related amendment reports. Once filed, corrections can only be made by
+                                        amending a report.&lt;/li&gt;
+                                    &lt;li&gt;
+                                        &lt;em&gt;Annual&lt;/em&gt; reports include reports filed yearly, New Filer Reports (filed within 30 days of
+                                        becoming a new filer), and Termination Reports (filed within 30 days of leaving).
+                                    &lt;/li&gt;
+                                    &lt;li&gt;
+                                        Not all reports types are required by all filers, and some filers may have filed more than
+                                        one report type. For example, a candidate who becomes a senator will have at least two
+                                        report types (Candidate Report, Annual Report).
+                                    &lt;/li&gt;
+                                &lt;/ul&gt;" data-original-title="" title=""><i class="fa fa-question-circle"></i><span class="sr-only">Help</span>
+                                </button>
+                            </legend>
+                            <div class="col-lg-10">
+                                <div id="reportTypesDiv" class="form-row">
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <label id="reportTypeLabelAnnual" class="form-check-label">
+                                                <input id="reportTypes" name="report_type" value="7" type="checkbox" class="report_types_annual form-check-input"> Annual
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label id="reportTypeLabelPtr" class="form-check-label">
+                                                <input id="reportTypes" class="form-check-input" name="report_type" value="11" type="checkbox"> Periodic Transactions
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <label id="reportTypeLabelExtension" class="form-check-label">
+                                                <input id="reportTypes" class="form-check-input" name="report_type" value="10" type="checkbox"> Due Date Extension
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label id="reportTypeLabelBlindTrusts" class="form-check-label">
+                                                <input id="reportTypes" class="form-check-input" name="report_type" value="14" type="checkbox" title="Blind trust reports"> Blind Trusts
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <label id="reportTypeLabelOther" class="form-check-label">
+                                                <input id="reportTypes" class="form-check-input" name="report_type" value="15" type="checkbox"> Other Documents
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="form-group ">
+                        <div class="form-row">
+                            <legend class="col-lg-2 col-form-legend popover2">Date Filed/Received
+                                <button data-toggle="popover" type="button" rel="popover" aria-haspopup="true" data-html="true" data-title="Date Filed Versus Date Received &lt;button type='button' tabindex='0' id='jsPopoverClose' aria-label='close' class='close'&gt;&lt;i class='fa fa-times' aria-hidden='true'&gt;&lt;span class='sr-only'&gt;Close&lt;/span&gt;&lt;/i&gt;&lt;/button&gt;" data-template="&lt;div class=&quot;popover popover__fixMedium&quot; role=&quot;tooltip&quot;&gt;&lt;div class=&quot;arrow&quot;&gt;&lt;/div&gt;&lt;h3 class=&quot;popover-header&quot;&gt;&lt;/h3&gt;&lt;div class=&quot;popover-body&quot;&gt;&lt;/div&gt;&lt;/div&gt;" class="btn btn-link popover--iconButton" data-placement="auto" data-content="&lt;ul&gt;
+                                    &lt;li&gt;
+                                        Reports filed electronically have a &lt;em&gt;date filed&lt;/em&gt;, meaning the date the filer submitted the
+                                        report.
+                                    &lt;/li&gt;
+                                    &lt;li&gt;
+                                        Reports filed on paper have a &lt;em&gt;date received&lt;/em&gt;, meaning the date the report was received by the
+                                        Secretary of the Senate.
+                                    &lt;/li&gt;
+                                &lt;/ul&gt;" data-original-title="" title=""><i class="fa fa-question-circle"></i><span class="sr-only">Help</span>
+                                </button>
+                            </legend>
+                            <div class="col-lg-10">
+                                
+                                <div class="form-row">
+                                    <div class="col-md-3 mb-2 mb-md-0">
+									    <span class="input-group popover3">
+											<label for="fromDate" class="col-form-label mr-1">From</label>
+                                            <button data-toggle="popover" type="button" rel="popover" aria-haspopup="true" data-html="true" data-title="Only from 2012 &lt;button type='button' tabindex='0' id='jsPopoverClose' aria-label='close' class='close'&gt;&lt;i class='fa fa-times' aria-hidden='true'&gt;&lt;span class='sr-only'&gt;Close&lt;/span&gt;&lt;/i&gt;&lt;/button&gt;" data-template="&lt;div class=&quot;popover popover__fixMedium&quot; role=&quot;tooltip&quot;&gt;&lt;div class=&quot;arrow&quot;&gt;&lt;/div&gt;&lt;h3 class=&quot;popover-header&quot;&gt;&lt;/h3&gt;&lt;div class=&quot;popover-body&quot;&gt;&lt;/div&gt;&lt;/div&gt;" class="btn btn-link popover--iconButton mr-2" data-placement="auto" data-content="&lt;p&gt;Only reports filed from January 1, 2012 to today are available in this system.&lt;/p&gt;" data-original-title="" title=""><i class="fa fa-question-circle"></i><span class="sr-only">Help</span>
+                                            </button>
+
+											<span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+
+										   <input id="fromDate" name="submitted_start_date" type="text" class="form-control datepicker hasDatepicker" title="Start date for search" value="04/20/2026">
+										</span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span class="input-group ml-md-2">
+										<label for="toDate" class="col-form-label mr-2">To</label>
+                                            <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                                            <input id="toDate" name="submitted_end_date" type="text" class="form-control datepicker hasDatepicker" title="End date for search" value="04/27/2026">
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <p class="form-text">When selected, reports will open in a new tab or window.</p>
+                    <div class="form--buttonRow">
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-search mr-1" aria-hidden="true"></i>Search Reports</button>
+                    </div>
+                    <input type="hidden" name="csrfmiddlewaretoken" value="FQySjoYdDsnFB3SyPzxjfSe2LbzexjFSDvoBgv3PHvp7VrU4GyqKZzdlnIxu0gYP">
+                </form>
+            </div>
+        </div>
+
+    
+    <div class="card">
+        <div class="card-body">
+            <h3 class="h4">Search Results</h3>
+            <p class="mb-2 popover4">Reports will open in a new tab or window.
+                <button data-toggle="popover" type="button" rel="popover" aria-haspopup="true" data-html="true" data-title="Tips for Reviewing Your Results &lt;button type='button' tabindex='0' id='jsPopoverClose' aria-label='close' class='close'&gt;&lt;i class='fa fa-times' aria-hidden='true'&gt;&lt;span class='sr-only'&gt;Close&lt;/span&gt;&lt;/i&gt;&lt;/button&gt;" data-template="&lt;div class=&quot;popover popover__fixMedium&quot; role=&quot;tooltip&quot;&gt;&lt;div class=&quot;arrow&quot;&gt;&lt;/div&gt;&lt;h3 class=&quot;popover-header&quot;&gt;&lt;/h3&gt;&lt;div class=&quot;popover-body&quot;&gt;&lt;/div&gt;&lt;/div&gt;" class="btn btn-link popover--iconButton" data-placement="auto" data-content="&lt;ul&gt;
+                    &lt;li&gt;
+                        In the filter box, type key words to narrow the results. For example, if you want to
+                        see only amendment reports type, &lt;em&gt;amendment&lt;/em&gt; in the filter box, and only results with
+                        that term as part of the title will be displayed.
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        Remove what you entered in the filter to see all results.
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        Results are sorted by last name, then first name. You can sort results by any column.
+                    &lt;/li&gt;
+                &lt;/ul&gt;" data-original-title="" title=""><i class="fa fa-question-circle"></i><span class="sr-only">Help</span>
+                </button>
+            </p>
+            <div class="table-responsive">
+                <div id="filedReports_wrapper" class="dataTables_wrapper no-footer"><div class="top"><div class="float-left"><div id="filedReports_filter" class="dataTables_filter form-inline"><label>Filter list by<input type="search" class="form-control table__search ml-2" placeholder="name, office, report type, date" aria-controls="filedReports"></label></div></div><div class="float-right"><div class="dataTables_info" id="filedReports_info" role="status" aria-live="polite">Showing 1 to 16 of 16 entries</div></div><div class="clear"></div></div><div id="filedReports_processing" class="dataTables_processing" style="display: none;"><div class="animation"></div>Processing...</div><table class="table table-striped dataTable no-footer" id="filedReports" aria-describedby="filedReports_info" role="grid" style="width: 1212px;">
+                    <caption class="sr-only">List of filers and their reports</caption>
+                    <thead>
+                        <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="filedReports" rowspan="1" colspan="1" aria-label="First Name (Middle): activate to sort column ascending" style="width: 186px;">First Name (Middle)</th><th class="sorting_asc" tabindex="0" aria-controls="filedReports" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Last Name (Suffix): activate to sort column descending" style="width: 186px;">Last Name (Suffix)</th><th class="noWrap sorting" tabindex="0" aria-controls="filedReports" rowspan="1" colspan="1" aria-label="Office (Filer Type): activate to sort column ascending" style="width: 186px;">Office (Filer Type)</th><th class="sorting" tabindex="0" aria-controls="filedReports" rowspan="1" colspan="1" aria-label="Report Type: activate to sort column ascending" style="width: 328px;">Report Type</th><th class="sorting" tabindex="0" aria-controls="filedReports" rowspan="1" colspan="1" aria-label="Date Received/Filed: activate to sort column ascending" style="width: 186px;">Date Received/Filed</th></tr>
+                    </thead>
+                    <tbody>
+                    <tr role="row" class="odd"><td>James</td><td>Banks</td><td class=" noWrap">Banks, James E. (Senator)</td><td><a href="/search/view/ptr/680da3d8-5f81-43a3-a658-0493c0070378/" target="_blank">Periodic Transaction Report for 04/20/2026</a></td><td>04/20/2026</td></tr><tr role="row" class="even"><td>Seth</td><td>Bodnar</td><td class=" noWrap">Candidate (Candidate)</td><td><a href="/search/view/extension-notice/regular/44d4dfc0-64f2-4c9c-b141-96885964a89c/" target="_blank">Candidate Report  Due Date Extension 1</a></td><td>04/23/2026</td></tr><tr role="row" class="odd"><td>William</td><td>Cassidy</td><td class=" noWrap">Cassidy, Bill (Senator)</td><td><a href="/search/view/extension-notice/regular/7b080921-8e80-42a7-8f6b-ad73825a52d3/" target="_blank">Annual Report for 2025 Due Date Extension 1</a></td><td>04/24/2026</td></tr><tr role="row" class="even"><td>Christy K</td><td>Davis</td><td class=" noWrap">Candidate (Candidate)</td><td><a href="/search/view/annual/a3ae3e5b-b855-4669-8891-7ced04978113/" target="_blank">Candidate Report </a></td><td>04/20/2026</td></tr><tr role="row" class="odd"><td>Mazie K</td><td>Hirono</td><td class=" noWrap">Hirono, Mazie Keiko (Senator)</td><td><a href="/search/view/extension-notice/regular/2c89c077-3894-41ac-87b7-9ca62a5ea2e8/" target="_blank">Annual Report for 2025 Due Date Extension 1</a></td><td>04/21/2026</td></tr><tr role="row" class="even"><td>Thomas R</td><td>Laehn</td><td class=" noWrap">Candidate (Candidate)</td><td><a href="/search/view/annual/33dfbb57-bc80-465a-9b86-4dda6340f46a/" target="_blank">Candidate Report </a></td><td>04/25/2026</td></tr><tr role="row" class="odd"><td>Denny L</td><td>LaVe</td><td class=" noWrap">Candidate (Candidate)</td><td><a href="/search/view/annual/a3355cb4-30d7-4fa2-b495-e5088870a86f/" target="_blank">Candidate Report </a></td><td>04/20/2026</td></tr><tr role="row" class="even"><td>Steve</td><td>Marshall</td><td class=" noWrap">Candidate (Candidate)</td><td><a href="/search/view/extension-notice/regular/8abe3ad9-0847-406e-bb8c-6e71dabb7ff5/" target="_blank">Candidate Report  Due Date Extension 1</a></td><td>04/21/2026</td></tr><tr role="row" class="odd"><td>Jeffrey A</td><td>Merkley</td><td class=" noWrap">Merkley, Jeff (Senator)</td><td><a href="/search/view/annual/2679d51a-6ff8-4d8d-aecd-61cd3c3656a8/" target="_blank">Annual Report for CY 2025</a></td><td>04/21/2026</td></tr><tr role="row" class="even"><td>Janet</td><td>Mills</td><td class=" noWrap">Candidate (Candidate)</td><td><a href="/search/view/extension-notice/regular/a79b643d-c4ab-4ba3-a44d-682ef7de2cef/" target="_blank">Candidate Report  Due Date Extension 1</a></td><td>04/21/2026</td></tr><tr role="row" class="odd"><td>Christopher</td><td>Murphy</td><td class=" noWrap">Murphy, Chris (Senator)</td><td><a href="/search/view/extension-notice/regular/1956a13b-023c-4975-ba17-c8f592cf06f3/" target="_blank">Annual Report for 2025 Due Date Extension 1</a></td><td>04/22/2026</td></tr><tr role="row" class="even"><td>Patty</td><td>Murray</td><td class=" noWrap">Murray, Patty (Senator)</td><td><a href="/search/view/annual/419e904f-1f31-4f8d-9b66-a05a769bb523/" target="_blank">Annual Report for CY 2025</a></td><td>04/24/2026</td></tr><tr role="row" class="odd"><td>Jo Rae</td><td>Perkins</td><td class=" noWrap">Candidate (Candidate)</td><td><a href="/search/view/annual/d41b4843-a5c2-4429-a7f3-6849ef314198/" target="_blank">Candidate Report </a></td><td>04/21/2026</td></tr><tr role="row" class="even"><td>Brian E</td><td>Schatz</td><td class=" noWrap">Schatz, Brian (Senator)</td><td><a href="/search/view/extension-notice/regular/5302e680-36e6-46b7-a35f-c6145f470d8f/" target="_blank">Annual Report for 2025 Due Date Extension 1</a></td><td>04/21/2026</td></tr><tr role="row" class="odd"><td>Daniel M</td><td>Sims</td><td class=" noWrap">Candidate (Candidate)</td><td><a href="/search/view/annual/025c0f85-9136-4388-bf3b-7bd4d315ca2f/" target="_blank">Candidate Report </a></td><td>04/23/2026</td></tr><tr role="row" class="even"><td>James</td><td>Talarico</td><td class=" noWrap">Candidate (Candidate)</td><td><a href="/search/view/extension-notice/regular/1c688f99-8573-4237-bd39-10d0f8074c03/" target="_blank">Candidate Report  Due Date Extension 1</a></td><td>04/21/2026</td></tr></tbody>
+                </table><div class="bottom"><div class="float-left"><div class="dataTables_length form-inline" id="filedReports_length"><label>Show <select name="filedReports_length" aria-controls="filedReports" class="form-control ml-1 mr-1"><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="float-right"><div class="dataTables_paginate paging_simple_numbers" id="filedReports_paginate"><a class="paginate_button previous disabled" aria-controls="filedReports" data-dt-idx="0" tabindex="0" id="filedReports_previous">Previous</a><span><a class="paginate_button current" aria-controls="filedReports" data-dt-idx="1" tabindex="0">1</a></span><a class="paginate_button next disabled" aria-controls="filedReports" data-dt-idx="2" tabindex="0" id="filedReports_next">Next</a></div></div><div class="clear"></div></div></div>
             </div>
         </div>
     </div>
+    
 
 
                         </div>
@@ -261,4 +996,4 @@
             </div><!-- end #wrap -->
         
     
-</body></html>
+<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div></body></html>
