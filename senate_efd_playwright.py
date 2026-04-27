@@ -242,6 +242,7 @@ def main() -> int:
     tx_out: list[dict[str, Any]] = []
     ok_pages = 0
     parsed_pages = 0
+    failures: list[dict[str, Any]] = []
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
@@ -263,6 +264,8 @@ def main() -> int:
         try:
             if "/search/" not in (page.url or ""):
                 page.goto("https://efdsearch.senate.gov/search/", wait_until="domcontentloaded", timeout=60000)
+            # Wait until we actually leave the home gate.
+            page.wait_for_url(re.compile(r".*/search/.*"), timeout=20000)
         except Exception:
             pass
 
@@ -279,9 +282,12 @@ def main() -> int:
                             resp = page.goto(url, wait_until="domcontentloaded", timeout=60000)
                     except Exception:
                         pass
-                if not resp or resp.status != 200:
+                status = resp.status if resp else None
+                if status in (200, 302, 303):
+                    ok_pages += 1
+                else:
+                    failures.append({"url": url, "status": status, "page_url": page.url})
                     continue
-                ok_pages += 1
                 try:
                     # Give client-side rendering a moment if needed
                     page.wait_for_timeout(1500)
@@ -304,13 +310,17 @@ def main() -> int:
                     row["ptr_link"] = url
                     row["disclosure_date"] = None
                     tx_out.append(row)
-            except Exception:
+            except Exception as e:
+                failures.append({"url": url, "error": type(e).__name__, "page_url": page.url})
                 continue
 
         browser.close()
 
     _write_json("data/senate/all_transactions.json", tx_out)
-    _write_json("data/senate/ptr_links.json", {"count": len(links), "ok_pages": ok_pages, "links": links})
+    _write_json(
+        "data/senate/ptr_links.json",
+        {"count": len(links), "ok_pages": ok_pages, "links": links, "failures": failures[:20]},
+    )
     # Write a small status file so the main workflow can surface Senate stats.
     os.makedirs("data/senate", exist_ok=True)
     with open("data/senate/STATUS.txt", "w", encoding="utf-8") as f:
