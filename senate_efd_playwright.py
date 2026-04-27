@@ -43,7 +43,19 @@ def _collect_ptr_links_via_browser(*, days: int) -> list[str]:
         page = browser.new_page()
         page.goto(url, wait_until="domcontentloaded", timeout=60000)
 
-        debug: dict[str, Any] = {"disclaimer_clicked": False, "datatable_resp": None}
+        debug: dict[str, Any] = {
+            "disclaimer_clicked": False,
+            "datatable_resp": None,
+            "page_url": None,
+            "page_title": None,
+            "page_text_head": None,
+        }
+        try:
+            debug["page_url"] = page.url
+            debug["page_title"] = page.title()
+            debug["page_text_head"] = page.inner_text("body")[:6000]
+        except Exception:
+            pass
 
         # Capture DataTables response directly (more reliable than DOM inspection).
         def on_response(resp):  # type: ignore[no-untyped-def]
@@ -57,22 +69,51 @@ def _collect_ptr_links_via_browser(*, days: int) -> list[str]:
 
         page.on("response", on_response)
 
-        # Best-effort disclaimer acceptance (button/input text varies)
-        for label in ("I Agree", "Agree", "Accept", "Continue"):
+        def _accept_disclaimer() -> bool:
+            # Try obvious buttons by text
+            for label in ("I Agree", "Agree", "Accept", "Continue", "OK"):
+                try:
+                    page.get_by_role("button", name=label).click(timeout=2000)
+                    return True
+                except Exception:
+                    pass
+            # Try submit inputs/buttons
             try:
-                page.get_by_role("button", name=label).click(timeout=2000)
-                debug["disclaimer_clicked"] = True
-                break
+                page.locator('input[type="submit"]').first.click(timeout=2000)
+                return True
             except Exception:
                 pass
-        # Some versions use an input/checkbox + submit
-        if not debug["disclaimer_clicked"]:
             try:
-                # click any submit with agree-ish text
-                page.locator('input[type="submit"]').filter(has_text=re.compile("agree|accept|continue", re.I)).first.click(timeout=2000)
-                debug["disclaimer_clicked"] = True
+                page.locator('button[type="submit"]').first.click(timeout=2000)
+                return True
             except Exception:
                 pass
+            # Try checking any checkbox then submitting
+            try:
+                cb = page.locator('input[type="checkbox"]').first
+                if cb.count() > 0:
+                    cb.check(timeout=2000)
+                    try:
+                        page.locator('button[type="submit"]').first.click(timeout=2000)
+                    except Exception:
+                        page.locator('input[type="submit"]').first.click(timeout=2000)
+                    return True
+            except Exception:
+                pass
+            # As a last resort, submit the first form
+            try:
+                page.locator("form").first.evaluate("f => f.submit()")
+                return True
+            except Exception:
+                return False
+
+        clicked = _accept_disclaimer()
+        debug["disclaimer_clicked"] = bool(clicked)
+        try:
+            page.wait_for_timeout(1500)
+            debug["page_url_after_disclaimer"] = page.url
+        except Exception:
+            pass
 
         # Fill submitted date range if fields exist
         for field_name in ("submitted_start_date", "submitted_start_date__gte"):
@@ -108,7 +149,13 @@ def _collect_ptr_links_via_browser(*, days: int) -> list[str]:
             except Exception:
                 pass
         if not submitted:
-            # fallback: submit first form
+            # fallback: try submit button or submit first form
+            try:
+                page.locator('button[type="submit"]').first.click(timeout=2000)
+                submitted = True
+            except Exception:
+                pass
+        if not submitted:
             try:
                 page.locator("form").first.evaluate("f => f.submit()")
             except Exception:
@@ -116,7 +163,7 @@ def _collect_ptr_links_via_browser(*, days: int) -> list[str]:
 
         # Prefer extracting PTR links from the DataTables JSON response, if we got it.
         try:
-            page.wait_for_timeout(3000)
+            page.wait_for_timeout(6000)
         except Exception:
             pass
 
