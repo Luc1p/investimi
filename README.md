@@ -24,3 +24,16 @@ Raw URLs (replace `<you>` / `<repo>`):
 - `https://raw.githubusercontent.com/<you>/<repo>/main/data/house/all_transactions.json`
 - `https://raw.githubusercontent.com/<you>/<repo>/main/data/senate/all_transactions.json`
 
+## Dashboard (local)
+
+A simple local dashboard (filters + table) is included under `dashboard/`.
+
+### Run
+
+```bash
+pip install -r requirements-dashboard.txt
+streamlit run dashboard/streamlit_app.py
+```
+
+By default it reads from `Luc1p/investimi` raw URLs. You can override the URLs in the sidebar.
+
