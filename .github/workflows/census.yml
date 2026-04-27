@@ -27,6 +27,10 @@ on:
         description: "Senate batch size in days (e.g. 7)"
         required: false
         default: "7"
+      senate_mode:
+        description: "Senate: auto (EFD + mirror on fail) | efd | mirror (S3/GitHub JSON only)"
+        required: false
+        default: "auto"
   schedule:
     - cron: "15 5 * * 1" # Mondays 05:15 UTC
 
@@ -60,6 +64,7 @@ jobs:
       CENSUS_SENATE_START_DATE: ${{ inputs.senate_start_date || '2020-01-01' }}
       CENSUS_SENATE_END_DATE: ${{ inputs.senate_end_date || '' }}
       CENSUS_SENATE_BATCH_DAYS: ${{ inputs.senate_batch_days || '7' }}
+      CENSUS_SENATE_MODE: ${{ inputs.senate_mode || 'auto' }}
     steps:
       - uses: actions/checkout@v4
 

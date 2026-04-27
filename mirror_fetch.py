@@ -897,13 +897,19 @@ def fetch_senate_efd_range(s: requests.Session, *, start: date, end: date) -> li
     return rows
 
 
-def fetch_senate_from_mirrors(s: requests.Session) -> tuple[str | None, list[dict[str, Any]] | None]:
+def fetch_senate_from_mirrors(
+    s: requests.Session, *, require_fresh: bool = True
+) -> tuple[str | None, list[dict[str, Any]] | None]:
     """
     Fallback: pull Senate transactions from one of several public JSON mirrors.
     Provide SENATE_MIRROR_URLS as comma-separated URLs (raw GitHub recommended).
+
+    When require_fresh is True (default, used by mirror_fetch.main), reject mirrors whose
+    latest transaction date is before SENATE_MIN_DATE so stale snapshots are not written.
+
+    When require_fresh is False (e.g. census / historical indexing), accept any mirror
+    that returns a JSON list — same idea as using public aggregates for backfill.
     """
-    # Only accept mirrors that are "recent enough", otherwise they are noise.
-    # Default: require latest date >= 2026-01-01.
     min_date_s = os.getenv("SENATE_MIN_DATE", "2026-01-01").strip()
     try:
         min_date = datetime.strptime(min_date_s, "%Y-%m-%d").date()
@@ -921,12 +927,12 @@ def fetch_senate_from_mirrors(s: requests.Session) -> tuple[str | None, list[dic
     def _parse_any_date(v: Any) -> date | None:
         if v is None:
             return None
-        s = str(v).strip()
-        if not s:
+        st = str(v).strip()
+        if not st:
             return None
         for fmt in ("%m/%d/%Y", "%Y-%m-%d"):
             try:
-                return datetime.strptime(s, fmt).date()
+                return datetime.strptime(st, fmt).date()
             except Exception:
                 continue
         return None
@@ -953,14 +959,30 @@ def fetch_senate_from_mirrors(s: requests.Session) -> tuple[str | None, list[dic
             data = r.json()
             if isinstance(data, list):
                 items = [x for x in data if isinstance(x, dict)]
-                latest = _latest_date(items)
-                if latest is None or latest < min_date:
-                    # stale mirror: skip it
+                if not items:
                     continue
+                if require_fresh:
+                    latest = _latest_date(items)
+                    if latest is None or latest < min_date:
+                        continue
                 return (u, items)
         except Exception:
             continue
     return (None, None)
+
+
+def load_senate_transactions_mirror_chain(s: requests.Session) -> tuple[str | None, list[dict[str, Any]]]:
+    """
+    Same order as mirror_fetch.main for Senate: try S3 aggregate, then public mirror JSON.
+    No freshness gate (for census / historical use). Returns ("s3"|url, items) or (None, []).
+    """
+    blob = fetch_senate_from_s3(s)
+    if isinstance(blob, list) and len(blob) > 0:
+        return ("s3", blob)
+    src, items = fetch_senate_from_mirrors(s, require_fresh=False)
+    if isinstance(items, list) and len(items) > 0:
+        return ((src or "mirror"), items)
+    return (None, [])
 
 
 def _extract_first_href(html: str) -> str | None:

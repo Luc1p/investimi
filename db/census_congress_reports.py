@@ -10,7 +10,13 @@ from typing import Any
 import psycopg
 import requests
 
-from mirror_fetch import _extract_house_ptr_links, _session, fetch_house_members, fetch_senate_efd_range
+from mirror_fetch import (
+    _extract_house_ptr_links,
+    _session,
+    fetch_house_members,
+    fetch_senate_efd_range,
+    load_senate_transactions_mirror_chain,
+)
 
 try:
     from dotenv import load_dotenv
@@ -76,6 +82,49 @@ def _normalize_senate_report_rows(rows: list[dict[str, Any]]) -> list[SenateRepo
     return out
 
 
+def _senate_reports_from_mirror_txs(txs: list[dict[str, Any]], start: date, end: date) -> list[SenateReport]:
+    """
+    Build PTR index rows from public mirror / S3 transaction lists (same schema as mirror_fetch.main).
+
+    Uses transaction_date within [start, end] as a proxy for which PTR links touch the window.
+    Official EFD uses *submitted* date; mirror JSON usually lacks that field.
+    """
+    base = "https://efdsearch.senate.gov"
+    by_url: dict[str, dict[str, Any]] = {}
+    for tx in txs:
+        if not isinstance(tx, dict):
+            continue
+        url = str(tx.get("ptr_link") or "").strip()
+        if not url or "/search/view/ptr/" not in url.lower():
+            continue
+        if url.startswith("/"):
+            url = base + url
+        td = _parse_any_date(tx.get("transaction_date"))
+        if td is None or td < start or td > end:
+            continue
+        senator = str(tx.get("senator") or "").strip() or None
+        prev = by_url.get(url)
+        if prev is None or td > prev["submitted"]:
+            merged_sen = senator or (prev.get("senator") if prev else None)
+            by_url[url] = {"submitted": td, "senator": merged_sen, "tx": tx}
+
+    out: list[SenateReport] = []
+    for url, meta in by_url.items():
+        ext = url.rstrip("/").split("/")[-1]
+        if len(ext) < 8:
+            ext = _sha1(url)[:16]
+        out.append(
+            SenateReport(
+                submitted=meta["submitted"],
+                filer=meta.get("senator"),
+                url=url,
+                external_id=ext,
+                raw={"census_via": "mirror_transactions", "sample_transaction": meta.get("tx")},
+            )
+        )
+    return out
+
+
 def _upsert_report(
     cur: psycopg.Cursor[Any],
     *,
@@ -138,6 +187,10 @@ def main() -> int:
     senate_end_d = _parse_any_date(senate_end) if senate_end else None
     # Default to weekly windows (52-ish per year) unless overridden.
     senate_batch_days = int(os.getenv("CENSUS_SENATE_BATCH_DAYS", "7"))
+    # Senate: efd = official only | mirror = S3/public JSON only | auto = EFD, mirror on failure (mirror_fetch style)
+    senate_mode = (os.getenv("CENSUS_SENATE_MODE") or "auto").strip().lower()
+    if senate_mode not in ("efd", "mirror", "auto"):
+        senate_mode = "auto"
 
     out_dir = os.getenv("CENSUS_OUT_DIR", "artifacts/census").strip() or "artifacts/census"
     os.makedirs(out_dir, exist_ok=True)
@@ -172,20 +225,54 @@ def main() -> int:
                     }
                 )
 
-    # Senate: fetch in small batches to reduce 503 probability.
+    # Senate: mirror_fetch-style chain when CENSUS_SENATE_MODE=auto|mirror (S3 → public JSON → EFD on failure).
     senate_reports: list[SenateReport] = []
     senate_index: list[dict[str, Any]] = []
     senate_errors: list[dict[str, Any]] = []
+    mirror_label: str | None = None
+    mirror_txs: list[dict[str, Any]] = []
+    mirror_recoveries = 0
+    if senate_mode in ("auto", "mirror"):
+        mirror_label, mirror_txs = load_senate_transactions_mirror_chain(s)
+
     cur_start = senate_start_d
     today = senate_end_d or date.today()
     while cur_start <= today:
         cur_end = cur_start.fromordinal(min(today.toordinal(), cur_start.toordinal() + senate_batch_days))
-        try:
-            rows = fetch_senate_efd_range(s, start=cur_start, end=cur_end)
-            batch_reports = _normalize_senate_report_rows(rows)
-            senate_reports.extend(batch_reports)
-        except Exception as e:
-            senate_errors.append({"start": cur_start.isoformat(), "end": cur_end.isoformat(), "error": str(e)[:200]})
+        batch_reports: list[SenateReport] = []
+
+        if senate_mode == "mirror":
+            batch_reports = _senate_reports_from_mirror_txs(mirror_txs, cur_start, cur_end)
+            if not batch_reports and not mirror_txs:
+                senate_errors.append(
+                    {
+                        "start": cur_start.isoformat(),
+                        "end": cur_end.isoformat(),
+                        "error": "senate_mirror_no_data:S3/mirror JSON empty or unreachable",
+                    }
+                )
+        else:
+            try:
+                rows = fetch_senate_efd_range(s, start=cur_start, end=cur_end)
+                batch_reports = _normalize_senate_report_rows(rows)
+            except Exception as e:
+                if senate_mode == "auto" and mirror_txs:
+                    batch_reports = _senate_reports_from_mirror_txs(mirror_txs, cur_start, cur_end)
+                    if batch_reports:
+                        mirror_recoveries += 1
+                    else:
+                        senate_errors.append(
+                            {
+                                "start": cur_start.isoformat(),
+                                "end": cur_end.isoformat(),
+                                "error": str(e)[:200],
+                                "mirror_fallback": "no_matching_ptr_in_mirror_for_window",
+                            }
+                        )
+                else:
+                    senate_errors.append({"start": cur_start.isoformat(), "end": cur_end.isoformat(), "error": str(e)[:200]})
+
+        senate_reports.extend(batch_reports)
         cur_start = cur_end.fromordinal(cur_end.toordinal() + 1)
 
     # Build index from all batches
@@ -199,6 +286,7 @@ def main() -> int:
                 "report_url": r.url,
                 "external_id": r.external_id,
                 "source_key": "senate_efd",
+                "indexed_via": (r.raw or {}).get("census_via", "efd"),
             }
         )
 
@@ -225,6 +313,10 @@ def main() -> int:
                             "senate_since": str(senate_start_d),
                             "senate_until": str(today),
                             "senate_batch_days": senate_batch_days,
+                            "senate_mode": senate_mode,
+                            "senate_mirror_source": mirror_label,
+                            "senate_mirror_tx_count": len(mirror_txs),
+                            "senate_mirror_recoveries": mirror_recoveries,
                             "senate_errors": senate_errors[:5],
                         }
                     ),
