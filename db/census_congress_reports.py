@@ -134,6 +134,8 @@ def main() -> int:
 
     senate_start = os.getenv("CENSUS_SENATE_START_DATE", "2020-01-01").strip()
     senate_start_d = _parse_any_date(senate_start) or date(2020, 1, 1)
+    senate_end = (os.getenv("CENSUS_SENATE_END_DATE") or "").strip()
+    senate_end_d = _parse_any_date(senate_end) if senate_end else None
     senate_batch_days = int(os.getenv("CENSUS_SENATE_BATCH_DAYS", "31"))
 
     out_dir = os.getenv("CENSUS_OUT_DIR", "artifacts/census").strip() or "artifacts/census"
@@ -174,7 +176,7 @@ def main() -> int:
     senate_index: list[dict[str, Any]] = []
     senate_errors: list[dict[str, Any]] = []
     cur_start = senate_start_d
-    today = date.today()
+    today = senate_end_d or date.today()
     while cur_start <= today:
         cur_end = cur_start.fromordinal(min(today.toordinal(), cur_start.toordinal() + senate_batch_days))
         try:
@@ -220,6 +222,7 @@ def main() -> int:
                             "house_years": [house_start_year, house_end_year],
                             "house_members": len(members),
                             "senate_since": str(senate_start_d),
+                            "senate_until": str(today),
                             "senate_batch_days": senate_batch_days,
                             "senate_errors": senate_errors[:5],
                         }
