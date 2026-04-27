@@ -24,6 +24,10 @@ Raw URLs (replace `<you>` / `<repo>`):
 - `https://raw.githubusercontent.com/<you>/<repo>/main/data/house/all_transactions.json`
 - `https://raw.githubusercontent.com/<you>/<repo>/main/data/senate/all_transactions.json`
 
+## Data architecture (Postgres + Parquet)
+
+See `README_DATA_ARCHITECTURE.md`.
+
 ## Dashboard (local)
 
 A simple local dashboard (filters + table) is included under `dashboard/`.
