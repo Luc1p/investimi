@@ -1,0 +1,98 @@
+name: prices-1d
+
+on:
+  workflow_dispatch:
+    inputs:
+      universes:
+        description: "Universes (comma-separated): nasdaq100,sp500,ftsemib"
+        required: false
+        default: "sp500,ftsemib"
+      max_tickers:
+        description: "Limit tickers (optional)"
+        required: false
+        default: ""
+      incremental:
+        description: "Incremental (1) or full (0)"
+        required: false
+        default: "1"
+      start_date:
+        description: "Start date YYYY-MM-DD (only used for full / missing parquet)"
+        required: false
+        default: "2000-01-01"
+  schedule:
+    - cron: "30 20 * * 1-5" # weekdays 20:30 UTC (22:30 Italy time in summer)
+
+concurrency:
+  group: prices-1d
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: investimi
+          POSTGRES_USER: investimi
+          POSTGRES_PASSWORD: investimi
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U investimi -d investimi"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      INVESTIMI_DB_DSN: postgresql://investimi:investimi@localhost:5432/investimi
+      STOOQ_APIKEY: ${{ secrets.STOOQ_APIKEY }}
+      PRICE_UNIVERSES: ${{ inputs.universes || 'nasdaq100' }}
+      PRICE_MAX_TICKERS: ${{ inputs.max_tickers }}
+      PRICE_INCREMENTAL: ${{ inputs.incremental || '1' }}
+      PRICE_START_DATE: ${{ inputs.start_date || '2000-01-01' }}
+      PRICE_TICKERS_PER_SECOND: "2.0"
+      PRICE_EXPORT_MANIFEST_CSV: artifacts/price_manifest.csv
+      PRICE_PROVIDER: auto
+      LAKE_ROOT: lake
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-lake.txt
+          python -c "import yfinance, pandas, pyarrow, psycopg; print('deps ok')"
+
+      - name: Apply DB schema
+        run: |
+          python - <<'PY'
+          import psycopg, pathlib
+          sql = pathlib.Path("db/schema.sql").read_text(encoding="utf-8")
+          with psycopg.connect("postgresql://investimi:investimi@localhost:5432/investimi") as conn:
+            with conn.cursor() as cur:
+              cur.execute(sql)
+          print("ok")
+          PY
+
+      - name: Run prices importer
+        run: |
+          python -m db.import_prices_1d
+
+      - name: Bundle artifacts
+        run: |
+          mkdir -p artifacts
+          tar -czf artifacts/lake-prices.tgz lake/prices
+
+      - name: Upload artifact (prices)
+        uses: actions/upload-artifact@v4
+        with:
+          name: prices-1d-${{ env.PRICE_UNIVERSES }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 7
+

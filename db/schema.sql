@@ -98,6 +98,23 @@ create index if not exists trade_events_tx_date_idx on core.trade_events (transa
 create index if not exists trade_events_actor_idx on core.trade_events (actor_id, disclosed_at);
 create index if not exists trade_events_instr_idx on core.trade_events (instrument_id, disclosed_at);
 
+-- Price bars (Parquet in lake/, indexed here)
+create table if not exists core.price_bars_manifest (
+  id bigserial primary key,
+  instrument_id bigint not null references core.instruments(id) on delete restrict,
+  source_key text not null, -- e.g. stooq
+  freq text not null, -- e.g. 1d
+  parquet_path text not null,
+  start_date date,
+  end_date date,
+  row_count bigint,
+  updated_at timestamptz not null default now(),
+  unique (instrument_id, source_key, freq)
+);
+
+create index if not exists price_bars_manifest_instr_idx on core.price_bars_manifest (instrument_id);
+create index if not exists price_bars_manifest_updated_idx on core.price_bars_manifest (updated_at);
+
 -- --------
 -- ops
 -- --------
