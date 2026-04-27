@@ -6,7 +6,7 @@ services:
       POSTGRES_USER: investimi
       POSTGRES_PASSWORD: investimi
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - investimi_pgdata:/var/lib/postgresql/data
 
