@@ -533,7 +533,7 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
             raw_cells.append(tds[2].get_text(" ", strip=True))
             raw_cells.append(tds[3].decode_contents().strip())
             raw_cells.append(tds[4].get_text(" ", strip=True))
-            out.append({"raw": raw_cells})
+            out.append({"raw": raw_cells, "_efd_source": "html"})
         return out
 
     def _fetch_efd_html_results() -> list[dict[str, Any]]:
@@ -595,6 +595,14 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
                 pass
         return rows
 
+    # Prefer HTML results table first (often more stable than DataTables).
+    html_rows0 = _fetch_efd_html_results()
+    if html_rows0:
+        for r in html_rows0:
+            if isinstance(r, dict):
+                r["_efd_source"] = "html"
+        return html_rows0
+
     # DataTables pagination: keep fetching until empty or SENATE_EFD_MAX_PAGES reached.
     out: list[dict[str, Any]] = []
     max_pages = int(os.getenv("SENATE_EFD_MAX_PAGES", "6"))
@@ -621,6 +629,9 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
             # If DataTables is down, try HTML table parsing as fallback.
             html_rows = _fetch_efd_html_results()
             if html_rows:
+                for r in html_rows:
+                    if isinstance(r, dict):
+                        r["_efd_source"] = "html"
                 return html_rows
             raise requests.HTTPError(last_err or "senate_efd_data_http_unknown")
 
@@ -631,12 +642,13 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
         for row in rows:
             # row is typically a list of columns, some may contain HTML <a href="...">
             if isinstance(row, dict):
+                row["_efd_source"] = "datatables"
                 out.append(row)
                 continue
             if not isinstance(row, list):
-                out.append({"raw": row})
+                out.append({"raw": row, "_efd_source": "datatables"})
                 continue
-            out.append({"raw": row})
+            out.append({"raw": row, "_efd_source": "datatables"})
 
         page += 1
         start_idx += page_size
@@ -781,13 +793,18 @@ def _parse_senate_ptr_transactions_page(html: str) -> tuple[str | None, list[dic
     return (who, out)
 
 
-def build_senate_transactions_from_efd(s: requests.Session, *, days: int = 60, max_reports: int = 60) -> list[dict[str, Any]]:
+def build_senate_transactions_from_efd(
+    s: requests.Session, *, days: int = 60, max_reports: int = 60
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """
     Uses Senate EFD search to get recent PTR report links, then scrapes each report page
     to extract transaction rows into a stock-watcher-compatible schema.
     """
     filings = fetch_senate_efd(s, days=days)
     links: list[str] = []
+    filings_source = None
+    if filings:
+        filings_source = (filings[0] or {}).get("_efd_source")
 
     for f in filings:
         raw = f.get("raw")
@@ -836,7 +853,12 @@ def build_senate_transactions_from_efd(s: requests.Session, *, days: int = 60, m
                 tx_out.append(row)
         except Exception:
             continue
-    return tx_out
+    meta = {
+        "filings_count": len(filings),
+        "ptr_links_count": len(uniq),
+        "filings_source": filings_source,
+    }
+    return (tx_out, meta)
 
 
 def _status_line(key: str, val: str) -> str:
@@ -986,9 +1008,13 @@ def main() -> int:
         try:
             efd_days = int(os.getenv("SENATE_EFD_DAYS", "60"))
             max_reports = int(os.getenv("SENATE_EFD_MAX_REPORTS", "120"))
-            txs = build_senate_transactions_from_efd(s, days=efd_days, max_reports=max_reports)
+            txs, meta = build_senate_transactions_from_efd(s, days=efd_days, max_reports=max_reports)
             status += _status_line("senate_efd_status", "ok")
             status += _status_line("senate_efd_transactions", str(len(txs)))
+            status += _status_line("senate_efd_filings", str(int(meta.get("filings_count") or 0)))
+            status += _status_line("senate_efd_ptr_links", str(int(meta.get("ptr_links_count") or 0)))
+            if meta.get("filings_source"):
+                status += _status_line("senate_efd_source", str(meta.get("filings_source")))
             # Only overwrite if we actually got something.
             if txs:
                 _write_json("data/senate/all_transactions.json", txs)
