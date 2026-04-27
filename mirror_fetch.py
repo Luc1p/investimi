@@ -656,6 +656,85 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
     return out
 
 
+def fetch_senate_efd_range(s: requests.Session, *, start: date, end: date) -> list[dict[str, Any]]:
+    """
+    Like fetch_senate_efd, but for an explicit submitted date range.
+    Useful to avoid 503 by batching month-by-month.
+    """
+    days = max(1, int((end - start).days))
+    # Reuse the existing implementation by temporarily shifting "today" window:
+    # we replicate the core logic with overridden dates via environment-like values.
+    # The simplest/robust approach: copy the body with start/end instead of days.
+    base = "https://efdsearch.senate.gov"
+    home = f"{base}/search/"
+
+    # Establish session/csrf using the same helper in fetch_senate_efd by calling it with a tiny window,
+    # then re-run the request building with our explicit start/end.
+    # This avoids duplicating disclaimer logic here.
+    _ = fetch_senate_efd(s, days=1)
+
+    # Now do a fresh GET to obtain CSRF token from cookies.
+    token = s.cookies.get("csrftoken") or ""
+    if not token:
+        # best-effort fetch token from search page
+        r0 = s.get(home, timeout=45, headers={"Accept": "text/html,*/*"})
+        if r0.status_code == 200:
+            soup0 = BeautifulSoup(r0.text, "html.parser")
+            csrf0 = soup0.find("input", {"name": "csrfmiddlewaretoken"})
+            token = (csrf0.get("value") if csrf0 else None) or ""
+    if not token:
+        raise RuntimeError("Missing csrf token for senate efd range fetch")
+
+    data_url = f"{base}/search/report/data/"
+    base_payload = {
+        "draw": "1",
+        "length": os.getenv("SENATE_EFD_PAGE_SIZE", "100"),
+        "report_types[]": ["11"],  # PTR
+        "filer_types[]": ["1"],  # senator
+        "submitted_start_date": start.strftime("%m/%d/%Y"),
+        "submitted_end_date": end.strftime("%m/%d/%Y"),
+    }
+    headers = {
+        "Referer": home,
+        "X-CSRFToken": token,
+        "X-Requested-With": "XMLHttpRequest",
+        "Accept": "application/json,text/plain,*/*",
+        "Accept-Language": "en-US,en;q=0.9",
+    }
+
+    out: list[dict[str, Any]] = []
+    max_pages = int(os.getenv("SENATE_EFD_MAX_PAGES", "20"))
+    start_idx = 0
+    page = 0
+    page_size = int(str(base_payload["length"]))
+
+    while page < max_pages:
+        payload = dict(base_payload)
+        payload["start"] = str(start_idx)
+        last_err: str | None = None
+        for attempt in range(7):
+            r2 = s.post(data_url, data=payload, headers=headers, timeout=45)
+            if r2.status_code == 200:
+                break
+            last_err = f"senate_efd_data_http_{r2.status_code}:{r2.text[:120]}"
+            if r2.status_code in (429, 500, 502, 503, 504):
+                time.sleep(min(30, (2 ** attempt) + random.random()))
+                continue
+            raise requests.HTTPError(last_err)
+        else:
+            raise requests.HTTPError(last_err or "senate_efd_data_http_unknown")
+
+        data = r2.json()
+        rows = data.get("data") or []
+        if not rows:
+            break
+        for row in rows:
+            out.append({"raw": row, "_efd_source": "datatables", "_range": [start.isoformat(), end.isoformat()]})
+        page += 1
+        start_idx += page_size
+    return out
+
+
 def fetch_senate_from_mirrors(s: requests.Session) -> tuple[str | None, list[dict[str, Any]] | None]:
     """
     Fallback: pull Senate transactions from one of several public JSON mirrors.

@@ -10,7 +10,7 @@ from typing import Any
 import psycopg
 import requests
 
-from mirror_fetch import _extract_house_ptr_links, _session, fetch_house_members, fetch_senate_efd
+from mirror_fetch import _extract_house_ptr_links, _session, fetch_house_members, fetch_senate_efd_range
 
 try:
     from dotenv import load_dotenv
@@ -134,7 +134,7 @@ def main() -> int:
 
     senate_start = os.getenv("CENSUS_SENATE_START_DATE", "2020-01-01").strip()
     senate_start_d = _parse_any_date(senate_start) or date(2020, 1, 1)
-    senate_days = int((date.today() - senate_start_d).days)
+    senate_batch_days = int(os.getenv("CENSUS_SENATE_BATCH_DAYS", "31"))
 
     out_dir = os.getenv("CENSUS_OUT_DIR", "artifacts/census").strip() or "artifacts/census"
     os.makedirs(out_dir, exist_ok=True)
@@ -169,15 +169,25 @@ def main() -> int:
                     }
                 )
 
-    # Senate: EFD search returns filing rows incl. link (no details).
-    # This can be blocked (403/503). Step 1 should still succeed for House even if Senate is temporarily unavailable.
+    # Senate: fetch in small batches to reduce 503 probability.
     senate_reports: list[SenateReport] = []
     senate_index: list[dict[str, Any]] = []
-    senate_error: str | None = None
-    try:
-        senate_rows = fetch_senate_efd(s, days=senate_days)
-        senate_reports = _normalize_senate_report_rows(senate_rows)
-        senate_index = [
+    senate_errors: list[dict[str, Any]] = []
+    cur_start = senate_start_d
+    today = date.today()
+    while cur_start <= today:
+        cur_end = cur_start.fromordinal(min(today.toordinal(), cur_start.toordinal() + senate_batch_days))
+        try:
+            rows = fetch_senate_efd_range(s, start=cur_start, end=cur_end)
+            batch_reports = _normalize_senate_report_rows(rows)
+            senate_reports.extend(batch_reports)
+        except Exception as e:
+            senate_errors.append({"start": cur_start.isoformat(), "end": cur_end.isoformat(), "error": str(e)[:200]})
+        cur_start = cur_end.fromordinal(cur_end.toordinal() + 1)
+
+    # Build index from all batches
+    for r in senate_reports:
+        senate_index.append(
             {
                 "chamber": "senate",
                 "report_type": "ptr",
@@ -187,16 +197,13 @@ def main() -> int:
                 "external_id": r.external_id,
                 "source_key": "senate_efd",
             }
-            for r in senate_reports
-        ]
-    except Exception as e:
-        senate_error = str(e)[:200]
+        )
 
     # Write artifacts
     with open(os.path.join(out_dir, "house_reports.json"), "w", encoding="utf-8") as f:
         json.dump(house_index, f, ensure_ascii=False)
     with open(os.path.join(out_dir, "senate_reports.json"), "w", encoding="utf-8") as f:
-        json.dump({"error": senate_error, "reports": senate_index}, f, ensure_ascii=False)
+        json.dump({"errors": senate_errors, "reports": senate_index}, f, ensure_ascii=False)
 
     # Upsert into Postgres
     inserted = 0
@@ -213,8 +220,8 @@ def main() -> int:
                             "house_years": [house_start_year, house_end_year],
                             "house_members": len(members),
                             "senate_since": str(senate_start_d),
-                            "senate_days": senate_days,
-                            "senate_error": senate_error,
+                            "senate_batch_days": senate_batch_days,
+                            "senate_errors": senate_errors[:5],
                         }
                     ),
                 ),
@@ -259,7 +266,7 @@ def main() -> int:
                                 "inserted": inserted,
                                 "house": len(house_index),
                                 "senate": len(senate_reports),
-                                "senate_error": senate_error,
+                                "senate_errors": senate_errors[:20],
                             }
                         ),
                         run_id,
