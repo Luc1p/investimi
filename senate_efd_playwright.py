@@ -69,6 +69,15 @@ def _collect_ptr_links_via_browser(*, days: int) -> list[str]:
         page.on("response", on_response)
 
         def _accept_disclaimer() -> bool:
+            # Primary: the home gate uses a checkbox that auto-submits.
+            try:
+                cb = page.locator("#agree_statement")
+                if cb.count() > 0:
+                    cb.check(timeout=3000)
+                    return True
+            except Exception:
+                pass
+
             # Try obvious buttons by text
             for label in ("I Agree", "Agree", "Accept", "Continue", "OK"):
                 try:
@@ -109,7 +118,7 @@ def _collect_ptr_links_via_browser(*, days: int) -> list[str]:
         clicked = _accept_disclaimer()
         debug["disclaimer_clicked"] = bool(clicked)
         try:
-            page.wait_for_timeout(1500)
+            page.wait_for_timeout(2500)
             debug["page_url_after_disclaimer"] = page.url
         except Exception:
             pass
@@ -236,22 +245,40 @@ def main() -> int:
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
-        page.goto("https://efdsearch.senate.gov/search/", wait_until="domcontentloaded", timeout=60000)
+        # Start from the home gate so the agreement checkbox is present.
+        page.goto("https://efdsearch.senate.gov/search/home/", wait_until="domcontentloaded", timeout=60000)
 
-        # Re-accept disclaimer if shown (best-effort)
+        # Accept disclaimer gate (checkbox auto-submits).
         try:
-            for label in ("I Agree", "Agree", "Accept", "Continue", "OK"):
+            cb = page.locator("#agree_statement")
+            if cb.count() > 0:
+                cb.check(timeout=5000)
                 try:
-                    page.get_by_role("button", name=label).click(timeout=1500)
-                    break
+                    page.wait_for_load_state("domcontentloaded", timeout=20000)
                 except Exception:
                     pass
+        except Exception:
+            pass
+        # Ensure we are on /search/ after the gate.
+        try:
+            if "/search/" not in (page.url or ""):
+                page.goto("https://efdsearch.senate.gov/search/", wait_until="domcontentloaded", timeout=60000)
         except Exception:
             pass
 
         for url in links:
             try:
                 resp = page.goto(url, wait_until="domcontentloaded", timeout=60000)
+                # If redirected back to the gate, accept and retry once.
+                if (page.url or "").endswith("/search/home/") or "/search/home/" in (page.url or ""):
+                    try:
+                        cb2 = page.locator("#agree_statement")
+                        if cb2.count() > 0:
+                            cb2.check(timeout=5000)
+                            page.wait_for_load_state("domcontentloaded", timeout=20000)
+                            resp = page.goto(url, wait_until="domcontentloaded", timeout=60000)
+                    except Exception:
+                        pass
                 if not resp or resp.status != 200:
                     continue
                 ok_pages += 1
