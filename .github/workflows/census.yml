@@ -26,7 +26,7 @@ on:
       senate_batch_days:
         description: "Senate batch size in days (e.g. 7)"
         required: false
-        default: "31"
+        default: "7"
   schedule:
     - cron: "15 5 * * 1" # Mondays 05:15 UTC
 
@@ -59,7 +59,7 @@ jobs:
       CENSUS_HOUSE_MEMBER_LIMIT: ${{ inputs.house_member_limit || '0' }}
       CENSUS_SENATE_START_DATE: ${{ inputs.senate_start_date || '2020-01-01' }}
       CENSUS_SENATE_END_DATE: ${{ inputs.senate_end_date || '' }}
-      CENSUS_SENATE_BATCH_DAYS: ${{ inputs.senate_batch_days || '31' }}
+      CENSUS_SENATE_BATCH_DAYS: ${{ inputs.senate_batch_days || '7' }}
     steps:
       - uses: actions/checkout@v4
 

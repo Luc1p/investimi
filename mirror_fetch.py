@@ -658,81 +658,155 @@ def fetch_senate_efd(s: requests.Session, *, days: int = 60) -> list[dict[str, A
 
 def fetch_senate_efd_range(s: requests.Session, *, start: date, end: date) -> list[dict[str, Any]]:
     """
-    Like fetch_senate_efd, but for an explicit submitted date range.
-    Useful to avoid 503 by batching month-by-month.
+    Fetch Senate PTR filing *links* for an explicit submitted date range.
+
+    Important: the DataTables JSON endpoint (`/search/report/data/`) is often unstable (503).
+    For historical batching we prefer the **HTML search results table** path (same as fetch_senate_efd fallback),
+    which tends to be more reliable for census/indexing.
     """
-    days = max(1, int((end - start).days))
-    # Reuse the existing implementation by temporarily shifting "today" window:
-    # we replicate the core logic with overridden dates via environment-like values.
-    # The simplest/robust approach: copy the body with start/end instead of days.
     base = "https://efdsearch.senate.gov"
     home = f"{base}/search/"
 
-    # Establish session/csrf using the same helper in fetch_senate_efd by calling it with a tiny window,
-    # then re-run the request building with our explicit start/end.
-    # This avoids duplicating disclaimer logic here.
-    _ = fetch_senate_efd(s, days=1)
-
-    # Now do a fresh GET to obtain CSRF token from cookies.
-    token = s.cookies.get("csrftoken") or ""
-    if not token:
-        # best-effort fetch token from search page
+    def _ensure_efd_session() -> str:
         r0 = s.get(home, timeout=45, headers={"Accept": "text/html,*/*"})
-        if r0.status_code == 200:
-            soup0 = BeautifulSoup(r0.text, "html.parser")
-            csrf0 = soup0.find("input", {"name": "csrfmiddlewaretoken"})
-            token = (csrf0.get("value") if csrf0 else None) or ""
-    if not token:
-        raise RuntimeError("Missing csrf token for senate efd range fetch")
+        if r0.status_code != 200:
+            raise requests.HTTPError(f"senate_efd_home_http_{r0.status_code}")
+        soup0 = BeautifulSoup(r0.text, "html.parser")
+        csrf0 = soup0.find("input", {"name": "csrfmiddlewaretoken"})
+        token0 = (csrf0.get("value") if csrf0 else None) or s.cookies.get("csrftoken")
 
-    data_url = f"{base}/search/report/data/"
+        if token0 and ("report/data" in r0.text or "efdsearch" in r0.text):
+            return token0
+
+        page_txt = soup0.get_text(" ", strip=True).lower()
+        if "agree" not in page_txt and "accept" not in page_txt and "disclaimer" not in page_txt:
+            if token0:
+                return token0
+            raise RuntimeError("Missing csrf token on senate efd home")
+
+        form = soup0.find("form")
+        if not form:
+            if token0:
+                return token0
+            raise RuntimeError("EFD disclaimer page without form")
+        action = (form.get("action") or "").strip() or home
+        if not action.startswith("http"):
+            action = base + action if action.startswith("/") else home
+
+        payload: dict[str, str] = {}
+        for inp in form.find_all("input"):
+            name = (inp.get("name") or "").strip()
+            if not name:
+                continue
+            val = (inp.get("value") or "").strip()
+            payload[name] = val
+
+        for inp in form.find_all("input"):
+            t = (inp.get("type") or "").lower()
+            if t in ("submit", "button"):
+                name = (inp.get("name") or "").strip()
+                val = (inp.get("value") or "").strip()
+                if name:
+                    payload[name] = val or payload.get(name, "")
+        btn = form.find("button")
+        if btn and btn.get("name"):
+            payload[str(btn.get("name"))] = str(btn.get("value") or "Agree")
+
+        r1 = s.post(action, data=payload, timeout=45, headers={"Referer": home})
+        if r1.status_code not in (200, 302):
+            raise requests.HTTPError(f"senate_efd_disclaimer_http_{r1.status_code}")
+
+        r2 = s.get(home, timeout=45, headers={"Accept": "text/html,*/*"})
+        if r2.status_code != 200:
+            raise requests.HTTPError(f"senate_efd_home_after_disclaimer_http_{r2.status_code}")
+        soup2 = BeautifulSoup(r2.text, "html.parser")
+        csrf2 = soup2.find("input", {"name": "csrfmiddlewaretoken"})
+        token2 = (csrf2.get("value") if csrf2 else None) or s.cookies.get("csrftoken")
+        if not token2:
+            raise RuntimeError("Missing csrf token after senate efd disclaimer")
+        return token2
+
+    _ensure_efd_session()
+
     base_payload = {
-        "draw": "1",
-        "length": os.getenv("SENATE_EFD_PAGE_SIZE", "100"),
-        "report_types[]": ["11"],  # PTR
-        "filer_types[]": ["1"],  # senator
         "submitted_start_date": start.strftime("%m/%d/%Y"),
         "submitted_end_date": end.strftime("%m/%d/%Y"),
     }
-    headers = {
-        "Referer": home,
-        "X-CSRFToken": token,
-        "X-Requested-With": "XMLHttpRequest",
-        "Accept": "application/json,text/plain,*/*",
-        "Accept-Language": "en-US,en;q=0.9",
-    }
 
-    out: list[dict[str, Any]] = []
-    max_pages = int(os.getenv("SENATE_EFD_MAX_PAGES", "20"))
-    start_idx = 0
-    page = 0
-    page_size = int(str(base_payload["length"]))
-
-    while page < max_pages:
-        payload = dict(base_payload)
-        payload["start"] = str(start_idx)
-        last_err: str | None = None
-        for attempt in range(7):
-            r2 = s.post(data_url, data=payload, headers=headers, timeout=45)
-            if r2.status_code == 200:
-                break
-            last_err = f"senate_efd_data_http_{r2.status_code}:{r2.text[:120]}"
-            if r2.status_code in (429, 500, 502, 503, 504):
-                time.sleep(min(30, (2 ** attempt) + random.random()))
+    def _parse_filed_reports_table(html: str) -> list[dict[str, Any]]:
+        soup = BeautifulSoup(html, "html.parser")
+        table = soup.find("table", {"id": "filedReports"})
+        if not table:
+            return []
+        out: list[dict[str, Any]] = []
+        for tr in table.find_all("tr"):
+            tds = tr.find_all("td")
+            if len(tds) < 5:
                 continue
-            raise requests.HTTPError(last_err)
-        else:
-            raise requests.HTTPError(last_err or "senate_efd_data_http_unknown")
+            raw_cells: list[Any] = []
+            raw_cells.append(tds[0].get_text(" ", strip=True))
+            raw_cells.append(tds[1].get_text(" ", strip=True))
+            raw_cells.append(tds[2].get_text(" ", strip=True))
+            raw_cells.append(tds[3].decode_contents().strip())
+            raw_cells.append(tds[4].get_text(" ", strip=True))
+            out.append({"raw": raw_cells, "_efd_source": "html", "_range": [start.isoformat(), end.isoformat()]})
+        return out
 
-        data = r2.json()
-        rows = data.get("data") or []
-        if not rows:
-            break
-        for row in rows:
-            out.append({"raw": row, "_efd_source": "datatables", "_range": [start.isoformat(), end.isoformat()]})
-        page += 1
-        start_idx += page_size
-    return out
+    def _fetch_efd_html_results() -> list[dict[str, Any]]:
+        r = s.get(home, timeout=45, headers={"Accept": "text/html,*/*"})
+        if r.status_code != 200:
+            raise requests.HTTPError(f"senate_efd_home_http_{r.status_code}")
+        soup = BeautifulSoup(r.text, "html.parser")
+        form = soup.find("form")
+        if not form:
+            return []
+        action = (form.get("action") or "").strip() or home
+        if not action.startswith("http"):
+            action = base + action if action.startswith("/") else home
+
+        payload: dict[str, Any] = {}
+        for inp in form.find_all(["input", "select"]):
+            name = (inp.get("name") or "").strip()
+            if not name:
+                continue
+            if inp.name == "select":
+                opt = inp.find("option", selected=True) or inp.find("option")
+                payload[name] = (opt.get("value") if opt else "") or ""
+            else:
+                payload[name] = (inp.get("value") or "").strip()
+
+        for k in ("submitted_start_date", "submitted_start_date__gte"):
+            if k in payload:
+                payload[k] = base_payload["submitted_start_date"]
+        for k in ("submitted_end_date", "submitted_end_date__lte", "submitted_end_date"):
+            if k in payload:
+                payload[k] = base_payload["submitted_end_date"]
+
+        for k in ("report_types", "report_types[]"):
+            if k in payload:
+                payload[k] = "11"
+        for k in ("filer_types", "filer_types[]"):
+            if k in payload:
+                payload[k] = "1"
+
+        r2 = s.post(action, data=payload, timeout=45, headers={"Referer": home})
+        if r2.status_code != 200:
+            return []
+        rows = _parse_filed_reports_table(r2.text)
+        if not rows and r2.url and r2.url != action:
+            try:
+                r3 = s.get(r2.url, timeout=45, headers={"Referer": home})
+                if r3.status_code == 200:
+                    rows = _parse_filed_reports_table(r3.text)
+            except Exception:
+                pass
+        return rows
+
+    rows = _fetch_efd_html_results()
+    for r in rows:
+        if isinstance(r, dict):
+            r["_efd_source"] = "html"
+    return rows
 
 
 def fetch_senate_from_mirrors(s: requests.Session) -> tuple[str | None, list[dict[str, Any]] | None]:

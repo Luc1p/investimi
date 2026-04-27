@@ -136,7 +136,8 @@ def main() -> int:
     senate_start_d = _parse_any_date(senate_start) or date(2020, 1, 1)
     senate_end = (os.getenv("CENSUS_SENATE_END_DATE") or "").strip()
     senate_end_d = _parse_any_date(senate_end) if senate_end else None
-    senate_batch_days = int(os.getenv("CENSUS_SENATE_BATCH_DAYS", "31"))
+    # Default to weekly windows (52-ish per year) unless overridden.
+    senate_batch_days = int(os.getenv("CENSUS_SENATE_BATCH_DAYS", "7"))
 
     out_dir = os.getenv("CENSUS_OUT_DIR", "artifacts/census").strip() or "artifacts/census"
     os.makedirs(out_dir, exist_ok=True)

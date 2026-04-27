@@ -11,3 +11,5 @@ lake/
 artifacts/
 exports/
 prices/
+house_reports.json
+senate_reports.json
