@@ -135,6 +135,7 @@ def main() -> int:
     user_agent = (os.getenv("MIRROR_UA") or "").strip() or None
 
     done_urls: set[str] = set()
+    failed_urls: set[str] = set()
     tx_out: list[dict[str, Any]] = []
     errors: list[dict[str, Any]] = []
     if resume:
@@ -142,6 +143,8 @@ def main() -> int:
             st = _read_json(out_state_path)
             if isinstance(st, dict) and isinstance(st.get("done_urls"), list):
                 done_urls = {str(u) for u in st.get("done_urls") if str(u).strip()}
+            if isinstance(st, dict) and isinstance(st.get("failed_urls"), list):
+                failed_urls = {str(u) for u in st.get("failed_urls") if str(u).strip()}
         except Exception:
             pass
         try:
@@ -156,6 +159,15 @@ def main() -> int:
                 errors = [x for x in blob if isinstance(x, dict)]
         except Exception:
             errors = []
+        # Backward-compatible: older versions marked failures as done.
+        try:
+            err_urls = {str(e.get("url") or "").strip() for e in errors if isinstance(e, dict)}
+            err_urls = {u for u in err_urls if u}
+            if err_urls:
+                failed_urls |= err_urls
+                done_urls -= err_urls
+        except Exception:
+            pass
 
     sync_playwright = _try_import_playwright()
 
@@ -235,8 +247,11 @@ def main() -> int:
                         pass
                     continue
 
-            done_urls.add(rep.url)
-            if not ok:
+            if ok:
+                done_urls.add(rep.url)
+                failed_urls.discard(rep.url)
+            else:
+                failed_urls.add(rep.url)
                 errors.append(last)
 
             # periodic checkpoint
@@ -252,7 +267,9 @@ def main() -> int:
                         "total_ptr_reports": len(reports),
                         "done": len(done_urls),
                         "errors": len(errors),
+                        "failed": len(failed_urls),
                         "done_urls": sorted(done_urls),
+                        "failed_urls": sorted(failed_urls),
                     },
                 )
 
@@ -274,6 +291,7 @@ def main() -> int:
             "done": len(done_urls),
             "errors": len(errors),
             "done_urls": sorted(done_urls),
+            "failed_urls": sorted(failed_urls),
         },
     )
     # Friendly hint when everything is blocked.
