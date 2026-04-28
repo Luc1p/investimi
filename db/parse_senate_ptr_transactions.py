@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import time
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
@@ -133,6 +134,8 @@ def main() -> int:
     # Allow opting into a headed browser to look more like a normal user session.
     headless = (os.getenv("SENATE_PTR_HEADLESS") or "1").strip() != "0"
     user_agent = (os.getenv("MIRROR_UA") or "").strip() or None
+    delay_ms = int((os.getenv("SENATE_PTR_DELAY_MS") or "250").strip() or "250")
+    relaunch_every = int((os.getenv("SENATE_PTR_RELAUNCH_EVERY") or "120").strip() or "120")
 
     done_urls: set[str] = set()
     failed_urls: set[str] = set()
@@ -173,21 +176,27 @@ def main() -> int:
 
     started = datetime.utcnow().isoformat() + "Z"
     with sync_playwright() as p:
-        browser = p.chromium.launch(
-            headless=headless,
-            args=[
-                "--disable-blink-features=AutomationControlled",
-            ],
-        )
-        ctx_kwargs: dict[str, Any] = {}
-        if user_agent:
-            ctx_kwargs["user_agent"] = user_agent
-        context = browser.new_context(**ctx_kwargs)
-        page = context.new_page()
-        page.goto("https://efdsearch.senate.gov/search/home/", wait_until="domcontentloaded", timeout=60000)
-        _ensure_gate_accepted(page)
+        def _new_page() -> tuple[Any, Any, Any]:
+            browser = p.chromium.launch(
+                headless=headless,
+                args=[
+                    "--disable-blink-features=AutomationControlled",
+                ],
+            )
+            ctx_kwargs: dict[str, Any] = {}
+            if user_agent:
+                ctx_kwargs["user_agent"] = user_agent
+            context = browser.new_context(**ctx_kwargs)
+            page = context.new_page()
+            page.goto("https://efdsearch.senate.gov/search/home/", wait_until="domcontentloaded", timeout=60000)
+            _ensure_gate_accepted(page)
+            return (browser, context, page)
+
+        browser, context, page = _new_page()
 
         processed = 0
+        ok_since_relaunch = 0
+        consecutive_403 = 0
         for rep in reports:
             if rep.url in done_urls:
                 continue
@@ -212,6 +221,8 @@ def main() -> int:
                         continue
                     if status not in (200, 302, 303):
                         last["error"] = f"http_{status}"
+                        if status == 403:
+                            consecutive_403 += 1
                         break
 
                     # Let the page finish loading; the table is often rendered after JS runs.
@@ -232,6 +243,7 @@ def main() -> int:
                         row["_census_external_id"] = rep.external_id
                         tx_out.append(row)
                     ok = True
+                    consecutive_403 = 0
                     break
                 except Exception as e:
                     last["error"] = (str(e) or type(e).__name__)[:180]
@@ -250,9 +262,41 @@ def main() -> int:
             if ok:
                 done_urls.add(rep.url)
                 failed_urls.discard(rep.url)
+                ok_since_relaunch += 1
             else:
                 failed_urls.add(rep.url)
                 errors.append(last)
+
+            # Gentle pacing reduces upstream blocks.
+            if delay_ms > 0:
+                time.sleep(delay_ms / 1000.0)
+
+            # If we hit repeated 403s, relaunch the browser/context (new fingerprint/session).
+            if consecutive_403 >= 3:
+                try:
+                    context.close()
+                except Exception:
+                    pass
+                try:
+                    browser.close()
+                except Exception:
+                    pass
+                browser, context, page = _new_page()
+                ok_since_relaunch = 0
+                consecutive_403 = 0
+
+            # Periodic relaunch to avoid long-lived session degradation.
+            if relaunch_every > 0 and ok_since_relaunch >= relaunch_every:
+                try:
+                    context.close()
+                except Exception:
+                    pass
+                try:
+                    browser.close()
+                except Exception:
+                    pass
+                browser, context, page = _new_page()
+                ok_since_relaunch = 0
 
             # periodic checkpoint
             if processed % 25 == 0:
@@ -277,7 +321,10 @@ def main() -> int:
             context.close()
         except Exception:
             pass
-        browser.close()
+        try:
+            browser.close()
+        except Exception:
+            pass
 
     _write_json(out_txs_path, tx_out)
     _write_json(out_err_path, errors)
