@@ -1,0 +1,94 @@
+name: house-ptr-parse
+
+on:
+  workflow_dispatch:
+    inputs:
+      house_start_year:
+        description: "House start year"
+        required: false
+        default: "2020"
+      house_end_year:
+        description: "House end year"
+        required: false
+        default: ""
+      house_member_limit:
+        description: "Limit House members (0 = all)"
+        required: false
+        default: "0"
+      house_pdf_budget:
+        description: "Max House PDFs to download/parse (0 = all)"
+        required: false
+        default: "0"
+      house_cutoff_date:
+        description: "Ignore transactions before this date (YYYY-MM-DD)"
+        required: false
+        default: "2020-01-01"
+
+concurrency:
+  group: house-ptr-parse
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      CENSUS_OUT_DIR: artifacts/census
+      CENSUS_HOUSE_START_YEAR: ${{ inputs.house_start_year || '2020' }}
+      CENSUS_HOUSE_END_YEAR: ${{ inputs.house_end_year || '' }}
+      CENSUS_HOUSE_MEMBER_LIMIT: ${{ inputs.house_member_limit || '0' }}
+      # Keep Senate minimal in this workflow (House-focused).
+      CENSUS_SENATE_START_DATE: "2020-01-01"
+      CENSUS_SENATE_END_DATE: "2020-01-01"
+      CENSUS_SENATE_BATCH_DAYS: "7"
+      CENSUS_SENATE_MODE: "efd"
+      CENSUS_SENATE_PLAYWRIGHT: "0"
+
+      HOUSE_CENSUS_JSON: artifacts/census/house_reports.json
+      HOUSE_PTR_OUT_DIR: artifacts/house_ptr
+      HOUSE_PTR_PDF_BUDGET: ${{ inputs.house_pdf_budget || '0' }}
+      HOUSE_PTR_CUTOFF_DATE: ${{ inputs.house_cutoff_date || '2020-01-01' }}
+      HOUSE_PTR_RESUME: "1"
+
+      HOUSE_PTR_IN_JSON: artifacts/house_ptr/house_ptr_transactions.json
+      HOUSE_PTR_CLEAN_OUT_DIR: artifacts/house_ptr_clean
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps + pdftotext
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y poppler-utils
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-db.txt
+
+      - name: Census House (index)
+        run: |
+          python -m db.census_congress_reports
+
+      - name: Parse House PTR PDFs (transactions)
+        run: |
+          python -m db.parse_house_ptr_transactions
+
+      - name: Clean + classify House PTR transactions
+        run: |
+          python -m db.clean_house_ptr_transactions
+
+      - name: Upload artifacts (house index + ptr transactions)
+        uses: actions/upload-artifact@v4
+        with:
+          name: house-ptr-parse
+          path: |
+            artifacts/census/house_reports.json
+            artifacts/house_ptr/house_ptr_transactions.json
+            artifacts/house_ptr/house_ptr_errors.json
+            artifacts/house_ptr/house_ptr_state.json
+            artifacts/house_ptr_clean/house_ptr_transactions_clean.json
+            artifacts/house_ptr_clean/house_ptr_clean_summary.json
+          if-no-files-found: error
+          retention-days: 14
+

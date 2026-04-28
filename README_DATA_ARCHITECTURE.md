@@ -150,6 +150,24 @@ export SENATE_JSON="artifacts/senate_ptr_clean/senate_ptr_transactions_clean.jso
 python3 -m db.import_trades
 ```
 
+### House PTR pipeline (index → parse PDF → clean → import)
+Recommended local flow:
+
+```bash
+# 1) Index PTR PDF URLs (census)
+python3 -m db.census_congress_reports
+
+# 2) Parse PTR PDFs into transaction rows (pdftotext required)
+python3 -m db.parse_house_ptr_transactions
+
+# 3) Clean + classify rows (asset_description cleanup + asset_class)
+python3 -m db.clean_house_ptr_transactions
+
+# 4) Import to Postgres (use cleaned JSON)
+export HOUSE_JSON="artifacts/house_ptr_clean/house_ptr_transactions_clean.json"
+python3 -m db.import_trades
+```
+
 This architecture allows adding many more sources later (earnings, macro vintages, options IV, flows, news), while keeping:
 - consistent canonical tables
 - reproducible backtests
