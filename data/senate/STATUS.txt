@@ -1,4 +1,4 @@
-updated_utc=2026-04-27T19:49:54.470073Z
+updated_utc=2026-04-28T04:08:34.353602Z
 senate_pw_days=30
 senate_pw_max_reports=120
 senate_pw_ptr_links=7
