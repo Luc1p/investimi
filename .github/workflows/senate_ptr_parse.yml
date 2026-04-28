@@ -59,6 +59,8 @@ jobs:
       SENATE_PTR_HEADLESS: "1"
       SENATE_PTR_DELAY_MS: "250"
       SENATE_PTR_RELAUNCH_EVERY: "80"
+      SENATE_PTR_IN_JSON: artifacts/senate_ptr/senate_ptr_transactions.json
+      SENATE_PTR_CLEAN_OUT_DIR: artifacts/senate_ptr_clean
     steps:
       - uses: actions/checkout@v4
 
@@ -94,6 +96,10 @@ jobs:
         run: |
           python -m db.parse_senate_ptr_transactions
 
+      - name: Clean + classify Senate PTR transactions
+        run: |
+          python -m db.clean_senate_ptr_transactions
+
       - name: Upload artifacts (census + ptr transactions)
         uses: actions/upload-artifact@v4
         with:
@@ -103,6 +109,8 @@ jobs:
             artifacts/senate_ptr/senate_ptr_transactions.json
             artifacts/senate_ptr/senate_ptr_errors.json
             artifacts/senate_ptr/senate_ptr_state.json
+            artifacts/senate_ptr_clean/senate_ptr_transactions_clean.json
+            artifacts/senate_ptr_clean/senate_ptr_clean_summary.json
           if-no-files-found: error
           retention-days: 14
 
