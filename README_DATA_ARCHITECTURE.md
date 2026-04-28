@@ -132,6 +132,24 @@ Today we already ingest:
 - Senate PTR (Playwright-assisted EFD parsing)
 - SEC Form 4 (EDGAR parsing)
 
+### Senate PTR pipeline (index → parse → clean → import)
+Recommended local flow:
+
+```bash
+# 1) Index PTR report URLs (census)
+python3 -m db.census_congress_reports
+
+# 2) Parse PTR detail pages (Playwright) into transaction rows
+python3 -m db.parse_senate_ptr_transactions
+
+# 3) Clean + classify rows (HTML → text, coupon/maturity, asset_class)
+python3 -m db.clean_senate_ptr_transactions
+
+# 4) Import to Postgres (use cleaned JSON)
+export SENATE_JSON="artifacts/senate_ptr_clean/senate_ptr_transactions_clean.json"
+python3 -m db.import_trades
+```
+
 This architecture allows adding many more sources later (earnings, macro vintages, options IV, flows, news), while keeping:
 - consistent canonical tables
 - reproducible backtests
