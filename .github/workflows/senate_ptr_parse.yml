@@ -1,0 +1,108 @@
+name: senate-ptr-parse
+
+on:
+  workflow_dispatch:
+    inputs:
+      senate_start_date:
+        description: "Senate start date (YYYY-MM-DD)"
+        required: true
+        default: "2023-01-01"
+      senate_end_date:
+        description: "Senate end date (YYYY-MM-DD)"
+        required: true
+        default: "2023-12-31"
+      senate_batch_days:
+        description: "Senate census batch size in days"
+        required: false
+        default: "7"
+      ptr_limit:
+        description: "Limit PTR reports to parse (0 = all)"
+        required: false
+        default: "0"
+
+concurrency:
+  group: senate-ptr-parse
+  cancel-in-progress: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: investimi
+          POSTGRES_USER: investimi
+          POSTGRES_PASSWORD: investimi
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U investimi -d investimi"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      INVESTIMI_DB_DSN: postgresql://investimi:investimi@localhost:5432/investimi
+      CENSUS_OUT_DIR: artifacts/census
+      CENSUS_HOUSE_START_YEAR: "2020"
+      CENSUS_HOUSE_END_YEAR: "2020"
+      CENSUS_HOUSE_MEMBER_LIMIT: "1"
+      CENSUS_SENATE_START_DATE: ${{ inputs.senate_start_date }}
+      CENSUS_SENATE_END_DATE: ${{ inputs.senate_end_date }}
+      CENSUS_SENATE_BATCH_DAYS: ${{ inputs.senate_batch_days || '7' }}
+      CENSUS_SENATE_MODE: "efd"
+      CENSUS_SENATE_PLAYWRIGHT: "1"
+      SENATE_CENSUS_JSON: artifacts/census/senate_reports.json
+      SENATE_PTR_OUT_DIR: artifacts/senate_ptr
+      SENATE_PTR_LIMIT: ${{ inputs.ptr_limit || '0' }}
+      SENATE_PTR_RESUME: "1"
+      SENATE_PTR_HEADLESS: "1"
+      SENATE_PTR_DELAY_MS: "250"
+      SENATE_PTR_RELAUNCH_EVERY: "80"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps + Playwright
+        run: |
+          sudo apt-get update -y
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-db.txt
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Apply DB schema
+        run: |
+          python - <<'PY'
+          import psycopg, pathlib
+          sql = pathlib.Path("db/schema.sql").read_text(encoding="utf-8")
+          with psycopg.connect("postgresql://investimi:investimi@localhost:5432/investimi") as conn:
+            with conn.cursor() as cur:
+              cur.execute(sql)
+          print("ok")
+          PY
+
+      - name: Census Senate (index)
+        run: |
+          python -m db.census_congress_reports
+
+      - name: Parse PTR transaction tables (Playwright)
+        run: |
+          python -m db.parse_senate_ptr_transactions
+
+      - name: Upload artifacts (census + ptr transactions)
+        uses: actions/upload-artifact@v4
+        with:
+          name: senate-ptr-parse
+          path: |
+            artifacts/census/senate_reports.json
+            artifacts/senate_ptr/senate_ptr_transactions.json
+            artifacts/senate_ptr/senate_ptr_errors.json
+            artifacts/senate_ptr/senate_ptr_state.json
+          if-no-files-found: error
+          retention-days: 14
+

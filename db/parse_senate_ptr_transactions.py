@@ -121,6 +121,7 @@ def main() -> int:
     out_dir = (os.getenv("SENATE_PTR_OUT_DIR") or "artifacts/senate_ptr").strip() or "artifacts/senate_ptr"
     limit = int(os.getenv("SENATE_PTR_LIMIT", "0"))  # 0 = all
     resume = (os.getenv("SENATE_PTR_RESUME") or "").strip() == "1"
+    only_failed = (os.getenv("SENATE_PTR_ONLY_FAILED") or "").strip() == "1"
 
     out_txs_path = os.path.join(out_dir, "senate_ptr_transactions.json")
     out_err_path = os.path.join(out_dir, "senate_ptr_errors.json")
@@ -172,6 +173,9 @@ def main() -> int:
         except Exception:
             pass
 
+    if only_failed and not resume:
+        raise RuntimeError("SENATE_PTR_ONLY_FAILED=1 requires SENATE_PTR_RESUME=1 (needs failed_urls from state).")
+
     sync_playwright = _try_import_playwright()
 
     started = datetime.utcnow().isoformat() + "Z"
@@ -198,6 +202,8 @@ def main() -> int:
         ok_since_relaunch = 0
         consecutive_403 = 0
         for rep in reports:
+            if only_failed and rep.url not in failed_urls:
+                continue
             if rep.url in done_urls:
                 continue
 
