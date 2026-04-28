@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import subprocess
 from dataclasses import dataclass
 from datetime import date, datetime
 from typing import Any
@@ -191,6 +192,7 @@ def main() -> int:
     senate_mode = (os.getenv("CENSUS_SENATE_MODE") or "auto").strip().lower()
     if senate_mode not in ("efd", "mirror", "auto"):
         senate_mode = "auto"
+    senate_playwright = (os.getenv("CENSUS_SENATE_PLAYWRIGHT") or "").strip() == "1"
 
     out_dir = os.getenv("CENSUS_OUT_DIR", "artifacts/census").strip() or "artifacts/census"
     os.makedirs(out_dir, exist_ok=True)
@@ -261,14 +263,48 @@ def main() -> int:
                     if batch_reports:
                         mirror_recoveries += 1
                     else:
-                        senate_errors.append(
-                            {
-                                "start": cur_start.isoformat(),
-                                "end": cur_end.isoformat(),
-                                "error": str(e)[:200],
-                                "mirror_fallback": "no_matching_ptr_in_mirror_for_window",
-                            }
-                        )
+                        # Last resort: Playwright (browser) for this window, same approach as mirror workflow.
+                        if senate_playwright:
+                            try:
+                                env = dict(os.environ)
+                                env["SENATE_EFD_START_DATE"] = cur_start.isoformat()
+                                env["SENATE_EFD_END_DATE"] = cur_end.isoformat()
+                                # avoid huge work per window
+                                env.setdefault("SENATE_EFD_MAX_REPORTS", "200")
+                                subprocess.run(
+                                    ["python3", "senate_efd_playwright.py"],
+                                    check=False,
+                                    env=env,
+                                    capture_output=True,
+                                    text=True,
+                                )
+                                rows_pw: list[dict[str, Any]] = []
+                                try:
+                                    blob = json.loads(open("data/senate/filings_rows.json", "r", encoding="utf-8").read())
+                                    raw_rows = blob.get("rows") if isinstance(blob, dict) else None
+                                    if isinstance(raw_rows, list):
+                                        for rr in raw_rows:
+                                            if isinstance(rr, list):
+                                                rows_pw.append({"raw": rr, "_efd_source": "playwright"})
+                                except Exception:
+                                    rows_pw = []
+                                batch_reports = _normalize_senate_report_rows(rows_pw)
+                                if batch_reports:
+                                    for r in batch_reports:
+                                        # mark provenance explicitly
+                                        r.raw["census_via"] = "playwright"
+                            except Exception as _pw_e:
+                                batch_reports = []
+
+                        if not batch_reports:
+                            senate_errors.append(
+                                {
+                                    "start": cur_start.isoformat(),
+                                    "end": cur_end.isoformat(),
+                                    "error": str(e)[:200],
+                                    "mirror_fallback": "no_matching_ptr_in_mirror_for_window",
+                                }
+                            )
                 else:
                     senate_errors.append({"start": cur_start.isoformat(), "end": cur_end.isoformat(), "error": str(e)[:200]})
 

@@ -31,6 +31,10 @@ on:
         description: "Senate: auto (EFD + mirror on fail) | efd | mirror (S3/GitHub JSON only)"
         required: false
         default: "auto"
+      senate_playwright:
+        description: "Use Playwright as last-resort Senate fallback (1/0)"
+        required: false
+        default: "1"
   schedule:
     - cron: "15 5 * * 1" # Mondays 05:15 UTC
 
@@ -65,6 +69,7 @@ jobs:
       CENSUS_SENATE_END_DATE: ${{ inputs.senate_end_date || '' }}
       CENSUS_SENATE_BATCH_DAYS: ${{ inputs.senate_batch_days || '7' }}
       CENSUS_SENATE_MODE: ${{ inputs.senate_mode || 'auto' }}
+      CENSUS_SENATE_PLAYWRIGHT: ${{ inputs.senate_playwright || '1' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -78,6 +83,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-db.txt
+
+      - name: Install Playwright (for Senate fallback)
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y poppler-utils
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
 
       - name: Apply DB schema
         run: |

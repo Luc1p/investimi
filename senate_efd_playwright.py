@@ -30,13 +30,12 @@ def _parse_mmddyyyy(s: str) -> date | None:
     return None
 
 
-def _collect_ptr_links_via_browser(*, days: int) -> list[str]:
+def _collect_ptr_links_via_browser(*, start: date, end: date) -> tuple[list[str], list[list[Any]] | None]:
     base = "https://efdsearch.senate.gov"
     url = f"{base}/search/"
-    end = datetime.utcnow().date()
-    start = end - timedelta(days=days)
 
     ptr_links: list[str] = []
+    dt_rows: list[list[Any]] | None = None
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
@@ -177,9 +176,11 @@ def _collect_ptr_links_via_browser(*, days: int) -> list[str]:
 
         dt = debug.get("datatable_json")
         if isinstance(dt, dict) and isinstance(dt.get("data"), list):
+            dt_rows = []
             for row in dt.get("data") or []:
                 if not isinstance(row, list):
                     continue
+                dt_rows.append(row)
                 for cell in row:
                     if isinstance(cell, str) and "/search/view/ptr/" in cell:
                         m = re.search(r'href\\s*=\\s*["\\\']([^"\\\']+)["\\\']', cell, flags=re.I)
@@ -230,13 +231,41 @@ def _collect_ptr_links_via_browser(*, days: int) -> list[str]:
             continue
         seen.add(u)
         uniq.append(u)
-    return uniq
+    return (uniq, dt_rows)
 
 
 def main() -> int:
-    days = int(os.getenv("SENATE_EFD_DAYS", "7"))
+    # Prefer explicit date range if provided (useful for census window fallback).
+    start_s = (os.getenv("SENATE_EFD_START_DATE") or "").strip()
+    end_s = (os.getenv("SENATE_EFD_END_DATE") or "").strip()
+    if start_s and end_s:
+        start_d = _parse_mmddyyyy(start_s)
+        end_d = _parse_mmddyyyy(end_s)
+        if not start_d or not end_d:
+            raise RuntimeError("Invalid SENATE_EFD_START_DATE/END_DATE; expected YYYY-MM-DD or MM/DD/YYYY")
+        start = start_d
+        end = end_d
+        days = (end - start).days
+        if days < 0:
+            raise RuntimeError("SENATE_EFD_END_DATE must be >= SENATE_EFD_START_DATE")
+    else:
+        days = int(os.getenv("SENATE_EFD_DAYS", "7"))
+        end = datetime.utcnow().date()
+        start = end - timedelta(days=days)
     max_reports = int(os.getenv("SENATE_EFD_MAX_REPORTS", "40"))
-    links = _collect_ptr_links_via_browser(days=days)[:max_reports]
+    links, dt_rows = _collect_ptr_links_via_browser(start=start, end=end)
+    links = links[:max_reports]
+
+    # Persist DataTables rows (if captured) so other scripts can reuse submitted-date metadata.
+    if isinstance(dt_rows, list) and dt_rows:
+        _write_json(
+            "data/senate/filings_rows.json",
+            {
+                "submitted_start_date": start.isoformat(),
+                "submitted_end_date": end.isoformat(),
+                "rows": dt_rows,
+            },
+        )
 
     # Parse each report page inside the browser session to avoid Akamai 403.
     tx_out: list[dict[str, Any]] = []
@@ -332,6 +361,8 @@ def main() -> int:
     os.makedirs("data/senate", exist_ok=True)
     with open("data/senate/STATUS.txt", "w", encoding="utf-8") as f:
         f.write(f"updated_utc={datetime.utcnow().isoformat()}Z\n")
+        f.write(f"senate_pw_start={start.isoformat()}\n")
+        f.write(f"senate_pw_end={end.isoformat()}\n")
         f.write(f"senate_pw_days={days}\n")
         f.write(f"senate_pw_max_reports={max_reports}\n")
         f.write(f"senate_pw_ptr_links={len(links)}\n")
