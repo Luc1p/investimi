@@ -33,6 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CENSUS_OUT_DIR: artifacts/census
+      CENSUS_SKIP_DB: "1"
       CENSUS_HOUSE_START_YEAR: ${{ inputs.house_start_year || '2020' }}
       CENSUS_HOUSE_END_YEAR: ${{ inputs.house_end_year || '' }}
       CENSUS_HOUSE_MEMBER_LIMIT: ${{ inputs.house_member_limit || '0' }}

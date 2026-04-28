@@ -176,6 +176,7 @@ def main() -> int:
             load_dotenv()
 
     dsn = os.getenv("INVESTIMI_DB_DSN", "postgresql://investimi:investimi@localhost:5433/investimi")
+    skip_db = (os.getenv("CENSUS_SKIP_DB") or "").strip() == "1"
 
     house_start_year = int(os.getenv("CENSUS_HOUSE_START_YEAR", "2020"))
     house_end_raw = (os.getenv("CENSUS_HOUSE_END_YEAR") or "").strip()
@@ -271,6 +272,11 @@ def main() -> int:
                                 env["SENATE_EFD_END_DATE"] = cur_end.isoformat()
                                 # avoid huge work per window
                                 env.setdefault("SENATE_EFD_MAX_REPORTS", "200")
+                                # Avoid accidentally reading stale output from a previous run.
+                                try:
+                                    os.remove("data/senate/filings_rows.json")
+                                except Exception:
+                                    pass
                                 subprocess.run(
                                     ["python3", "senate_efd_playwright.py"],
                                     check=False,
@@ -281,6 +287,9 @@ def main() -> int:
                                 rows_pw: list[dict[str, Any]] = []
                                 try:
                                     blob = json.loads(open("data/senate/filings_rows.json", "r", encoding="utf-8").read())
+                                    if isinstance(blob, dict):
+                                        if blob.get("submitted_start_date") != cur_start.isoformat() or blob.get("submitted_end_date") != cur_end.isoformat():
+                                            blob = {}
                                     raw_rows = blob.get("rows") if isinstance(blob, dict) else None
                                     if isinstance(raw_rows, list):
                                         for rr in raw_rows:
@@ -333,6 +342,9 @@ def main() -> int:
         json.dump({"errors": senate_errors, "reports": senate_index}, f, ensure_ascii=False)
 
     # Upsert into Postgres
+    if skip_db:
+        print("ok")
+        return 0
     inserted = 0
     with psycopg.connect(dsn) as conn:
         conn.execute("set timezone to 'UTC'")
