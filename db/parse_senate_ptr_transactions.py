@@ -98,6 +98,11 @@ def _ensure_gate_accepted(page: Any) -> None:
             cb.check(timeout=8000)
     except Exception:
         pass
+    # Wait until we actually leave the home gate.
+    try:
+        page.wait_for_url(re.compile(r".*/search/(?!home/).*"), timeout=20000)
+    except Exception:
+        pass
     try:
         page.wait_for_timeout(1200)
     except Exception:
@@ -123,6 +128,11 @@ def main() -> int:
     reports = _load_census_reports(census_path)
     if limit > 0:
         reports = reports[:limit]
+
+    # Local runs sometimes get Akamai 403 in headless mode.
+    # Allow opting into a headed browser to look more like a normal user session.
+    headless = (os.getenv("SENATE_PTR_HEADLESS") or "1").strip() != "0"
+    user_agent = (os.getenv("MIRROR_UA") or "").strip() or None
 
     done_urls: set[str] = set()
     tx_out: list[dict[str, Any]] = []
@@ -151,8 +161,17 @@ def main() -> int:
 
     started = datetime.utcnow().isoformat() + "Z"
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
+        browser = p.chromium.launch(
+            headless=headless,
+            args=[
+                "--disable-blink-features=AutomationControlled",
+            ],
+        )
+        ctx_kwargs: dict[str, Any] = {}
+        if user_agent:
+            ctx_kwargs["user_agent"] = user_agent
+        context = browser.new_context(**ctx_kwargs)
+        page = context.new_page()
         page.goto("https://efdsearch.senate.gov/search/home/", wait_until="domcontentloaded", timeout=60000)
         _ensure_gate_accepted(page)
 
@@ -182,6 +201,12 @@ def main() -> int:
                     if status not in (200, 302, 303):
                         last["error"] = f"http_{status}"
                         break
+
+                    # Let the page finish loading; the table is often rendered after JS runs.
+                    try:
+                        page.wait_for_load_state("networkidle", timeout=15000)
+                    except Exception:
+                        pass
 
                     html = page.content()
                     who, rows = _parse_senate_ptr_transactions_page(html)
@@ -231,6 +256,10 @@ def main() -> int:
                     },
                 )
 
+        try:
+            context.close()
+        except Exception:
+            pass
         browser.close()
 
     _write_json(out_txs_path, tx_out)
@@ -247,6 +276,10 @@ def main() -> int:
             "done_urls": sorted(done_urls),
         },
     )
+    # Friendly hint when everything is blocked.
+    if reports and len(errors) == len(reports):
+        if all(str(e.get("http_status")) == "403" for e in errors if isinstance(e, dict)):
+            print("hint: got 403 for all PTR pages. Try SENATE_PTR_HEADLESS=0 to run headed browser.")
     print(f"ok ptr_reports={len(reports)} done={len(done_urls)} tx_rows={len(tx_out)} errors={len(errors)}")
     return 0
 
