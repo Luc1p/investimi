@@ -1,9 +1,9 @@
-updated_utc=2026-04-30T19:51:54.780176Z
-senate_pw_start=2026-03-31
-senate_pw_end=2026-04-30
+updated_utc=2026-05-01T04:20:15.492607Z
+senate_pw_start=2026-04-01
+senate_pw_end=2026-05-01
 senate_pw_days=30
 senate_pw_max_reports=120
-senate_pw_ptr_links=6
-senate_pw_ok_pages=6
-senate_pw_parsed_pages=6
-senate_pw_transactions=17
+senate_pw_ptr_links=7
+senate_pw_ok_pages=7
+senate_pw_parsed_pages=7
+senate_pw_transactions=26
