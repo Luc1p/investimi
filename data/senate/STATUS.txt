@@ -1,4 +1,4 @@
-updated_utc=2026-05-09T08:13:01.730267Z
+updated_utc=2026-05-09T13:56:54.623311Z
 senate_pw_start=2026-04-09
 senate_pw_end=2026-05-09
 senate_pw_days=30
