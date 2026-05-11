@@ -1,6 +1,6 @@
-updated_utc=2026-05-10T19:34:56.830280Z
-senate_pw_start=2026-04-10
-senate_pw_end=2026-05-10
+updated_utc=2026-05-11T04:38:45.555516Z
+senate_pw_start=2026-04-11
+senate_pw_end=2026-05-11
 senate_pw_days=30
 senate_pw_max_reports=120
 senate_pw_ptr_links=7
